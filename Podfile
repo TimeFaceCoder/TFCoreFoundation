@@ -1,0 +1,10 @@
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '8.0'
+inhibit_all_warnings!
+pod 'TFHotfix', :git => 'https://github.com/TimeFaceCoder/TFHotfix.git'
+pod 'TFNetwork', :git => 'https://github.com/TimeFaceCoder/TFNetwork.git'
+pod 'TFUploadAssistant', :git => 'https://github.com/TimeFaceCoder/TFUploadAssistant.git'
+pod 'TFPhotoBrowser', :git => 'https://github.com/TimeFaceCoder/TFPhotoBrowser.git'
+pod 'TFCamera', :git => 'https://github.com/TimeFaceCoder/TFCamera.git'
+pod 'MYTableViewManager', :git => 'https://github.com/melvin7/MYTableViewManager.git'
+pod 'AliyunOSSiOS', :git => 'https://github.com/aliyun/AliyunOSSiOS.git'

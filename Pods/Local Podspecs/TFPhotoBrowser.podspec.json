@@ -1,0 +1,51 @@
+{
+  "name": "TFPhotoBrowser",
+  "version": "0.2.2",
+  "summary": "时光流影iOS照片浏览框架",
+  "homepage": "https://github.com/TimeFaceCoder/TFPhotoBrowser",
+  "license": "Copyright (C) 2015 TimeFace, Inc.  All rights reserved.",
+  "authors": {
+    "Melvin": "yangmin@timeface.cn"
+  },
+  "social_media_url": "http://www.timeface.cn",
+  "platforms": {
+    "ios": "7.1"
+  },
+  "source": {
+    "git": "https://github.com/TimeFaceCoder/TFPhotoBrowser.git"
+  },
+  "source_files": "TFPhotoBrowser/TFPhotoBrowser/**/*.{h,m,c}",
+  "resource_bundles": {
+    "TFLibraryResource": [
+      "Pod/Assets/*.png"
+    ]
+  },
+  "frameworks": [
+    "ImageIO",
+    "QuartzCore",
+    "AssetsLibrary",
+    "MediaPlayer"
+  ],
+  "weak_frameworks": "Photos",
+  "requires_arc": true,
+  "dependencies": {
+    "pop": [
+
+    ],
+    "SDWebImage": [
+
+    ],
+    "PINRemoteImage": [
+
+    ],
+    "AFNetworking": [
+
+    ],
+    "DACircularProgress": [
+
+    ],
+    "SVProgressHUD": [
+
+    ]
+  }
+}

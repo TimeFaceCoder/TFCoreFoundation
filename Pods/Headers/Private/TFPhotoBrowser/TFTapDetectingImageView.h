@@ -1,0 +1,1 @@
+../../../TFPhotoBrowser/TFPhotoBrowser/TFPhotoBrowser/TFTapDetectingImageView.h

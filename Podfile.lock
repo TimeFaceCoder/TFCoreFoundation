@@ -1,0 +1,144 @@
+PODS:
+  - AFNetworking (3.0.4):
+    - AFNetworking/NSURLSession (= 3.0.4)
+    - AFNetworking/Reachability (= 3.0.4)
+    - AFNetworking/Security (= 3.0.4)
+    - AFNetworking/Serialization (= 3.0.4)
+    - AFNetworking/UIKit (= 3.0.4)
+  - AFNetworking/NSURLSession (3.0.4):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.0.4)
+  - AFNetworking/Security (3.0.4)
+  - AFNetworking/Serialization (3.0.4)
+  - AFNetworking/UIKit (3.0.4):
+    - AFNetworking/NSURLSession
+  - AliyunOSSiOS (2.3.0)
+  - AsyncDisplayKit (1.9.7.1):
+    - AsyncDisplayKit/PINRemoteImage (= 1.9.7.1)
+  - AsyncDisplayKit/ASDealloc2MainObject (1.9.7.1)
+  - AsyncDisplayKit/PINRemoteImage (1.9.7.1):
+    - AsyncDisplayKit/ASDealloc2MainObject
+    - PINRemoteImage/iOS (>= 2.1.2)
+  - DACircularProgress (2.3.1)
+  - EGOCache (2.1.3)
+  - FLAnimatedImage (1.0.12)
+  - GHODictionary (1.0.9)
+  - JSPatch (0.2):
+    - JSPatch/Core (= 0.2)
+  - JSPatch/Core (0.2)
+  - Masonry (0.6.4)
+  - MPMessagePack (1.3.5):
+    - GHODictionary
+  - MYTableViewManager (0.1.2):
+    - AsyncDisplayKit
+    - pop
+  - PINCache (2.2.2)
+  - PINRemoteImage (2.1.2):
+    - PINRemoteImage/FLAnimatedImage (= 2.1.2)
+  - PINRemoteImage/Core (2.1.2):
+    - PINCache (>= 2.1)
+  - PINRemoteImage/FLAnimatedImage (2.1.2):
+    - FLAnimatedImage (>= 1.0)
+    - PINRemoteImage/Core
+  - PINRemoteImage/iOS (2.1.2):
+    - PINRemoteImage/Core
+  - pop (1.0.9)
+  - SDWebImage (3.7.5):
+    - SDWebImage/Core (= 3.7.5)
+  - SDWebImage/Core (3.7.5)
+  - SVProgressHUD (2.0)
+  - TFCamera (0.0.4):
+    - Masonry
+    - pop
+  - TFHotfix (0.0.1):
+    - JSPatch
+  - TFNetwork (0.0.1):
+    - AFNetworking
+    - MPMessagePack
+  - TFPhotoBrowser (0.2.2):
+    - AFNetworking
+    - DACircularProgress
+    - PINRemoteImage
+    - pop
+    - SDWebImage
+    - SVProgressHUD
+  - TFUploadAssistant (0.0.1):
+    - EGOCache
+    - YYDispatchQueuePool
+  - YYDispatchQueuePool (1.0)
+
+DEPENDENCIES:
+  - AliyunOSSiOS (from `https://github.com/aliyun/AliyunOSSiOS.git`)
+  - MYTableViewManager (from `https://github.com/melvin7/MYTableViewManager.git`)
+  - TFCamera (from `https://github.com/TimeFaceCoder/TFCamera.git`)
+  - TFHotfix (from `https://github.com/TimeFaceCoder/TFHotfix.git`)
+  - TFNetwork (from `https://github.com/TimeFaceCoder/TFNetwork.git`)
+  - TFPhotoBrowser (from `https://github.com/TimeFaceCoder/TFPhotoBrowser.git`)
+  - TFUploadAssistant (from `https://github.com/TimeFaceCoder/TFUploadAssistant.git`)
+
+EXTERNAL SOURCES:
+  AliyunOSSiOS:
+    :git: https://github.com/aliyun/AliyunOSSiOS.git
+  MYTableViewManager:
+    :git: https://github.com/melvin7/MYTableViewManager.git
+  TFCamera:
+    :git: https://github.com/TimeFaceCoder/TFCamera.git
+  TFHotfix:
+    :git: https://github.com/TimeFaceCoder/TFHotfix.git
+  TFNetwork:
+    :git: https://github.com/TimeFaceCoder/TFNetwork.git
+  TFPhotoBrowser:
+    :git: https://github.com/TimeFaceCoder/TFPhotoBrowser.git
+  TFUploadAssistant:
+    :git: https://github.com/TimeFaceCoder/TFUploadAssistant.git
+
+CHECKOUT OPTIONS:
+  AliyunOSSiOS:
+    :commit: 25e967ba7e2cbd8f944f5aca08952f0405bedf56
+    :git: https://github.com/aliyun/AliyunOSSiOS.git
+  MYTableViewManager:
+    :commit: a8d7d8334e1f5dc4063ea97adda32cb8d90becc5
+    :git: https://github.com/melvin7/MYTableViewManager.git
+  TFCamera:
+    :commit: a34e3482546d10baba8a2f08cbcd66070e1a79fe
+    :git: https://github.com/TimeFaceCoder/TFCamera.git
+  TFHotfix:
+    :commit: 712b07a81ca96f70c98d5c40a836000f6dc2ab08
+    :git: https://github.com/TimeFaceCoder/TFHotfix.git
+  TFNetwork:
+    :commit: dd6da7208c2874a446d3e6312430048174f823f2
+    :git: https://github.com/TimeFaceCoder/TFNetwork.git
+  TFPhotoBrowser:
+    :commit: 14936b84290e8d776391f82bb5a718c021b74c60
+    :git: https://github.com/TimeFaceCoder/TFPhotoBrowser.git
+  TFUploadAssistant:
+    :commit: e37d3ec52532ea25753653e8324cf09c6095c46d
+    :git: https://github.com/TimeFaceCoder/TFUploadAssistant.git
+
+SPEC CHECKSUMS:
+  AFNetworking: a0075feb321559dc78d9d85b55d11caa19eabb93
+  AliyunOSSiOS: 9d9443097c4f0321290e347806bf0375d297cf2b
+  AsyncDisplayKit: 2b52f841e384e7326d4f59323b1bf35d00696e17
+  DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
+  EGOCache: f0295dbe041156acabd39021354ad1045ee49e72
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  GHODictionary: 1f7873492445e0f33ac19575a358c3c91926b564
+  JSPatch: 23dcceeec8f8357644f8ef70eb002ef2dbd830de
+  Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
+  MPMessagePack: 7c9c9cdee049b62e3578ee423ba451fa406bbd08
+  MYTableViewManager: d86bc3fee8f99491422a343f38a470a69c9d17da
+  PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
+  PINRemoteImage: 2ce3f1fcc52f0360a3821f91f1a1bc653c5d2338
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
+  SVProgressHUD: e9e7c893686a20da55a28015ed384d9425e15479
+  TFCamera: e2db7e6d153a05f4afc43434336952a2d0f0fbb1
+  TFHotfix: 95f44939b542220e7de12d7c15d50d8327cbd4a5
+  TFNetwork: 2c70cbf58bb7be5293fd10b837224280b15bf223
+  TFPhotoBrowser: 630bf2cf9b8d0d912849ad6f06a22e2c8ab11122
+  TFUploadAssistant: 5889b8e26713c6552317bc199faffa2f1af3d30d
+  YYDispatchQueuePool: 3dfb2274bcc74207688dde8ac6f7bdd46871dd7b
+
+COCOAPODS: 0.39.0
