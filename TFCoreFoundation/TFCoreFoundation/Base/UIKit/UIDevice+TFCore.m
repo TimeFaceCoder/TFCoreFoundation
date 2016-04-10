@@ -301,7 +301,7 @@ static tf_net_interface_counter tf_get_net_interface_counter() {
                               @"iPad6,7" : @"iPad Pro (12.9 inch)",
                               @"iPad6,8" : @"iPad Pro (12.9 inch)",
                               @"iPad6,3" : @"iPad Pro (9.7 inch)",
-                              @"iPad6,3" : @"iPad Pro (9.7 inch)",
+                              @"iPad6,4" : @"iPad Pro (9.7 inch)",
                               
                               @"i386" : @"Simulator x86",
                               @"x86_64" : @"Simulator x64",

@@ -27,6 +27,23 @@
 		B043356F1CABB36C00960551 /* NSDictionary+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B043356E1CABB36C00960551 /* NSDictionary+TFCore.m */; };
 		B04335721CABB5B500960551 /* NSDate+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B04335711CABB5B500960551 /* NSDate+TFCore.m */; };
 		B04335751CABB70000960551 /* NSNotificationCenter+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B04335741CABB70000960551 /* NSNotificationCenter+TFCore.m */; };
+		B0E82F961CB9EE0200655B66 /* UIAlertController+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F951CB9EE0200655B66 /* UIAlertController+TFCore.m */; };
+		B0E82F991CB9EE9A00655B66 /* TFCGUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F981CB9EE9A00655B66 /* TFCGUtilities.m */; };
+		B0E82F9C1CB9EF6100655B66 /* UIApplication+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F9B1CB9EF6100655B66 /* UIApplication+TFCore.m */; };
+		B0E82F9F1CB9EFE800655B66 /* UIView+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F9E1CB9EFE800655B66 /* UIView+TFCore.m */; };
+		B0E82FA31CB9F15300655B66 /* TFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FA21CB9F15300655B66 /* TFViewController.m */; };
+		B0E82FA61CB9F16500655B66 /* TFTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FA51CB9F16500655B66 /* TFTableViewController.m */; };
+		B0E82FAA1CB9F1AD00655B66 /* UIBarButtonItem+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FA91CB9F1AD00655B66 /* UIBarButtonItem+TFCore.m */; };
+		B0E82FAD1CB9F22000655B66 /* UIBezierPath+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FAC1CB9F22000655B66 /* UIBezierPath+TFCore.m */; };
+		B0E82FB01CB9F27E00655B66 /* UIColor+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FAF1CB9F27E00655B66 /* UIColor+TFCore.m */; };
+		B0E82FB31CB9F3B100655B66 /* UIControl+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FB21CB9F3B100655B66 /* UIControl+TFCore.m */; };
+		B0E82FB61CB9F42500655B66 /* UIFont+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FB51CB9F42500655B66 /* UIFont+TFCore.m */; };
+		B0E82FB91CB9F53600655B66 /* UIGestureRecognizer+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FB81CB9F53600655B66 /* UIGestureRecognizer+TFCore.m */; };
+		B0E82FBC1CB9F59B00655B66 /* UIImage+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FBB1CB9F59B00655B66 /* UIImage+TFCore.m */; };
+		B0E82FBF1CB9F6D900655B66 /* UIScreen+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FBE1CB9F6D900655B66 /* UIScreen+TFCore.m */; };
+		B0E82FC21CB9F7A600655B66 /* UIScrollView+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FC11CB9F7A600655B66 /* UIScrollView+TFCore.m */; };
+		B0E82FC51CB9F7E200655B66 /* UITableView+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FC41CB9F7E200655B66 /* UITableView+TFCore.m */; };
+		B0E82FC81CB9F84100655B66 /* UITextField+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FC71CB9F84100655B66 /* UITextField+TFCore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +104,40 @@
 		B04335711CABB5B500960551 /* NSDate+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+TFCore.m"; sourceTree = "<group>"; };
 		B04335731CABB70000960551 /* NSNotificationCenter+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNotificationCenter+TFCore.h"; sourceTree = "<group>"; };
 		B04335741CABB70000960551 /* NSNotificationCenter+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNotificationCenter+TFCore.m"; sourceTree = "<group>"; };
+		B0E82F941CB9EE0200655B66 /* UIAlertController+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+TFCore.h"; sourceTree = "<group>"; };
+		B0E82F951CB9EE0200655B66 /* UIAlertController+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+TFCore.m"; sourceTree = "<group>"; };
+		B0E82F971CB9EE9A00655B66 /* TFCGUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFCGUtilities.h; sourceTree = "<group>"; };
+		B0E82F981CB9EE9A00655B66 /* TFCGUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFCGUtilities.m; sourceTree = "<group>"; };
+		B0E82F9A1CB9EF6100655B66 /* UIApplication+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+TFCore.h"; sourceTree = "<group>"; };
+		B0E82F9B1CB9EF6100655B66 /* UIApplication+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+TFCore.m"; sourceTree = "<group>"; };
+		B0E82F9D1CB9EFE800655B66 /* UIView+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+TFCore.h"; sourceTree = "<group>"; };
+		B0E82F9E1CB9EFE800655B66 /* UIView+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+TFCore.m"; sourceTree = "<group>"; };
+		B0E82FA11CB9F15300655B66 /* TFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFViewController.h; sourceTree = "<group>"; };
+		B0E82FA21CB9F15300655B66 /* TFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFViewController.m; sourceTree = "<group>"; };
+		B0E82FA41CB9F16500655B66 /* TFTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFTableViewController.h; sourceTree = "<group>"; };
+		B0E82FA51CB9F16500655B66 /* TFTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFTableViewController.m; sourceTree = "<group>"; };
+		B0E82FA81CB9F1AD00655B66 /* UIBarButtonItem+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+TFCore.h"; sourceTree = "<group>"; };
+		B0E82FA91CB9F1AD00655B66 /* UIBarButtonItem+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+TFCore.m"; sourceTree = "<group>"; };
+		B0E82FAB1CB9F22000655B66 /* UIBezierPath+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+TFCore.h"; sourceTree = "<group>"; };
+		B0E82FAC1CB9F22000655B66 /* UIBezierPath+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+TFCore.m"; sourceTree = "<group>"; };
+		B0E82FAE1CB9F27E00655B66 /* UIColor+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+TFCore.h"; sourceTree = "<group>"; };
+		B0E82FAF1CB9F27E00655B66 /* UIColor+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+TFCore.m"; sourceTree = "<group>"; };
+		B0E82FB11CB9F3B100655B66 /* UIControl+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+TFCore.h"; sourceTree = "<group>"; };
+		B0E82FB21CB9F3B100655B66 /* UIControl+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+TFCore.m"; sourceTree = "<group>"; };
+		B0E82FB41CB9F42500655B66 /* UIFont+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+TFCore.h"; sourceTree = "<group>"; };
+		B0E82FB51CB9F42500655B66 /* UIFont+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+TFCore.m"; sourceTree = "<group>"; };
+		B0E82FB71CB9F53600655B66 /* UIGestureRecognizer+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+TFCore.h"; sourceTree = "<group>"; };
+		B0E82FB81CB9F53600655B66 /* UIGestureRecognizer+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+TFCore.m"; sourceTree = "<group>"; };
+		B0E82FBA1CB9F59B00655B66 /* UIImage+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+TFCore.h"; sourceTree = "<group>"; };
+		B0E82FBB1CB9F59B00655B66 /* UIImage+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+TFCore.m"; sourceTree = "<group>"; };
+		B0E82FBD1CB9F6D900655B66 /* UIScreen+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+TFCore.h"; sourceTree = "<group>"; };
+		B0E82FBE1CB9F6D900655B66 /* UIScreen+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScreen+TFCore.m"; sourceTree = "<group>"; };
+		B0E82FC01CB9F7A600655B66 /* UIScrollView+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TFCore.h"; sourceTree = "<group>"; };
+		B0E82FC11CB9F7A600655B66 /* UIScrollView+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TFCore.m"; sourceTree = "<group>"; };
+		B0E82FC31CB9F7E200655B66 /* UITableView+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+TFCore.h"; sourceTree = "<group>"; };
+		B0E82FC41CB9F7E200655B66 /* UITableView+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+TFCore.m"; sourceTree = "<group>"; };
+		B0E82FC61CB9F84100655B66 /* UITextField+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+TFCore.h"; sourceTree = "<group>"; };
+		B0E82FC71CB9F84100655B66 /* UITextField+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+TFCore.m"; sourceTree = "<group>"; };
 		B40F0D76B73221F22F85B1C0 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C749A5FB2EEDDF9F472F3CC5 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -213,6 +264,8 @@
 		B043354E1CAB81AE00960551 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				B0E82FA71CB9F17300655B66 /* UIView */,
+				B0E82FA01CB9F14000655B66 /* UIViewController */,
 				B043354F1CAB81AE00960551 /* Foundation */,
 				B04335501CAB81AE00960551 /* Quartz */,
 				B04335511CAB81AE00960551 /* UIKit */,
@@ -249,6 +302,8 @@
 		B04335501CAB81AE00960551 /* Quartz */ = {
 			isa = PBXGroup;
 			children = (
+				B0E82F971CB9EE9A00655B66 /* TFCGUtilities.h */,
+				B0E82F981CB9EE9A00655B66 /* TFCGUtilities.m */,
 			);
 			path = Quartz;
 			sourceTree = "<group>";
@@ -258,8 +313,54 @@
 			children = (
 				B04335651CABAC2D00960551 /* UIDevice+TFCore.h */,
 				B04335661CABAC2D00960551 /* UIDevice+TFCore.m */,
+				B0E82F941CB9EE0200655B66 /* UIAlertController+TFCore.h */,
+				B0E82F951CB9EE0200655B66 /* UIAlertController+TFCore.m */,
+				B0E82F9A1CB9EF6100655B66 /* UIApplication+TFCore.h */,
+				B0E82F9B1CB9EF6100655B66 /* UIApplication+TFCore.m */,
+				B0E82F9D1CB9EFE800655B66 /* UIView+TFCore.h */,
+				B0E82F9E1CB9EFE800655B66 /* UIView+TFCore.m */,
+				B0E82FA81CB9F1AD00655B66 /* UIBarButtonItem+TFCore.h */,
+				B0E82FA91CB9F1AD00655B66 /* UIBarButtonItem+TFCore.m */,
+				B0E82FAB1CB9F22000655B66 /* UIBezierPath+TFCore.h */,
+				B0E82FAC1CB9F22000655B66 /* UIBezierPath+TFCore.m */,
+				B0E82FAE1CB9F27E00655B66 /* UIColor+TFCore.h */,
+				B0E82FAF1CB9F27E00655B66 /* UIColor+TFCore.m */,
+				B0E82FB11CB9F3B100655B66 /* UIControl+TFCore.h */,
+				B0E82FB21CB9F3B100655B66 /* UIControl+TFCore.m */,
+				B0E82FB41CB9F42500655B66 /* UIFont+TFCore.h */,
+				B0E82FB51CB9F42500655B66 /* UIFont+TFCore.m */,
+				B0E82FB71CB9F53600655B66 /* UIGestureRecognizer+TFCore.h */,
+				B0E82FB81CB9F53600655B66 /* UIGestureRecognizer+TFCore.m */,
+				B0E82FBA1CB9F59B00655B66 /* UIImage+TFCore.h */,
+				B0E82FBB1CB9F59B00655B66 /* UIImage+TFCore.m */,
+				B0E82FBD1CB9F6D900655B66 /* UIScreen+TFCore.h */,
+				B0E82FBE1CB9F6D900655B66 /* UIScreen+TFCore.m */,
+				B0E82FC01CB9F7A600655B66 /* UIScrollView+TFCore.h */,
+				B0E82FC11CB9F7A600655B66 /* UIScrollView+TFCore.m */,
+				B0E82FC31CB9F7E200655B66 /* UITableView+TFCore.h */,
+				B0E82FC41CB9F7E200655B66 /* UITableView+TFCore.m */,
+				B0E82FC61CB9F84100655B66 /* UITextField+TFCore.h */,
+				B0E82FC71CB9F84100655B66 /* UITextField+TFCore.m */,
 			);
 			path = UIKit;
+			sourceTree = "<group>";
+		};
+		B0E82FA01CB9F14000655B66 /* UIViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B0E82FA11CB9F15300655B66 /* TFViewController.h */,
+				B0E82FA21CB9F15300655B66 /* TFViewController.m */,
+				B0E82FA41CB9F16500655B66 /* TFTableViewController.h */,
+				B0E82FA51CB9F16500655B66 /* TFTableViewController.m */,
+			);
+			path = UIViewController;
+			sourceTree = "<group>";
+		};
+		B0E82FA71CB9F17300655B66 /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UIView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -445,18 +546,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				B03ABEEA1CAB5AC4004067CA /* ViewController.m in Sources */,
+				B0E82F9C1CB9EF6100655B66 /* UIApplication+TFCore.m in Sources */,
 				B043356F1CABB36C00960551 /* NSDictionary+TFCore.m in Sources */,
 				B043355B1CABA47200960551 /* NSObject+TFCoreForKVO.m in Sources */,
+				B0E82FB31CB9F3B100655B66 /* UIControl+TFCore.m in Sources */,
+				B0E82FB91CB9F53600655B66 /* UIGestureRecognizer+TFCore.m in Sources */,
+				B0E82FB61CB9F42500655B66 /* UIFont+TFCore.m in Sources */,
 				B04335721CABB5B500960551 /* NSDate+TFCore.m in Sources */,
 				B043355E1CABA51A00960551 /* NSString+TFCore.m in Sources */,
+				B0E82FAD1CB9F22000655B66 /* UIBezierPath+TFCore.m in Sources */,
+				B0E82FC81CB9F84100655B66 /* UITextField+TFCore.m in Sources */,
 				B04335641CABAA5700960551 /* NSData+TFCore.m in Sources */,
+				B0E82FAA1CB9F1AD00655B66 /* UIBarButtonItem+TFCore.m in Sources */,
+				B0E82F991CB9EE9A00655B66 /* TFCGUtilities.m in Sources */,
 				B03ABEE71CAB5AC4004067CA /* AppDelegate.m in Sources */,
 				B04335751CABB70000960551 /* NSNotificationCenter+TFCore.m in Sources */,
+				B0E82FB01CB9F27E00655B66 /* UIColor+TFCore.m in Sources */,
+				B0E82FBC1CB9F59B00655B66 /* UIImage+TFCore.m in Sources */,
 				B04335581CABA1CD00960551 /* NSObject+TFCore.m in Sources */,
 				B04335671CABAC2D00960551 /* UIDevice+TFCore.m in Sources */,
+				B0E82FA61CB9F16500655B66 /* TFTableViewController.m in Sources */,
+				B0E82FA31CB9F15300655B66 /* TFViewController.m in Sources */,
+				B0E82F9F1CB9EFE800655B66 /* UIView+TFCore.m in Sources */,
 				B04335611CABA8BD00960551 /* NSNumber+TFCore.m in Sources */,
 				B03ABEE41CAB5AC4004067CA /* main.m in Sources */,
+				B0E82FC51CB9F7E200655B66 /* UITableView+TFCore.m in Sources */,
+				B0E82FBF1CB9F6D900655B66 /* UIScreen+TFCore.m in Sources */,
 				B043356C1CABB19800960551 /* NSArray+TFCore.m in Sources */,
+				B0E82FC21CB9F7A600655B66 /* UIScrollView+TFCore.m in Sources */,
+				B0E82F961CB9EE0200655B66 /* UIAlertController+TFCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
