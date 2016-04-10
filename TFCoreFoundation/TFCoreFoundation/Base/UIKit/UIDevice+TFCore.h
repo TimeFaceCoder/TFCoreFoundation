@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 ///=============================================================================
 
 /// Device system version (e.g. 8.1)
-+ (double)tf_systemVersion;
++ (double)systemVersion;
 
 /// Whether the device is iPad/iPad mini.
 @property (nonatomic, readonly) BOOL isPad;
