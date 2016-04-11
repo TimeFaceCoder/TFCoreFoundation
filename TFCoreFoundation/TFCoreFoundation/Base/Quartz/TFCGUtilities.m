@@ -67,6 +67,21 @@ CGSize TFScreenSize() {
     return size;
 }
 
+CGRect TFScreenBounds() {
+    
+    static CGRect bounds;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        bounds = [UIScreen mainScreen].bounds;
+        if (bounds.size.height < bounds.size.width) {
+            CGFloat tmp = bounds.size.height;
+            bounds.size.height = bounds.size.width;
+            bounds.size.width = tmp;
+        }
+    });
+    return bounds;
+}
+
 // return 0 when succeed
 static int matrix_invert(__CLPK_integer N, double *matrix) {
     __CLPK_integer error = 0;

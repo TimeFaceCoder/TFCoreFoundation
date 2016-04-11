@@ -10,6 +10,8 @@
 #import "TFPhotoProtocol.h"
 #import "TFPhoto.h"
 
+#define kNoticeCustomBack           @"kNoticeCustomBack"
+
 // Delgate
 @protocol TFPhotoBrowserDelegate;
 
@@ -35,7 +37,7 @@
 - (void)photoBrowser:(TFPhotoBrowser *)photoBrowser updateTagInfo:(NSDictionary *)info index:(NSUInteger)index;
 - (void)photoBrowser:(TFPhotoBrowser *)photoBrowser infos:(NSMutableArray *)infos;
 - (void)updatePhotoInfos:(NSMutableArray *)array photoAtIndex:(NSUInteger)index;
-- (void)photoBrowser:(TFPhotoBrowser *)photoBrowser didSelectTagAtIndex:(NSInteger)index tagId:(NSString*)tagId;
+- (UINavigationController*)photoBrowser:(TFPhotoBrowser *)photoBrowser didSelectTagAtIndex:(NSInteger)index tagId:(NSString*)tagId;
 @end
 
 

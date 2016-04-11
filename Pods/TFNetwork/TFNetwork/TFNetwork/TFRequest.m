@@ -232,4 +232,7 @@
     }
 }
 
+- (NSDictionary *)requestHeaderFieldValueDictionary {
+    return [[TFNetworkConfig sharedInstance] requestHeaderFieldValueDictionary];
+}
 @end

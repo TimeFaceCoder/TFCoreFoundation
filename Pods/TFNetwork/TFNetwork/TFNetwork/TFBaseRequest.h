@@ -138,8 +138,6 @@ typedef void(^TFRequestCompletionBlock)(__kindof TFBaseRequest *request);
  *  @return requestUrl
  */
 - (NSString *)requestUrl;
-- (void)myAbstractMethod:(id)param1 __attribute__((unavailable("You should always override this")));
-
 /**
  *  请求的CDNURL
  *

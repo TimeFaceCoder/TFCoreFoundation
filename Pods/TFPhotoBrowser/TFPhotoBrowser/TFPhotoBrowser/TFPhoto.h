@@ -18,7 +18,11 @@
 
 @property (nonatomic, strong) NSString   *tagId;
 
+@property (nonatomic, strong) NSString   *faceId;
+
 @property (nonatomic, assign) BOOL       selected;
+
+@property (nonatomic, assign) NSInteger  imageOption;
 
 +(TFPhotoTag *)photoTagWithRect:(CGRect)rect tagId:(NSString*)tagId tagName:(NSString*)tagName;
 

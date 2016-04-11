@@ -11,6 +11,7 @@
 #import <pthread.h>
 
 
+
 #ifdef __cplusplus
 #define TF_EXTERN_C_BEGIN  extern "C" {
 #define TF_EXTERN_C_END  }
@@ -39,6 +40,22 @@ TF_EXTERN_C_BEGIN
 
 #define TFAssertMainThread() NSAssert([NSThread isMainThread], @"This method must be called on the main thread")
 #define TFCAssertMainThread() NSCAssert([NSThread isMainThread], @"This method must be called on the main thread")
+
+
+#define RGBCOLOR(r,g,b) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f \
+blue:(b)/255.0f alpha:1.0f]
+
+#define RGBACOLOR(r,g,b,a) [UIColor colorWithRed:(r)/255.0f green:(g)/255.0f blue:(b)/255.0f \
+alpha:(a)]
+
+#define TFSTYLE(_SELECTOR) [[TFStyle globalStyleSheet] styleWithSelector:@#_SELECTOR]
+
+#define TFSTYLESTATE(_SELECTOR, _STATE) [[TFStyle globalStyleSheet] \
+styleWithSelector:@#_SELECTOR forState:_STATE]
+
+#define TFSTYLESHEET ((id)[TFStyle globalStyleSheet])
+
+#define TFSTYLEVAR(_VARNAME) [TFSTYLESHEET _VARNAME]
 
 
 /**
@@ -320,6 +337,57 @@ assert(res == 0); \
     }
 #undef TFMUTEX_ASSERT_ON_ERROR
 }
+
+typedef void (^TFRun)(void);
+
+/**
+ *  后台执行
+ *
+ *  @param run
+ */
+void TFAsyncRun(TFRun run);
+
+/**
+ *  主线程执行
+ *
+ *  @param run
+ */
+void TFMainRun(TFRun run);
+
+extern NSString*  TF_APP_ERROR_DOMAIN;
+/////////////////////////////////////////////Common Error Code//////////////////////////////////////
+extern NSInteger const kTFErrorCodeUnknown         ;
+extern NSInteger const kTFErrorCodeAPI             ;
+extern NSInteger const kTFErrorCodeHTTP            ;
+extern NSInteger const kTFErrorCodeNetwork         ;
+extern NSInteger const kTFErrorCodeEmpty           ;
+extern NSInteger const kTFErrorCodeClassType       ;
+extern NSInteger const kTFErrorCodeLocationError   ;
+extern NSInteger const kTFErrorCodePhotosError     ;
+extern NSInteger const kTFErrorCodeMicrophoneError ;
+extern NSInteger const kTFErrorCodeCameraError     ;
+extern NSInteger const kTFErrorCodeContactsError   ;
+/////////////////////////////////////////////Common View State//////////////////////////////////////
+extern NSInteger const kTFViewStateNone            ;
+extern NSInteger const kTFViewStateLoading         ;
+extern NSInteger const kTFViewStateNetError        ;
+extern NSInteger const kTFViewStateDataError       ;
+extern NSInteger const kTFViewStateNoData          ;
+extern NSInteger const kTFViewStateTimeOut         ;
+extern NSInteger const kTFViewStateLocationError   ;
+extern NSInteger const kTFViewStatePhotosError     ;
+extern NSInteger const kTFViewStateMicrophoneError ;
+extern NSInteger const kTFViewStateCameraError     ;
+extern NSInteger const kTFViewStateContactsError   ;
+///////////////////////////////////////////Common ScrollDirection///////////////////////////////////
+extern NSInteger const kTFScrollDirectionNone      ;
+extern NSInteger const kTFScrollDirectionUp        ;
+extern NSInteger const kTFScrollDirectionDown      ;
+extern NSInteger const kTFScrollDirectionLeft      ;
+extern NSInteger const kTFScrollDirectionRight     ;
+extern NSInteger const kTFScrollDirectionVertical  ;
+extern NSInteger const kTFScrollDirectionHorizontal;
+///////////////////////////////////////////Common Notification//////////////////////////////////////
 
 
 TF_EXTERN_C_END

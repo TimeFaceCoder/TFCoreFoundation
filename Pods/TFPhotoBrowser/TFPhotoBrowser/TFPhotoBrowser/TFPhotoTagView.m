@@ -12,8 +12,9 @@
 
 @property (nonatomic, weak) UIView *contentView;
 @property (nonatomic, weak) UIImageView *bgImageView;
-@property (nonatomic, weak) UITextField *tagTextField;
+
 @property (assign, getter = isCanceled) BOOL canceled;
+@property (nonatomic, assign) CGRect       tagFrame;
 
 @end
 
@@ -28,12 +29,15 @@
     return self;
 }
 
-- (id)initWithDelegate:(id<TFPhotoTagViewDelegate>)delegate
+- (id)initWithDelegate:(id<TFPhotoTagViewDelegate>)delegate frame:(CGRect)frame
 {
     self = [super init];
     if (self) {
         NSAssert([(NSObject *)delegate conformsToProtocol:@protocol(TFPhotoTagViewDelegate)],
                  @"A tag popover's delegate must conform to the TFPhotoTagViewDelegate.");
+        CGFloat imageSize = MAX(frame.size.width, frame.size.height);
+        _tagFrame = CGRectMake(frame.origin.x, frame.origin.y, imageSize, imageSize);
+        
         [self initialize];
         [self setDelegate:delegate];
     }
@@ -64,7 +68,9 @@
     tagBounds.origin.x = 0;
     tagBounds.origin.y = 0;
     
-    [self setFrame:tagBounds];
+    CGRect tmpFrame = CGRectMake(0, 0, MAX(tagBounds.size.width, _tagFrame.size.width), tagBounds.size.height + _tagFrame.size.height);
+    
+    [self setFrame:tmpFrame];
     
     [self setMinimumTextFieldSize:CGSizeMake(25, 14)];
     [self setMinimumTextFieldSizeWhileEditing:CGSizeMake(54, 14)];
@@ -120,7 +126,7 @@
     CGSize tagSize = [placeholderText sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold"
                                                                                                size:14]}];
     
-    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, tagSize.width, tagSize.height)];
+    UITextField *textField = [[UITextField alloc] initWithFrame:CGRectMake(0, _tagFrame.size.height, tagSize.width, tagSize.height)];
     [textField setFont:textFieldFont];
     [textField setBackgroundColor:[UIColor clearColor]];
     [textField setTextColor:[UIColor whiteColor]];
@@ -178,6 +184,7 @@
 
 - (void)setText:(NSString *)text
 {
+    _tagTextField.text = nil;
     [self.tagTextField setText:text];
     [self resizeTextField];
 }
@@ -291,9 +298,20 @@
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
+    CGContextClearRect(context, _tagFrame);
+    
+//    NSString *text = _tagTextField.text;
+//    _tagTextField.text  = nil;
+//    _tagTextField.text = text;
+    
+    CGContextSetLineWidth(context, 1.0);//线的宽度
+    UIColor *aColor = [UIColor whiteColor];//blue蓝色
+    CGContextSetStrokeColorWithColor(context, aColor.CGColor);//线框颜色
+    CGContextStrokeRect(context,CGRectMake(fullRect.origin.x, fullRect.origin.y, MAX(fullRect.size.width, _tagFrame.size.width), _tagFrame.size.height));//画方框
+    CGContextDrawPath(context, kCGPathFillStroke);//绘画路径
     
     float radius = 2.0f;
-    float arrowHeight =  10.0f; //this is how far the arrow extends from the rect
+    float arrowHeight =  _tagFrame.size.height + 10.0f; //this is how far the arrow extends from the rect
     float arrowWidth = 16.0;
     
     fullRect = CGRectInset(fullRect, 1, 1);
@@ -313,7 +331,7 @@
     
     //draw the arrow
     CGPathAddLineToPoint(tagPath, NULL, CGRectGetMidX(containerRect)-(arrowWidth*0.5), CGRectGetMinY(containerRect));
-    CGPathAddLineToPoint(tagPath, NULL, CGRectGetMidX(containerRect), CGRectGetMinY(fullRect));
+    CGPathAddLineToPoint(tagPath, NULL, CGRectGetMidX(containerRect), CGRectGetMinY(fullRect) + _tagFrame.size.height);
     CGPathAddLineToPoint(tagPath, NULL, CGRectGetMidX(containerRect)+(arrowWidth*0.5), CGRectGetMinY(containerRect));
     
     //top right corner
@@ -479,7 +497,7 @@ replacementString:(NSString *)string {
     CGSize minimumSize = self.tagTextField.isFirstResponder ? self.minimumTextFieldSizeWhileEditing :
     self.minimumTextFieldSize;
     
-    newTextFieldFrame.size.width = MAX(newTagSize.width, minimumSize.width);
+    newTextFieldFrame.size.width = MAX(_tagFrame.size.width, minimumSize.width);
     newTextFieldFrame.size.height = MAX(newTagSize.height, minimumSize.height);
     [self.tagTextField setFrame:newTextFieldFrame];
     
@@ -490,9 +508,10 @@ replacementString:(NSString *)string {
     tagBounds.origin.x = 0;
     tagBounds.origin.y = 0;
     
+    CGRect tmpFrame = CGRectMake(0, 0, MAX(tagBounds.size.width, _tagFrame.size.width), tagBounds.size.height + _tagFrame.size.height);
     
     CGPoint originalCenter = self.center;
-    [self setFrame:tagBounds];
+    [self setFrame:tmpFrame];
     [self setCenter:originalCenter];
     
     [self setNeedsDisplay];

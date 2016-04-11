@@ -26,7 +26,7 @@ NSString *const kTFNetworkErrorDomain      = @"cn.timeface.base.network";
 }
 
 - (NSString *)requestUrl {
-    NSAssert(NO, @"必须重写该方法并设置该请求所对应url");
+    NSAssert(NO, @"必须重写requestUrl方法并设置该请求所对应url");
     return @"";
 }
 

@@ -61,6 +61,8 @@ static const CGFloat TFMotionViewRotationFactor = 4.0f;
         // Image view
         _photoImageView = [[TFTapDetectingImageView alloc] initWithFrame:CGRectZero];
         _photoImageView.tapDelegate = self;
+//        _photoImageView.layer.borderColor = [UIColor yellowColor].CGColor;
+//        _photoImageView.layer.borderWidth = 5;
         _photoImageView.contentMode = UIViewContentModeCenter;
         _photoImageView.backgroundColor = [UIColor clearColor];
         [self addSubview:_photoImageView];
@@ -208,6 +210,16 @@ static const CGFloat TFMotionViewRotationFactor = 4.0f;
     if (_loadingError) {
         [_loadingError removeFromSuperview];
         _loadingError = nil;
+    }
+}
+
+- (void)removeAllTags {
+    for (UIView *view in [self subviews]) {
+//        NSLog(@"view = %@",view);
+        if ([view isKindOfClass:[TFPhotoTagView class]]) {
+            view.hidden = YES;
+            [view removeFromSuperview];
+        }
     }
 }
 
@@ -536,6 +548,8 @@ static const CGFloat TFMotionViewRotationFactor = 4.0f;
     point.x -= (frame.origin.x - startX);
     point.y -= (frame.origin.y - self.frame.origin.y);
     
+    NSLog(@"point = %@,frame = %@",NSStringFromCGPoint(point),NSStringFromCGRect(frame));
+    
     CGPoint normalizedPoint = CGPointMake(point.x / frame.size.width,
                                           point.y / frame.size.height);
     
@@ -573,10 +587,13 @@ static const CGFloat TFMotionViewRotationFactor = 4.0f;
 - (void)startNewTagPopover:(TFPhotoTagView *)popover
          atNormalizedPoint:(CGPoint)normalizedPoint
               pointOnImage:(CGPoint)pointOnImage
+                      size:(CGSize)sizeOnImage
 {
-    //    NSAssert(((normalizedPoint.x >= 0.0 && normalizedPoint.x <= 1.0) &&
-    //              (normalizedPoint.y >= 0.0 && normalizedPoint.y <= 1.0)),
-    //             @"Point is outside of photo.");
+    TFPLog(@"normalized.x=%@,y=%@",@(normalizedPoint.x),@(normalizedPoint.y));
+//        NSAssert(((normalizedPoint.x >= 0.0 && normalizedPoint.x <= 1.0) &&
+//                  (normalizedPoint.y >= 0.0 && normalizedPoint.y <= 1.0)),
+//                 @"Point is outside of photo.");
+    
     
     CGRect photoFrame = [self frameForImage];
     
@@ -587,8 +604,10 @@ static const CGFloat TFMotionViewRotationFactor = 4.0f;
     [popover presentPopoverFromPoint:tagLocation inView:self animated:YES];
     [popover setNormalizedArrowPoint:normalizedPoint];
     [popover setPointOnImage:pointOnImage];
+    [popover setSizeOnImage:sizeOnImage];
     if (!popover.text.length) {
-        [popover becomeFirstResponder];
+//        [popover becomeFirstResponder];
+        popover.text = NSLocalizedString(@"这是谁?", nil);
     }
 }
 

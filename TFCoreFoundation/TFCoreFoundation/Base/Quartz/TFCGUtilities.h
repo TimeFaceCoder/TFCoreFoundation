@@ -35,6 +35,9 @@ CGFloat TFScreenScale();
 /// Get main screen's size. Height is always larger than width.
 CGSize TFScreenSize();
 
+CGRect TFScreenBounds();
+
+
 
 
 /// Convert degrees to radians.

@@ -20,6 +20,8 @@
 @interface TFPhotoBrowser() <TFPhotoTagViewDelegate> {
     BOOL            _tagOnView;
     CGPoint         _editPoint;
+    TFPhotoTagView  *_currentTagView;
+    BOOL            _willlayout;
 }
 
 @end
@@ -112,6 +114,10 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleTFPhotoLoadingDidEndNotification:)
                                                  name:TFPHOTO_LOADING_DID_END_NOTIFICATION
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleSeletedTagInfoNotifiacation:)
+                                                 name:kNoticeCustomBack
                                                object:nil];
     
     //Animation
@@ -754,11 +760,16 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
-    [self layoutVisiblePages];
+    if (!_willlayout) {
+        [self layoutVisiblePages];
+        _willlayout = YES;
+    }
+    
+    
 }
 
 - (void)layoutVisiblePages {
-    
+    NSLog(@"--------------layoutVisiblePages");
     // Flag
     _performingLayout = YES;
     
@@ -807,19 +818,42 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
     [self positionVideoLoadingIndicator];
     
     // Adjust contentOffset to preserve page location based on values collected prior to location
+    
     _pagingScrollView.contentOffset = [self contentOffsetForPageAtIndex:indexPriorToLayout];
     [self didStartViewingPageAtIndex:_currentPageIndex]; // initial
+    
     
     // Reset
     _currentPageIndex = indexPriorToLayout;
     _performingLayout = NO;
+    
+    NSArray *array = nil;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(photoBrowser:tagInfosAtIndex:)]) {
+        array = [self.delegate photoBrowser:self tagInfosAtIndex:_currentPageIndex];
+    }
+    if (array && [array count] > 0) {
+        //检查是否保存过人脸数据
+//        NSMutableArray
+        NSMutableArray *array_old = [_tagInfos objectAtIndex:_currentPageIndex];
+        if ([array_old isKindOfClass:[NSNull class]] || [array_old count] <=0) {
+            for (TFPhotoTag *tag in array) {
+                if (tag) {
+                    
+                    [self addFaceRectOnView:tag];
+                }
+            }
+            
+        }
+        [self configurePageTag:_currentPageIndex];
+        
+    }
     
 }
 
 #pragma mark - Rotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return YES;
+    return NO;
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations {
@@ -1000,6 +1034,10 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
     TFZoomingScrollView *page = [self pageDisplayingPhoto:photo];
     if (page) {
         // If page is current page then initiate loading of previous and next pages
+        [page displayImage];
+//        if (_tagOnView) {
+//            [self configurePageTag:_currentPageIndex];
+//        }
         NSUInteger pageIndex = page.index;
         if (_currentPageIndex == pageIndex) {
             if (pageIndex > 0) {
@@ -1020,21 +1058,25 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
             }
         }
     }
+    
+    
 }
 
 #pragma mark - TFPhoto Loading Notification
 
 - (void)handleTFPhotoLoadingDidEndNotification:(NSNotification *)notification {
+    NSLog(@"%s",__func__);
     id <TFPhoto> photo = [notification object];
     TFZoomingScrollView *page = [self pageDisplayingPhoto:photo];
     if (page) {
+        
         if ([photo underlyingImage]) {
             // Successful load
             [page displayImage];
             
-            if (_tagOnView) {
-                [self configurePageTag:_currentPageIndex];
-            }
+//            if (_tagOnView) {
+//                [self configurePageTag:_currentPageIndex];
+//            }
             
             [self loadAdjacentPhotosIfNecessary:photo];
         } else {
@@ -1044,35 +1086,62 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
         }
         // Update nav
         [self updateNavigation];
+        
+
+    }
+}
+
+#pragma mark - Selected Tag Info 
+- (void)handleSeletedTagInfoNotifiacation:(NSNotification*)notifiaction {
+    if (_currentTagView) {
+        TFPhotoTag *tag = notifiaction.object;
+        _currentTagView.tagTextField.text = nil;
+        [_currentTagView setText:tag.tagName];
+        _currentTagView.tagId = tag.tagId;
+        tag.faceId = _currentTagView.faceId;
+
+        NSArray *array = [_tagInfos objectAtIndex:_currentPageIndex];
+        for (TFPhotoTag *ptag in array) {
+            if ([ptag.faceId isEqualToString:tag.faceId]) {
+                ptag.tagId = tag.tagId;
+                ptag.tagName = tag.tagName;
+            }
+        }
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(photoBrowser:updateTagInfo:index:)]) {
+            [self.delegate photoBrowser:self updateTagInfo:@{
+                                                             @"tagId"  : tag
+                                                             }index:0];
+        }
     }
 }
 
 #pragma  mark - Contact Selected Notification
 
-- (void)handleContactsLoadedNotification:(NSNotification *)notification {
-    if ([notification userInfo]) {
-        NSDictionary *userInfo = [notification userInfo];
-        if ([[userInfo objectForKey:@"name"] length]) {
-            if (_editPoint.x > 0 && _editPoint.y > 0) {
-                NSMutableArray *array = [_tagInfos objectAtIndex:_currentPageIndex];
-                if (![array isKindOfClass:[NSNull class]]) {
-                    for (TFPhotoTag *model in array) {
-                        if (model.tagRect.origin.x == _editPoint.x && model.tagRect.origin.y == _editPoint.y) {
-                            model.tagName = [userInfo objectForKey:@"name"];
-                            model.selected = YES;
-                        }
-                    }
-                    [self configurePageTag:_currentPageIndex];
-                    
-                    if ([_delegate respondsToSelector:@selector(updatePhotoInfos:photoAtIndex:)]) {
-                        [_delegate updatePhotoInfos:array photoAtIndex:_currentPageIndex];
-                    }
-                }
-            }
-            
-        }
-    }
-}
+//- (void)handleContactsLoadedNotification:(NSNotification *)notification {
+//    if ([notification userInfo]) {
+//        NSDictionary *userInfo = [notification userInfo];
+//        if ([[userInfo objectForKey:@"name"] length]) {
+//            if (_editPoint.x > 0 && _editPoint.y > 0) {
+//                NSMutableArray *array = [_tagInfos objectAtIndex:_currentPageIndex];
+//                if (![array isKindOfClass:[NSNull class]]) {
+//                    for (TFPhotoTag *model in array) {
+//                        if (model.tagRect.origin.x == _editPoint.x && model.tagRect.origin.y == _editPoint.y) {
+//                            model.tagName = [userInfo objectForKey:@"name"];
+//                            model.selected = YES;
+//                        }
+//                    }
+//                    [self configurePageTag:_currentPageIndex];
+//                    
+//                    if ([_delegate respondsToSelector:@selector(updatePhotoInfos:photoAtIndex:)]) {
+//                        [_delegate updatePhotoInfos:array photoAtIndex:_currentPageIndex];
+//                    }
+//                }
+//            }
+//            
+//        }
+//    }
+//}
 
 #pragma mark - Paging
 
@@ -1224,7 +1293,7 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
 
 // Handle page changes
 - (void)didStartViewingPageAtIndex:(NSUInteger)index {
-    
+    NSLog(@"-0-0-0-0-0-0-0-0-0-0-0-0-0-0-0__%s__",__func__);
     // Handle 0 photos
     if (![self numberOfPhotos]) {
         // Show controls
@@ -1279,7 +1348,7 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
     
     // Update nav
     [self updateNavigation];
-    
+
 }
 
 #pragma mark - Frame Calculations
@@ -1379,7 +1448,8 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
     NSUInteger previousCurrentPage = _currentPageIndex;
     _currentPageIndex = index;
     if (_currentPageIndex != previousCurrentPage) {
-        [self didStartViewingPageAtIndex:index];
+        [[self pageDisplayedAtIndex:_currentPageIndex] removeAllTags];
+        [self performSelector:@selector(layoutVisiblePages) withObject:nil afterDelay:.5f];
     }
     
 }
@@ -1742,14 +1812,15 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
 
 #pragma mark - Tag Action
 
-//- (void)addFaceRectOnView:(CGRect)bounds {
-//    CGPoint pointOnImage = CGPointMake(bounds.origin.x + bounds.size.width / 2, bounds.origin.y + bounds.size.height / 2);
-//    
-//    ImageTagModel *model = [ImageTagModel tagWithProperties:@{@"size":NSStringFromCGSize(bounds.size),
-//                                                              @"content":NSLocalizedString(@"这是?", nil),
-//                                                              @"pointOnImage":NSStringFromCGPoint(pointOnImage)}];
-//    [self updateImageTagInfo:model];
-//}
+- (void)addFaceRectOnView:(TFPhotoTag*)photoTag {
+    
+    CGRect rect = CGRectMake(photoTag.tagRect.origin.x, photoTag.tagRect.origin.y, photoTag.tagRect.size.width, photoTag.tagRect.size.height);
+    TFPhotoTag *model = [TFPhotoTag photoTagWithRect:rect tagId:photoTag.tagId tagName:photoTag.tagName];
+    model.faceId = photoTag.faceId;
+    [self updateImageTagInfo:model];
+    
+    
+}
 
 /**
  *  配置当前page tag view
@@ -1770,18 +1841,41 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
                 if ([obj isKindOfClass:[TFPhotoTag class]]) {
                     TFPhotoTag *model = (TFPhotoTag *)obj;
                     if (model) {
-                        CGPoint pointOnImage = CGPointMake(model.tagRect.origin.x, model.tagRect.origin.y);
-                        CGPoint pointOnView = [self.view convertPoint:pointOnImage fromView:[self imageView]];
+                        UIImageView *imageView = [self imageView];
+                        
+                        CGFloat scale = MIN(imageView.bounds.size.width / model.tagRect.size.width,
+                                            imageView.bounds.size.height / model.tagRect.size.height);
+                        CGFloat offsetX = (imageView.bounds.size.width - model.tagRect.size.width * scale) / 2;
+                        CGFloat offsetY = (imageView.bounds.size.height - model.tagRect.size.height * scale) / 2;
+                        
+                        
+                        CGFloat width = offsetX + model.tagRect.origin.x;
+                        CGFloat height = offsetY + model.tagRect.origin.y;
+                        
+                        
+                        CGPoint faceCenter = CGPointMake(model.tagRect.origin.x + model.tagRect.size.width / 2, model.tagRect.origin.y);
+                        
+                        
+                        CGPoint pointOnView = [self.view convertPoint:faceCenter fromView:imageView];
                         CGPoint normalizedPoint = [[self pageDisplayedAtIndex:_currentPageIndex] normalizedPositionForPoint:pointOnView];
                         dispatch_main_sync_safe(^{
-                            
-                            TFPhotoTagView *tagView = [[TFPhotoTagView alloc] initWithDelegate:self];
+                            CGFloat scaleW = imageView.image.size.width  / self.view.frame.size.width;
+                            NSLog(@"image.size.width = %@, image.size.height = %@",@(imageView.image.size.width),@(imageView.image.size.height));
+                            TFPhotoTagView *tagView = [[TFPhotoTagView alloc] initWithDelegate:self frame:CGRectMake(0, 0, model.tagRect.size.width / 2/scaleW,  model.tagRect.size.height  / 2/scaleW + 40)];
+                            tagView.faceId = model.faceId;
+                            NSLog(@"pointOnView = %@, normalizedPoint = %@",NSStringFromCGPoint(pointOnView),NSStringFromCGPoint(normalizedPoint) );
+
+                            if (normalizedPoint.x <0 ||normalizedPoint.y < 0 || normalizedPoint.x > 1 || normalizedPoint.y > 1) {
+                                NSLog(@"Point is outside of photo.");
+                                return ;
+                            }
                             if (model.tagName.length) {
                                 [tagView setText:model.tagName];
                             }
                             [[self pageDisplayedAtIndex:_currentPageIndex] startNewTagPopover:tagView
                                                                             atNormalizedPoint:normalizedPoint
-                                                                                 pointOnImage:pointOnImage];
+                                                                                 pointOnImage:faceCenter
+                                                                                         size:CGSizeMake(model.tagRect.size.width / 2, model.tagRect.size.height / 2)];
                         });
                     }
                     if ([_delegate respondsToSelector:@selector(updatePhotoInfos:photoAtIndex:)]) {
@@ -1861,7 +1955,7 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
         [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             if ([obj isKindOfClass:[TFPhotoTag class]]) {
                 TFPhotoTag *oldModel = (TFPhotoTag *)obj;
-                if (![oldModel.tagId isEqualToString:model.tagId]) {
+                if (![oldModel.faceId isEqualToString:model.faceId]) {
                     [array addObject:model];
                     *stop = YES;
                 }
@@ -1881,58 +1975,28 @@ static void * TFVideoPlayerObservation = &TFVideoPlayerObservation;
 #pragma mark TFPhotoTagViewDelegate
 
 - (void)tagDidAppear:(TFPhotoTagView *)tagPopover {
-    //    if ([tagPopover.text isEqualToString:NSLocalizedString(@"这是?", nil)]) {
-    //        ImageTagModel *model = [ImageTagModel tagWithProperties:@{@"size":NSStringFromCGSize(tagPopover.sizeOnImage),
-    //                                                                  @"content":tagPopover.text,
-    //                                                                  @"pointOnImage":NSStringFromCGPoint(tagPopover.pointOnImage)}];
-    //        [self updateImageTagInfo:model];
-    //    }
+    
 }
 
 - (void)tagPopoverDidEndEditing:(TFPhotoTagView *)tagPopover {
-//    ImageTagModel *model = [ImageTagModel tagWithProperties:@{@"size":NSStringFromCGSize(tagPopover.sizeOnImage),
-//                                                              @"content":tagPopover.text,
-//                                                              @"pointOnImage":NSStringFromCGPoint(tagPopover.pointOnImage)}];
+
     CGRect rect = CGRectMake(tagPopover.pointOnImage.x, tagPopover.pointOnImage.y, tagPopover.sizeOnImage.width, tagPopover.sizeOnImage.height);
     TFPhotoTag *model = [TFPhotoTag photoTagWithRect:rect tagId:tagPopover.tagId tagName:tagPopover.text];
     [self updateImageTagInfo:model];
 }
 - (void)tagPopover:(TFPhotoTagView *)tagPopover didReceiveSingleTap:(UITapGestureRecognizer *)singleTap {
-    //    if ([tagPopover.text isEqualToString:NSLocalizedString(@"这是?", nil)]) {
-    //打开联系人列表选择
-    if (_expandData && [_expandData objectForKey:@"circleId"]) {
-//        [self openCircleSimpleContactView:[_expandData objectForKey:@"circleId"]];
-        if ([_delegate respondsToSelector:@selector(photoBrowser:didSelectTagAtIndex:tagId:)]) {
-            [self.delegate photoBrowser:self didSelectTagAtIndex:_currentPageIndex tagId:tagPopover.tagId];
-        }
+    
+    //点击tagview，跳转页面
+    if ([_delegate respondsToSelector:@selector(photoBrowser:didSelectTagAtIndex:tagId:)]) {
+        UIViewController *viewController = [self.delegate photoBrowser:self
+                                                   didSelectTagAtIndex:_currentPageIndex
+                                                                 tagId:tagPopover.tagId];
+        [self presentViewController:viewController animated:YES completion:nil];
+        _currentTagView = tagPopover;
         _editPoint = tagPopover.pointOnImage;
-        //            [tagPopover removeFromSuperview];
     }
-    //    }
-    //    else {
-    //        //删除tag
-    //        POPBasicAnimation *opacityAnimation = [POPBasicAnimation animationWithPropertyNamed:kPOPLayerOpacity];
-    //        opacityAnimation.toValue = @(0);
-    //        [opacityAnimation setCompletionBlock:^(POPAnimation *animation, BOOL finish) {
-    //            if (finish) {
-    //                [tagPopover removeFromSuperview];
-    //            }
-    //        }];
-    //        [tagPopover.layer pop_addAnimation:opacityAnimation forKey:@"opacityAnimation"];
-    //
-    //        NSMutableArray *array = [_tagInfos objectAtIndex:_currentPageIndex];
-    //        if (![array isKindOfClass:[NSNull class]]) {
-    //            //删除本地tag数据
-    //            [array enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    //                if ([obj isKindOfClass:[ImageTagModel class]]) {
-    //                    ImageTagModel *model = (ImageTagModel *)obj;
-    //                    if ([model.content isEqualToString:tagPopover.text]) {
-    //                        [array removeObject:model];
-    //                    }
-    //                }
-    //            }];
-    //        }
-    //    }
+    
+
 }
 
 - (void)tagPopover:(TFPhotoTagView *)tagPopover didReceiveLongTap:(UITapGestureRecognizer *)longTap {

@@ -8,6 +8,7 @@
 
 #import "UIBarButtonItem+TFCore.h"
 #import "TFCoreFoundationMacro.h"
+#import "UIView+TFCore.h"
 #import <objc/runtime.h>
 
 TFSYNTH_DUMMY_CLASS(UIBarButtonItem_TFCore)
@@ -55,5 +56,16 @@ static const int block_key;
     _TFUIBarButtonItemBlockTarget *target = objc_getAssociatedObject(self, &block_key);
     return target.block;
 }
+
++ (instancetype)barButtonItemWithImage:(UIImage *)image selectedImage:(UIImage *)selectedImage target:(nullable id)target action:(nullable SEL)action {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTf_size:image.size];
+    [button setImage:image forState:UIControlStateNormal];
+    [button setImage:selectedImage forState:UIControlStateHighlighted];
+    [button setImage:selectedImage forState:UIControlStateSelected];
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithCustomView:button];
+    return item;
+}
+
 
 @end

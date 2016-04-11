@@ -39,6 +39,6 @@
 
 - (CGPoint)normalizedPositionForPoint:(CGPoint)point;
 
-- (void)startNewTagPopover:(TFPhotoTagView *)popover atNormalizedPoint:(CGPoint)normalizedPoint pointOnImage:(CGPoint)pointOnImage;
+- (void)startNewTagPopover:(TFPhotoTagView *)popover atNormalizedPoint:(CGPoint)normalizedPoint pointOnImage:(CGPoint)pointOnImage size:(CGSize)sizeOnImage;
 
 @end

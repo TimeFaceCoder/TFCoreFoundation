@@ -1,0 +1,19 @@
+{
+  "name": "TFTableViewDataSource",
+  "version": "0.0.1",
+  "summary": "时光流影iOS TableView DataSource 框架",
+  "homepage": "https://github.com/TimeFaceCoder/TFTableViewDataSource",
+  "license": "Copyright (C) 2016 TimeFace, Inc.  All rights reserved.",
+  "authors": {
+    "Melvin": "yangmin@timeface.cn"
+  },
+  "social_media_url": "http://www.timeface.cn",
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source": {
+    "git": "https://github.com/TimeFaceCoder/TFTableViewDataSource.git"
+  },
+  "source_files": "TFTableViewDataSource/TFTableViewDataSource/**/*.{h,m,c}",
+  "requires_arc": true
+}
