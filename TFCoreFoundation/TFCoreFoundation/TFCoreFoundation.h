@@ -84,6 +84,12 @@
 #import <TFCoreFoundation/TFNavigationController.h>
 #import <TFCoreFoundation/TFWebViewController.h>
 
+
+///--------------------------------
+/// @name Model
+///--------------------------------
+#import <TFCoreFoundation/TFModel.h>
+
 #else
 
 
@@ -160,6 +166,12 @@
 #import "TFTableViewController.h"
 #import "TFNavigationController.h"
 #import "TFWebViewController.h"
+
+///--------------------------------
+/// @name Model
+///--------------------------------
+#import "TFModel.h"
+
 
 #endif
 

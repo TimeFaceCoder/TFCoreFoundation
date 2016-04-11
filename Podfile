@@ -18,3 +18,4 @@ pod 'JDStatusBarNotification', :git => 'https://github.com/TimeFaceCoder/JDStatu
 pod 'FLAnimatedImage'
 pod 'WebViewJavascriptBridge'
 pod 'NJKWebViewProgress'
+pod 'JSONModel'
