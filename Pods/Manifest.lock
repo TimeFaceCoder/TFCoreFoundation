@@ -35,6 +35,11 @@ PODS:
   - MYTableViewManager (0.1.5):
     - AsyncDisplayKit
     - pop
+  - NJKWebViewProgress (0.2.3):
+    - NJKWebViewProgress/Core (= 0.2.3)
+    - NJKWebViewProgress/ProgressView (= 0.2.3)
+  - NJKWebViewProgress/Core (0.2.3)
+  - NJKWebViewProgress/ProgressView (0.2.3)
   - PINCache (2.2.2)
   - PINRemoteImage (2.1.2):
     - PINRemoteImage/FLAnimatedImage (= 2.1.2)
@@ -70,6 +75,7 @@ PODS:
   - TFUploadAssistant (0.0.1):
     - EGOCache
     - YYDispatchQueuePool
+  - WebViewJavascriptBridge (5.0.5)
   - YYDispatchQueuePool (1.0)
   - YYImage (1.0.1):
     - YYImage/Core (= 1.0.1)
@@ -82,6 +88,7 @@ DEPENDENCIES:
   - FLAnimatedImage
   - JDStatusBarNotification (from `https://github.com/TimeFaceCoder/JDStatusBarNotification.git`)
   - MYTableViewManager (from `https://github.com/TimeFaceCoder/MYTableViewManager.git`)
+  - NJKWebViewProgress
   - SVProgressHUD
   - TFCamera (from `https://github.com/TimeFaceCoder/TFCamera.git`)
   - TFHotfix (from `https://github.com/TimeFaceCoder/TFHotfix.git`)
@@ -90,6 +97,7 @@ DEPENDENCIES:
   - TFPhotoBrowser (from `https://github.com/TimeFaceCoder/TFPhotoBrowser.git`)
   - TFTableViewDataSource (from `https://github.com/TimeFaceCoder/TFTableViewDataSource.git`)
   - TFUploadAssistant (from `https://github.com/TimeFaceCoder/TFUploadAssistant.git`)
+  - WebViewJavascriptBridge
   - YYImage
   - YYText
 
@@ -165,6 +173,7 @@ SPEC CHECKSUMS:
   Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
   MPMessagePack: 7c9c9cdee049b62e3578ee423ba451fa406bbd08
   MYTableViewManager: a4af70d74026202446e90507a54e0fa30aafaf78
+  NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
   PINRemoteImage: 2ce3f1fcc52f0360a3821f91f1a1bc653c5d2338
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -177,6 +186,7 @@ SPEC CHECKSUMS:
   TFPhotoBrowser: 728714cd3fad71d24f45206d0c434292191b727f
   TFTableViewDataSource: 721bcdfe80ca51236c908a586b14df16fe84b11e
   TFUploadAssistant: 5889b8e26713c6552317bc199faffa2f1af3d30d
+  WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
   YYDispatchQueuePool: 3dfb2274bcc74207688dde8ac6f7bdd46871dd7b
   YYImage: b41b45bc5f32bfcdf67bdfb9c09da9e9832357c0
   YYText: 41761822986179828a27ccf82aa97c7b5483c2e2

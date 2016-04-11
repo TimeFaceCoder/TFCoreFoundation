@@ -32,6 +32,8 @@
 		B04860491CBB419600DE6770 /* TFViewTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = B04860481CBB419600DE6770 /* TFViewTransitionAnimator.m */; };
 		B048604C1CBB471B00DE6770 /* TFAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = B048604B1CBB471B00DE6770 /* TFAlertView.m */; };
 		B048604F1CBB4D3A00DE6770 /* TFStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = B048604E1CBB4D3A00DE6770 /* TFStateView.m */; };
+		B04860531CBB640E00DE6770 /* TFKVStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B04860521CBB640E00DE6770 /* TFKVStorage.m */; };
+		B04860551CBB642400DE6770 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B04860541CBB642400DE6770 /* libsqlite3.tbd */; };
 		B0E82F961CB9EE0200655B66 /* UIAlertController+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F951CB9EE0200655B66 /* UIAlertController+TFCore.m */; };
 		B0E82F991CB9EE9A00655B66 /* TFCGUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F981CB9EE9A00655B66 /* TFCGUtilities.m */; };
 		B0E82F9C1CB9EF6100655B66 /* UIApplication+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F9B1CB9EF6100655B66 /* UIApplication+TFCore.m */; };
@@ -126,6 +128,9 @@
 		B048604B1CBB471B00DE6770 /* TFAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFAlertView.m; sourceTree = "<group>"; };
 		B048604D1CBB4D3A00DE6770 /* TFStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFStateView.h; sourceTree = "<group>"; };
 		B048604E1CBB4D3A00DE6770 /* TFStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFStateView.m; sourceTree = "<group>"; };
+		B04860511CBB640E00DE6770 /* TFKVStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFKVStorage.h; sourceTree = "<group>"; };
+		B04860521CBB640E00DE6770 /* TFKVStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFKVStorage.m; sourceTree = "<group>"; };
+		B04860541CBB642400DE6770 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		B0E82F941CB9EE0200655B66 /* UIAlertController+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+TFCore.h"; sourceTree = "<group>"; };
 		B0E82F951CB9EE0200655B66 /* UIAlertController+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+TFCore.m"; sourceTree = "<group>"; };
 		B0E82F971CB9EE9A00655B66 /* TFCGUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFCGUtilities.h; sourceTree = "<group>"; };
@@ -182,6 +187,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B04860551CBB642400DE6770 /* libsqlite3.tbd in Frameworks */,
 				B04335691CABB17900960551 /* libz.tbd in Frameworks */,
 				3B4FF52036D3511A24C21835 /* libPods.a in Frameworks */,
 			);
@@ -207,6 +213,7 @@
 		0B2CEA0D2EC6EA3717327D29 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B04860541CBB642400DE6770 /* libsqlite3.tbd */,
 				B04335681CABB17900960551 /* libz.tbd */,
 				B40F0D76B73221F22F85B1C0 /* libPods.a */,
 			);
@@ -291,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				B043354D1CAB800000960551 /* TFCoreFoundation.h */,
+				B04860501CBB640E00DE6770 /* Cache */,
 				B043354E1CAB81AE00960551 /* Base */,
 				B0E82FC91CBA1BBB00655B66 /* Style */,
 			);
@@ -396,6 +404,15 @@
 				B04860481CBB419600DE6770 /* TFViewTransitionAnimator.m */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		B04860501CBB640E00DE6770 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				B04860511CBB640E00DE6770 /* TFKVStorage.h */,
+				B04860521CBB640E00DE6770 /* TFKVStorage.m */,
+			);
+			path = Cache;
 			sourceTree = "<group>";
 		};
 		B0E82FA01CB9F14000655B66 /* UIViewController */ = {
@@ -635,6 +652,7 @@
 				B0E82FD41CBA1DC600655B66 /* TFCoreFoundationMacro.m in Sources */,
 				B0E82FD71CBA1F0300655B66 /* TFWebViewController.m in Sources */,
 				B04335641CABAA5700960551 /* NSData+TFCore.m in Sources */,
+				B04860531CBB640E00DE6770 /* TFKVStorage.m in Sources */,
 				B0E82FAA1CB9F1AD00655B66 /* UIBarButtonItem+TFCore.m in Sources */,
 				B0E82F991CB9EE9A00655B66 /* TFCGUtilities.m in Sources */,
 				B0E82FE11CBA23D700655B66 /* UIViewController+TFCore.m in Sources */,

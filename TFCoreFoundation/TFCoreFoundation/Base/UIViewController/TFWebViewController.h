@@ -10,4 +10,12 @@
 
 @interface TFWebViewController : TFViewController
 
+@property (nonatomic ,strong) UIWebView *webView;
+@property (nonatomic ,copy) NSString *url;
+
+- (id)initWithUrl:(NSString *)url;
+- (void)openURL:(NSURL*)URL;
+
+
+- (void)registerBridgeHandler;
 @end
