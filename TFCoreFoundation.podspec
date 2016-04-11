@@ -15,4 +15,5 @@ Pod::Spec.new do |s|
   s.dependency 'JDStatusBarNotification'
   s.dependency 'NJKWebViewProgress'
   s.dependency 'JSONModel'
+  s.dependency 'WebViewJavascriptBridge'
 end
