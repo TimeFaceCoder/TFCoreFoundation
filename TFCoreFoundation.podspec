@@ -13,5 +13,6 @@ Pod::Spec.new do |s|
   s.libraries = 'z', 'sqlite3'
   s.frameworks = 'UIKit', 'CoreFoundation', 'CoreText', 'CoreGraphics', 'CoreImage', 'QuartzCore', 'ImageIO', 'AssetsLibrary', 'Accelerate', 'MobileCoreServices', 'SystemConfiguration'
   s.dependency 'JDStatusBarNotification'
+  s.dependency 'NJKWebViewProgress'
   s.dependency 'JSONModel'
 end
