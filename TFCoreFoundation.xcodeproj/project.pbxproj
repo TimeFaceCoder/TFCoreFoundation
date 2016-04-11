@@ -34,6 +34,9 @@
 		B048604F1CBB4D3A00DE6770 /* TFStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = B048604E1CBB4D3A00DE6770 /* TFStateView.m */; };
 		B04860531CBB640E00DE6770 /* TFKVStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = B04860521CBB640E00DE6770 /* TFKVStorage.m */; };
 		B04860551CBB642400DE6770 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B04860541CBB642400DE6770 /* libsqlite3.tbd */; };
+		B04860581CBB820C00DE6770 /* TFSplashView.m in Sources */ = {isa = PBXBuildFile; fileRef = B04860571CBB820C00DE6770 /* TFSplashView.m */; };
+		B07CBA2B1CBB875D004A81F2 /* YYImage+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B07CBA2A1CBB875D004A81F2 /* YYImage+TFCore.m */; };
+		B07CBA2D1CBB89B2004A81F2 /* TFCoreFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = B07CBA2C1CBB89B2004A81F2 /* TFCoreFoundation.m */; };
 		B0E82F961CB9EE0200655B66 /* UIAlertController+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F951CB9EE0200655B66 /* UIAlertController+TFCore.m */; };
 		B0E82F991CB9EE9A00655B66 /* TFCGUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F981CB9EE9A00655B66 /* TFCGUtilities.m */; };
 		B0E82F9C1CB9EF6100655B66 /* UIApplication+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F9B1CB9EF6100655B66 /* UIApplication+TFCore.m */; };
@@ -131,6 +134,11 @@
 		B04860511CBB640E00DE6770 /* TFKVStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFKVStorage.h; sourceTree = "<group>"; };
 		B04860521CBB640E00DE6770 /* TFKVStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFKVStorage.m; sourceTree = "<group>"; };
 		B04860541CBB642400DE6770 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		B04860561CBB820C00DE6770 /* TFSplashView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFSplashView.h; sourceTree = "<group>"; };
+		B04860571CBB820C00DE6770 /* TFSplashView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFSplashView.m; sourceTree = "<group>"; };
+		B07CBA291CBB875D004A81F2 /* YYImage+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "YYImage+TFCore.h"; sourceTree = "<group>"; };
+		B07CBA2A1CBB875D004A81F2 /* YYImage+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "YYImage+TFCore.m"; sourceTree = "<group>"; };
+		B07CBA2C1CBB89B2004A81F2 /* TFCoreFoundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFCoreFoundation.m; sourceTree = "<group>"; };
 		B0E82F941CB9EE0200655B66 /* UIAlertController+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+TFCore.h"; sourceTree = "<group>"; };
 		B0E82F951CB9EE0200655B66 /* UIAlertController+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+TFCore.m"; sourceTree = "<group>"; };
 		B0E82F971CB9EE9A00655B66 /* TFCGUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFCGUtilities.h; sourceTree = "<group>"; };
@@ -298,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				B043354D1CAB800000960551 /* TFCoreFoundation.h */,
+				B07CBA2C1CBB89B2004A81F2 /* TFCoreFoundation.m */,
 				B04860501CBB640E00DE6770 /* Cache */,
 				B043354E1CAB81AE00960551 /* Base */,
 				B0E82FC91CBA1BBB00655B66 /* Style */,
@@ -379,6 +388,8 @@
 				B0E82FB81CB9F53600655B66 /* UIGestureRecognizer+TFCore.m */,
 				B0E82FBA1CB9F59B00655B66 /* UIImage+TFCore.h */,
 				B0E82FBB1CB9F59B00655B66 /* UIImage+TFCore.m */,
+				B07CBA291CBB875D004A81F2 /* YYImage+TFCore.h */,
+				B07CBA2A1CBB875D004A81F2 /* YYImage+TFCore.m */,
 				B0E82FBD1CB9F6D900655B66 /* UIScreen+TFCore.h */,
 				B0E82FBE1CB9F6D900655B66 /* UIScreen+TFCore.m */,
 				B0E82FC01CB9F7A600655B66 /* UIScrollView+TFCore.h */,
@@ -439,6 +450,8 @@
 				B048604B1CBB471B00DE6770 /* TFAlertView.m */,
 				B048604D1CBB4D3A00DE6770 /* TFStateView.h */,
 				B048604E1CBB4D3A00DE6770 /* TFStateView.m */,
+				B04860561CBB820C00DE6770 /* TFSplashView.h */,
+				B04860571CBB820C00DE6770 /* TFSplashView.m */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -665,13 +678,16 @@
 				B04335671CABAC2D00960551 /* UIDevice+TFCore.m in Sources */,
 				B0E82FA61CB9F16500655B66 /* TFTableViewController.m in Sources */,
 				B0E82FA31CB9F15300655B66 /* TFViewController.m in Sources */,
+				B04860581CBB820C00DE6770 /* TFSplashView.m in Sources */,
 				B04860431CBB3E3F00DE6770 /* TFDirectionalPanGestureRecognizer.m in Sources */,
 				B0E82F9F1CB9EFE800655B66 /* UIView+TFCore.m in Sources */,
 				B0E82FDE1CBA238400655B66 /* UIWebView+TFCore.m in Sources */,
+				B07CBA2D1CBB89B2004A81F2 /* TFCoreFoundation.m in Sources */,
 				B04335611CABA8BD00960551 /* NSNumber+TFCore.m in Sources */,
 				B0E82FCC1CBA1BD100655B66 /* TFStyle.m in Sources */,
 				B03ABEE41CAB5AC4004067CA /* main.m in Sources */,
 				B0E82FC51CB9F7E200655B66 /* UITableView+TFCore.m in Sources */,
+				B07CBA2B1CBB875D004A81F2 /* YYImage+TFCore.m in Sources */,
 				B0E82FCF1CBA1D6500655B66 /* TFDefaultStyle.m in Sources */,
 				B0E82FBF1CB9F6D900655B66 /* UIScreen+TFCore.m in Sources */,
 				B043356C1CABB19800960551 /* NSArray+TFCore.m in Sources */,
@@ -770,7 +786,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -808,7 +824,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

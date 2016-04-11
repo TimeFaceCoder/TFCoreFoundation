@@ -15,8 +15,10 @@
 #import <Accelerate/Accelerate.h>
 #import <CoreText/CoreText.h>
 #import <objc/runtime.h>
+#import "UIDevice+TFCore.h"
 
 TFSYNTH_DUMMY_CLASS(UIImage_TFCore)
+
 
 static NSTimeInterval _tf_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef source, size_t index) {
     NSTimeInterval delay = 0;
@@ -39,6 +41,7 @@ static NSTimeInterval _tf_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
 }
 
 @implementation UIImage (TFCore)
+
 
 + (UIImage *)imageWithSmallGIFData:(NSData *)data scale:(CGFloat)scale {
     CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFTypeRef)(data), NULL);

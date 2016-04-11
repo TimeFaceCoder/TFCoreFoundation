@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
+
+
+
 @interface UIImage (TFCore)
 
 + (nullable UIImage *)imageWithSmallGIFData:(NSData *)data scale:(CGFloat)scale;
