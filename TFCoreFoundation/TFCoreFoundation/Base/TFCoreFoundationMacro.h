@@ -57,6 +57,11 @@ styleWithSelector:@#_SELECTOR forState:_STATE]
 
 #define TFSTYLEVAR(_VARNAME) [TFSTYLESHEET _VARNAME]
 
+#ifdef DEBUG
+#define TFLog(format, ...) NSLog((@"%s [Line %d] " format), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#define TFLog(format, ...)
+#endif
 
 /**
  Add this macro before each category implementation, so we don't have to use

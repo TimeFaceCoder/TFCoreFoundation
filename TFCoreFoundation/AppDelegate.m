@@ -18,9 +18,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    NSString *deviceID = [UIDevice deviceID];
-    
-    NSLog(@"%@",deviceID);
     return YES;
 }
 
