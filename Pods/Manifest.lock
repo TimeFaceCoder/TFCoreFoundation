@@ -55,6 +55,7 @@ PODS:
   - SDWebImage (3.7.5):
     - SDWebImage/Core (= 3.7.5)
   - SDWebImage/Core (3.7.5)
+  - SSKeychain (1.4.0)
   - SVProgressHUD (2.0.3)
   - TFCamera (0.0.4):
     - Masonry
@@ -91,6 +92,7 @@ DEPENDENCIES:
   - JSONModel
   - MYTableViewManager (from `https://github.com/TimeFaceCoder/MYTableViewManager.git`)
   - NJKWebViewProgress
+  - SSKeychain
   - SVProgressHUD
   - TFCamera (from `https://github.com/TimeFaceCoder/TFCamera.git`)
   - TFHotfix (from `https://github.com/TimeFaceCoder/TFHotfix.git`)
@@ -181,6 +183,7 @@ SPEC CHECKSUMS:
   PINRemoteImage: 2ce3f1fcc52f0360a3821f91f1a1bc653c5d2338
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
+  SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   TFCamera: e2db7e6d153a05f4afc43434336952a2d0f0fbb1
   TFHotfix: 95f44939b542220e7de12d7c15d50d8327cbd4a5

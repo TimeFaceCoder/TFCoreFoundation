@@ -16,4 +16,5 @@ Pod::Spec.new do |s|
   s.dependency 'NJKWebViewProgress'
   s.dependency 'JSONModel'
   s.dependency 'WebViewJavascriptBridge'
+  s.dependency 'SSKeychain'
 end

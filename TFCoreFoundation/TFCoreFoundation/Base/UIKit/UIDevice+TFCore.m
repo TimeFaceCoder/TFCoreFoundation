@@ -16,6 +16,7 @@
 #include <ifaddrs.h>
 #import "TFCoreFoundationMacro.h"
 #import "NSString+TFCore.h"
+#import "SSKeychain.h"
 
 TFSYNTH_DUMMY_CLASS(UIDevice_TFCore)
 
@@ -29,6 +30,15 @@ TFSYNTH_DUMMY_CLASS(UIDevice_TFCore)
         version = [UIDevice currentDevice].systemVersion.doubleValue;
     });
     return version;
+}
+
++ (NSString *)deviceID {
+    NSString *idfv = [SSKeychain passwordForService:@"tf__ios" account:@"app_user"];
+    if (!idfv) {
+        idfv = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        [SSKeychain setPassword:idfv forService:@"tf__ios" account:@"app_user"];
+    }
+    return idfv;
 }
 
 - (BOOL)isPad {

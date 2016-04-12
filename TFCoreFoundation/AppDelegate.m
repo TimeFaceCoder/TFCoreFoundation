@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "TFCoreFoundation.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    NSString *deviceID = [UIDevice deviceID];
+    
+    NSLog(@"%@",deviceID);
     return YES;
 }
 

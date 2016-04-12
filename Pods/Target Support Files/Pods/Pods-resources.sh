@@ -59,11 +59,13 @@ install_resource()
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "JSPatch/JSPatch/JSPatch.js"
+  install_resource "SSKeychain/Support/en.lproj"
   install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
   install_resource "${BUILT_PRODUCTS_DIR}/TFLibraryResource.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "JSPatch/JSPatch/JSPatch.js"
+  install_resource "SSKeychain/Support/en.lproj"
   install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
   install_resource "${BUILT_PRODUCTS_DIR}/TFLibraryResource.bundle"
 fi
