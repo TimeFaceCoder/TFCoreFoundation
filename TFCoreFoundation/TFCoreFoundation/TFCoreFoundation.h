@@ -46,6 +46,7 @@
 #import <TFCoreFoundation/UITextField+TFCore.h>
 #import <TFCoreFoundation/UIWebView+TFCore.h>
 #import <TFCoreFoundation/UIViewController+TFCore.h>
+#import <TFCoreFoundation/UINavigationController+TFCore.h>
 #import <TFCoreFoundation/TFCGUtilities.h>
 
 ///--------------------------------
@@ -129,6 +130,7 @@
 #import "UITextField+TFCore.h"
 #import "UIWebView+TFCore.h"
 #import "UIViewController+TFCore.h"
+#import "UINavigationController+TFCore.h"
 #import "TFCGUtilities.h"
 
 ///--------------------------------
