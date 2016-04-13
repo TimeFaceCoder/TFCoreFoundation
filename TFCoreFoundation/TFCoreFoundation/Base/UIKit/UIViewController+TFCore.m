@@ -9,6 +9,9 @@
 #import "UIViewController+TFCore.h"
 #import "TFCoreFoundationMacro.h"
 #import "UIDevice+TFCore.h"
+#import <objc/runtime.h>
+#import "TFSwizzleMethod.h"
+#import "UINavigationController+TFCore.h"
 
 TFSYNTH_DUMMY_CLASS(UIViewController_TFCore)
 
@@ -202,6 +205,105 @@ TFSYNTH_DUMMY_CLASS(UIViewController_TFCore)
     }
     
     return viewHeight;
+}
+
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        TFSwizzleMethod([self class],
+                        @selector(viewWillLayoutSubviews),
+                        @selector(tf_viewWillLayoutSubviews));
+        
+        TFSwizzleMethod([self class],
+                        @selector(viewDidAppear:),
+                        @selector(tf_viewDidAppear:));
+    });
+}
+
+- (void)tf_viewDidAppear:(BOOL)animated {
+    if (self.tf_transitionNavigationBar) {
+        self.navigationController.navigationBar.barTintColor = self.tf_transitionNavigationBar.barTintColor;
+        [self.navigationController.navigationBar setBackgroundImage:[self.tf_transitionNavigationBar backgroundImageForBarMetrics:UIBarMetricsDefault] forBarMetrics:UIBarMetricsDefault];
+        [self.navigationController.navigationBar setShadowImage:self.tf_transitionNavigationBar.shadowImage];
+        
+        [self.tf_transitionNavigationBar removeFromSuperview];
+        self.tf_transitionNavigationBar = nil;
+    }
+    self.tf_prefersNavigationBarBackgroundViewHidden = NO;
+    [self tf_viewDidAppear:animated];
+}
+
+- (void)tf_viewWillLayoutSubviews {
+    id<UIViewControllerTransitionCoordinator> tc = self.transitionCoordinator;
+    UIViewController *fromViewController = [tc viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController *toViewController = [tc viewControllerForKey:UITransitionContextToViewControllerKey];
+    
+    if ([self isEqual:self.navigationController.viewControllers.lastObject] && [toViewController isEqual:self]) {
+        if (self.navigationController.navigationBar.translucent) {
+            [tc containerView].backgroundColor = [self.navigationController tf_containerViewBackgroundColor];
+        } else {
+            fromViewController.view.clipsToBounds = NO;
+            toViewController.view.clipsToBounds = NO;
+        }
+        if (!self.tf_transitionNavigationBar) {
+            [self tf_addTransitionNavigationBarIfNeeded];
+            
+            self.tf_prefersNavigationBarBackgroundViewHidden = YES;
+        }
+        [self tf_resizeTransitionNavigationBarFrame];
+    }
+    [self tf_viewWillLayoutSubviews];
+}
+
+- (void)tf_resizeTransitionNavigationBarFrame {
+    if (!self.view.window) {
+        return;
+    }
+    UIView *backgroundView = [self.navigationController.navigationBar valueForKey:@"_backgroundView"];
+    CGRect rect = [backgroundView.superview convertRect:backgroundView.frame toView:self.view];
+    self.tf_transitionNavigationBar.frame = rect;
+}
+
+- (void)tf_addTransitionNavigationBarIfNeeded {
+    if (!self.view.window) {
+        return;
+    }
+    if (!self.navigationController.navigationBar) {
+        return;
+    }
+    UINavigationBar *bar = [[UINavigationBar alloc] init];
+    bar.barStyle = self.navigationController.navigationBar.barStyle;
+    if (bar.translucent != self.navigationController.navigationBar.translucent) {
+        bar.translucent = self.navigationController.navigationBar.translucent;
+    }
+    bar.barTintColor = self.navigationController.navigationBar.barTintColor;
+    [bar setBackgroundImage:[self.navigationController.navigationBar backgroundImageForBarMetrics:UIBarMetricsDefault] forBarMetrics:UIBarMetricsDefault];
+    bar.shadowImage = self.navigationController.navigationBar.shadowImage;
+    [self.tf_transitionNavigationBar removeFromSuperview];
+    self.tf_transitionNavigationBar = bar;
+    [self tf_resizeTransitionNavigationBarFrame];
+    if (!self.navigationController.navigationBarHidden) {
+        [self.view addSubview:self.tf_transitionNavigationBar];
+    }
+}
+
+- (UINavigationBar *)tf_transitionNavigationBar {
+    return objc_getAssociatedObject(self, _cmd);
+}
+
+- (void)setTf_transitionNavigationBar:(UINavigationBar *)navigationBar {
+    objc_setAssociatedObject(self, @selector(tf_transitionNavigationBar), navigationBar, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (BOOL)tf_prefersNavigationBarBackgroundViewHidden {
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+
+- (void)setTf_prefersNavigationBarBackgroundViewHidden:(BOOL)hidden {
+    [[self.navigationController.navigationBar valueForKey:@"_backgroundView"]
+     setHidden:hidden];
+    objc_setAssociatedObject(self, @selector(tf_prefersNavigationBarBackgroundViewHidden), @(hidden), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

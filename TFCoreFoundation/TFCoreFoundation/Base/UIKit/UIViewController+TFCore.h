@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-NS_ASSUME_NONNULL_BEGIN
 @interface UIViewController (TFCore)
 - (void)showNavigationBar:(BOOL)animated;
 - (void)hideNavigationBar:(BOOL)animated;
@@ -23,5 +22,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)hideTabBar:(BOOL)animated;
 - (void)moveTabBar:(CGFloat)deltaY animated:(BOOL)animated;
 - (void)setTabBarOriginY:(CGFloat)y animated:(BOOL)animated;
+
+@property (nonatomic, strong) UINavigationBar *tf_transitionNavigationBar;
+@property (nonatomic, assign) BOOL tf_prefersNavigationBarBackgroundViewHidden;
+
+- (void)tf_addTransitionNavigationBarIfNeeded;
+
 @end
-NS_ASSUME_NONNULL_END
