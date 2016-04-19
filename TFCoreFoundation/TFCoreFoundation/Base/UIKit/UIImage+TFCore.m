@@ -247,12 +247,22 @@ static NSTimeInterval _tf_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
     return [self imageWithColor:color size:CGSizeMake(1, 1)];
 }
 
++ (UIImage *)imageWithColor:(UIColor *)color alpha:(CGFloat)alpha {
+    return [self imageWithColor:color size:CGSizeMake(1, 1) alpha:alpha];
+}
+
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size {
+    return [self imageWithColor:color size:size alpha:1.f];
+}
+
++ (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size alpha:(CGFloat)alpha {
+    
     if (!color || size.width <= 0 || size.height <= 0) return nil;
     CGRect rect = CGRectMake(0.0f, 0.0f, size.width, size.height);
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, color.CGColor);
+    CGContextSetAlpha(context, alpha);
     CGContextFillRect(context, rect);
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

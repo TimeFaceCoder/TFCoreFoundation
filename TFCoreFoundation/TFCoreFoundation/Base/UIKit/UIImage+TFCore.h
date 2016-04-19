@@ -20,7 +20,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (nullable UIImage *)imageWithPDF:(id)dataOrPath size:(CGSize)size;
 + (nullable UIImage *)imageWithEmoji:(NSString *)emoji size:(CGFloat)size;
 + (nullable UIImage *)imageWithColor:(UIColor *)color;
++ (nullable UIImage *)imageWithColor:(UIColor *)color alpha:(CGFloat)alpha;
 + (nullable UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
++ (nullable UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size alpha:(CGFloat)alpha;
 + (nullable UIImage *)imageWithSize:(CGSize)size drawBlock:(void (^)(CGContextRef context))drawBlock;
 - (BOOL)hasAlphaChannel;
 - (void)drawInRect:(CGRect)rect withContentMode:(UIViewContentMode)contentMode clipsToBounds:(BOOL)clips;
