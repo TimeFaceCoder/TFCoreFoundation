@@ -39,6 +39,7 @@
 		B07CBA311CBB910B004A81F2 /* TFModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B07CBA301CBB910B004A81F2 /* TFModel.m */; };
 		B0D5EA2B1CBE368A00ED42F1 /* TFSwizzleMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D5EA2A1CBE368A00ED42F1 /* TFSwizzleMethod.m */; };
 		B0D5EA2E1CBE36F100ED42F1 /* UINavigationController+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D5EA2D1CBE36F100ED42F1 /* UINavigationController+TFCore.m */; };
+		B0DA37201CC5C38A000F6683 /* TFValidateUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = B0DA371F1CC5C38A000F6683 /* TFValidateUtility.m */; };
 		B0E82F961CB9EE0200655B66 /* UIAlertController+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F951CB9EE0200655B66 /* UIAlertController+TFCore.m */; };
 		B0E82F991CB9EE9A00655B66 /* TFCGUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F981CB9EE9A00655B66 /* TFCGUtilities.m */; };
 		B0E82F9C1CB9EF6100655B66 /* UIApplication+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82F9B1CB9EF6100655B66 /* UIApplication+TFCore.m */; };
@@ -146,6 +147,8 @@
 		B0D5EA2A1CBE368A00ED42F1 /* TFSwizzleMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFSwizzleMethod.m; sourceTree = "<group>"; };
 		B0D5EA2C1CBE36F100ED42F1 /* UINavigationController+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+TFCore.h"; sourceTree = "<group>"; };
 		B0D5EA2D1CBE36F100ED42F1 /* UINavigationController+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+TFCore.m"; sourceTree = "<group>"; };
+		B0DA371E1CC5C38A000F6683 /* TFValidateUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFValidateUtility.h; sourceTree = "<group>"; };
+		B0DA371F1CC5C38A000F6683 /* TFValidateUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFValidateUtility.m; sourceTree = "<group>"; };
 		B0E82F941CB9EE0200655B66 /* UIAlertController+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertController+TFCore.h"; sourceTree = "<group>"; };
 		B0E82F951CB9EE0200655B66 /* UIAlertController+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+TFCore.m"; sourceTree = "<group>"; };
 		B0E82F971CB9EE9A00655B66 /* TFCGUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFCGUtilities.h; sourceTree = "<group>"; };
@@ -424,6 +427,8 @@
 				B04860481CBB419600DE6770 /* TFViewTransitionAnimator.m */,
 				B0D5EA291CBE368A00ED42F1 /* TFSwizzleMethod.h */,
 				B0D5EA2A1CBE368A00ED42F1 /* TFSwizzleMethod.m */,
+				B0DA371E1CC5C38A000F6683 /* TFValidateUtility.h */,
+				B0DA371F1CC5C38A000F6683 /* TFValidateUtility.m */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -703,6 +708,7 @@
 				B0E82FA31CB9F15300655B66 /* TFViewController.m in Sources */,
 				B04860581CBB820C00DE6770 /* TFSplashView.m in Sources */,
 				B04860431CBB3E3F00DE6770 /* TFDirectionalPanGestureRecognizer.m in Sources */,
+				B0DA37201CC5C38A000F6683 /* TFValidateUtility.m in Sources */,
 				B0E82F9F1CB9EFE800655B66 /* UIView+TFCore.m in Sources */,
 				B0E82FDE1CBA238400655B66 /* UIWebView+TFCore.m in Sources */,
 				B04335611CABA8BD00960551 /* NSNumber+TFCore.m in Sources */,
