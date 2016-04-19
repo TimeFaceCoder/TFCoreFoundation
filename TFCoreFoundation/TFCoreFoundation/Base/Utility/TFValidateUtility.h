@@ -10,12 +10,77 @@
 
 @interface TFValidateUtility : NSObject
 /**
- *  校验手机号码合法性
+ *  校验对象是否为空
  *
- *  @param phoneNumber
+ *  @param object
  *
  *  @return
  */
-+ (BOOL)isMobilePhone:(NSString *)phoneNumber;
++ (BOOL)isNUll:(id)object;
++ (BOOL)isBlankOrNull:(id)object;
++ (BOOL)isWebUrl:(NSString *)str;
+
+/**
+ *  手机号码校验
+ *
+ *  @param mobileNum
+ *
+ *  @return
+ */
++ (BOOL)isMobileNumber:(NSString *)mobileNum;
+
+/**
+ *  短信验证码校验
+ *
+ *  @param str
+ *
+ *  @return
+ */
++ (BOOL)validateVerifyCode:(NSString *)str;
+
+/**
+ *  用户名校验
+ *
+ *  @param str
+ *
+ *  @return
+ */
++ (BOOL) validateUserName:(NSString *)str;
+
+/**
+ *  密码校验
+ *
+ *  @param str
+ *
+ *  @return
+ */
++ (BOOL) validateUserPassword:(NSString *) str;
+
+/**
+ *  生日日期校验
+ *
+ *  @param str
+ *
+ *  @return
+ */
++ (BOOL) validateUserBirthday:(NSString *)str;
+
+/**
+ *  手机号码校验
+ *
+ *  @param str
+ *
+ *  @return
+ */
++ (BOOL) validateUserPhone:(NSString *)str;
+
+/**
+ *  邮箱校验
+ *
+ *  @param str
+ *
+ *  @return
+ */
++ (BOOL) validateUserEmail:(NSString *)str;
 
 @end
