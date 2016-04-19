@@ -217,19 +217,19 @@
     }
 }
 - (void)scrollViewDidScrollUp:(CGFloat)deltaY {
-    [self moveToolbar:-deltaY animated:YES];
+    [self moveTabBar:-deltaY animated:YES];
 }
 
 - (void)scrollViewDidScrollDown:(CGFloat)deltaY {
-    [self moveToolbar:-deltaY animated:YES];
+    [self moveTabBar:-deltaY animated:YES];
 }
 
 - (void)scrollFullScreenScrollViewDidEndDraggingScrollUp {
-    [self hideToolbar:YES];
+    [self hideTabBar:YES];
 }
 
 - (void)scrollFullScreenScrollViewDidEndDraggingScrollDown {
-    [self showToolbar:YES];
+    [self showTabBar:YES];
 }
 
 @end
