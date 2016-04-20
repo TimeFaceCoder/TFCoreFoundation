@@ -7,10 +7,9 @@
 //
 
 #import "TFViewController.h"
-@class ASTableView;
-@class TFTableViewDataSource;
+#import <TFTableViewDataSource/TFTableViewDataSource.h>
 
-@interface TFTableViewController : TFViewController
+@interface TFTableViewController : TFViewController <TFTableViewDataSourceDelegate>
 
 @property (nonatomic ,strong ,readonly) ASTableView *tableView;
 @property (nonatomic ,assign) UITableViewStyle      tableViewStyle;

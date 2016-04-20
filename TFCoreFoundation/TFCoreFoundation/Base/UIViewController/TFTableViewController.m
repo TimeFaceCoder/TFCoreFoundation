@@ -10,11 +10,10 @@
 #import "UIViewController+TFCore.h"
 #import "TFCoreFoundationMacro.h"
 #import "TFCGUtilities.h"
-#import <TFTableViewDataSource/TFTableViewDataSource.h>
 #import <JDStatusBarNotification/JDStatusBarNotification.h>
 #import "TFDefaultStyle.h"
 
-@interface TFTableViewController()<TFTableViewDataSourceDelegate> {
+@interface TFTableViewController() {
     CGFloat lastPosition;
 }
 
