@@ -15,6 +15,7 @@
 
 @interface TFTableViewController() {
     CGFloat lastPosition;
+    BOOL _loaded;
 }
 
 @property (nonatomic ,strong ,readwrite) ASTableView           *tableView;
@@ -108,7 +109,10 @@
 }
 
 - (void)startLoadData {
-    [self.dataSource startLoading];
+    if (!_loaded) {
+        [self.dataSource startLoading];
+        _loaded = YES;
+    }
 }
 
 
