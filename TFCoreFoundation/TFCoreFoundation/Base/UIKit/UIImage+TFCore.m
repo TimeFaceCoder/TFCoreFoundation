@@ -710,6 +710,37 @@ static NSTimeInterval _tf_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
     return outputImage;
 }
 
+- (UIImage *)imageWithColorOverlay:(UIColor *)color
+{
+    //create context
+    UIGraphicsBeginImageContextWithOptions(self.size, NO, self.scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGRect rect = CGRectMake(0.0, 0.0, self.size.width, self.size.height);
+    
+    [self drawInRect:rect];
+    
+    //fg
+    CGContextSetBlendMode(context, kCGBlendModeMultiply);
+    
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    CGContextFillRect(context, rect);
+    
+    //mask
+    [self drawInRect:rect blendMode:kCGBlendModeDestinationIn alpha:1.0];
+    
+    //end
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
+}
+
+- (UIImage *)removeOverlay
+{
+    return [self imageWithColorOverlay:[UIColor whiteColor]];
+}
+
 // Helper function to handle deferred cleanup of a buffer.
 static void _tf_cleanupBuffer(void *userData, void *buf_data) {
     free(buf_data);

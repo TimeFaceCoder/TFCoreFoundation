@@ -57,5 +57,8 @@ NS_ASSUME_NONNULL_BEGIN
                                tintMode:(CGBlendMode)tintBlendMode
                              saturation:(CGFloat)saturation
                               maskImage:(nullable UIImage *)maskImage;
+- (nullable UIImage *)imageWithColorOverlay:(UIColor *)color;
+- (nullable UIImage *)removeOverlay;
+
 @end
 NS_ASSUME_NONNULL_END

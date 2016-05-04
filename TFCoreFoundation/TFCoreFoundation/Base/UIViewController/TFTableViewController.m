@@ -39,10 +39,10 @@
 
 - (void)loadView {
     [super loadView];
-        _tableView = [[ASTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain asyncDataFetching:YES];
-        _tableView.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [self.view addSubview:_tableView];
+    _tableView = [[ASTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain asyncDataFetching:YES];
+    _tableView.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:_tableView];
     
 }
 - (void)viewWillLayoutSubviews {
@@ -146,7 +146,7 @@
 
 
 - (void)actionOnView:(TFTableViewItem *)item actionType:(NSInteger)actionType {
-
+    
 }
 
 - (void)didFinishLoad:(TFDataLoadPolicy)loadPolicy object:(id)object error:(NSError *)error {
