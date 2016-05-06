@@ -14,6 +14,7 @@
 #import "TFDefaultStyle.h"
 #import "TFCGUtilities.h"
 #import "UIDevice+TFCore.h"
+#import "UIImage+TFCore.h"
 
 @interface TFNavigationController()<UINavigationControllerDelegate,UIGestureRecognizerDelegate> {
     
@@ -65,7 +66,8 @@
             NSFontAttributeName: TFSTYLEVAR(navBarTitleFont)}];
         
         [[TFNavigationBar appearance] setBarBgColor:TFSTYLEVAR(navBarBackgroundColor)];
-        [[TFNavigationBar appearance] setTintColor:TFSTYLEVAR(navBarBackgroundColor)];
+        [[TFNavigationBar appearance] setTintColor:TFSTYLEVAR(navBarTitleColor)];
+        [[TFNavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
     }
     
     return self;
