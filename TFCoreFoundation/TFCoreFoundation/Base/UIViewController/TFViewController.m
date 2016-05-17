@@ -151,7 +151,9 @@
                               @"message"     :   message ? message : @"",
                               @"type"        :   @(messageType)
                               };
-        [self performSelector:@selector(showMessage:) withObject:dic afterDelay:.5f];
+//        [self performSelector:@selector(showMessage:) withObject:dic afterDelay:.5f];
+        
+        [self showMessage:dic];
     });
 }
 
