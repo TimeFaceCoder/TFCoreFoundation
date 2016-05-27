@@ -7,6 +7,7 @@
 //
 
 #import "SyncHotfix.h"
+#import "TFHotfix.h"
 
 @implementation SyncHotfix {
     NSString *_appKey;
@@ -26,13 +27,21 @@
     return TFRequestMethodPost;
 }
 
+- (TFRequestSerializerType)requestSerializerType {
+    return TFRequestSerializerTypeJSON;
+}
+
 - (NSString *)requestUrl {
-    return @"http://hotfix.timeface.org/sync";
+    if ([TFHotfix sandBox]) {
+        return @"http://stg2.v5time.net/hotfix/hotfix/sync";
+    }
+    return @"http://hotfix.timeface.cn/hotfix/sync";
 }
 
 - (id)requestArgument {
     return @{@"appkey": _appKey,
-             @"version": _version};
+             @"version": _version,
+             @"platform":@"1"};
 }
 
 @end

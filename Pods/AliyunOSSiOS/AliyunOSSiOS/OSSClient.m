@@ -7,11 +7,14 @@
 //
 
 #import "OSSClient.h"
+#import "OSSDefine.h"
 #import "OSSModel.h"
 #import "OSSUtil.h"
 #import "OSSLog.h"
+#import "OSSBolts.h"
 #import "OSSNetworking.h"
 #import "OSSXMLDictionary.h"
+#import "OSSReachabilityManager.h"
 
 /**
  * extend OSSRequest to include the ref to networking request object
@@ -32,6 +35,10 @@
               credentialProvider:(id<OSSCredentialProvider>)credentialProvider
              clientConfiguration:(OSSClientConfiguration *)conf {
     if (self = [super init]) {
+
+        // 监听网络，网络类型变化时，重新判定ipv6情况
+        [OSSReachabilityManager shareInstance];
+
         NSOperationQueue * queue = [NSOperationQueue new];
         // using for resumable upload and compat old interface
         queue.maxConcurrentOperationCount = 3;
@@ -41,6 +48,7 @@
         }
         self.endpoint = [endpoint oss_trim];
         self.credentialProvider = credentialProvider;
+        self.clientConfiguration = conf;
 
         OSSNetworkingConfiguration * netConf = [OSSNetworkingConfiguration new];
         if (conf) {
@@ -77,6 +85,8 @@
         id<OSSRequestInterceptor> signer = [[OSSSignerInterceptor alloc] initWithCredentialProvider:self.credentialProvider];
         [request.interceptors addObject:signer];
     }
+
+    request.isHttpdnsEnable = self.clientConfiguration.isHttpdnsEnable;
 
     return [_networking sendRequest:request];
 }
@@ -282,6 +292,33 @@
     return [self invokeRequest:requestDelegate requireAuthentication:request.isAuthenticationRequired];
 }
 
+- (OSSTask *)putObjectACL:(OSSPutObjectACLRequest *)request {
+    OSSNetworkingRequestDelegate * requestDelegate = request.requestDelegate;
+    NSMutableDictionary * headerParams = [NSMutableDictionary dictionary];
+    if (request.acl) {
+        headerParams[@"x-oss-object-acl"] = request.acl;
+    } else {
+        headerParams[@"x-oss-object-acl"] = @"default";
+    }
+
+    NSMutableDictionary * querys = [NSMutableDictionary dictionaryWithObject:@"" forKey:@"acl"];
+
+    requestDelegate.responseParser = [[OSSHttpResponseParser alloc] initForOperationType:OSSOperationTypePutObjectACL];
+    requestDelegate.allNeededMessage = [[OSSAllRequestNeededMessage alloc] initWithEndpoint:self.endpoint
+                                                httpMethod:@"PUT"
+                                                bucketName:request.bucketName
+                                                 objectKey:request.objectKey
+                                                      type:nil
+                                                       md5:nil
+                                                     range:nil
+                                                      date:[[NSDate oss_clockSkewFixedDate] oss_asStringValue]
+                                              headerParams:headerParams
+                                                    querys:querys];
+    requestDelegate.operType = OSSOperationTypePutObjectACL;
+
+    return [self invokeRequest:requestDelegate requireAuthentication:request.isAuthenticationRequired];
+}
+
 - (OSSTask *)appendObject:(OSSAppendObjectRequest *)request {
     OSSNetworkingRequestDelegate * requestDelegate = request.requestDelegate;
     NSMutableDictionary * headerParams = [NSMutableDictionary dictionaryWithDictionary:request.objectMeta];
@@ -441,6 +478,9 @@
     }
     if (request.callbackVar) {
         [headerParams setObject:[request.callbackVar base64JsonString] forKey:OSSHttpHeaderXOSSCallbackVar];
+    }
+    if (request.completeMetaHeader) {
+        [headerParams addEntriesFromDictionary:request.completeMetaHeader];
     }
     NSMutableDictionary * querys = [NSMutableDictionary dictionaryWithObjectsAndKeys:request.uploadId, @"uploadId", nil];
     requestDelegate.responseParser = [[OSSHttpResponseParser alloc] initForOperationType:OSSOperationTypeCompleteMultipartUpload];
@@ -624,7 +664,7 @@
         [listPartsTask waitUntilFinished];
 
         if (listPartsTask.error) {
-            if (listPartsTask.error.domain == OSSServerErrorDomain && listPartsTask.error.code == -1 * 404) {
+            if ([listPartsTask.error.domain isEqualToString: OSSServerErrorDomain] && listPartsTask.error.code == -1 * 404) {
                 OSSLogVerbose(@"local record existes but the remote record is deleted");
                 return [OSSTask taskWithError:[NSError errorWithDomain:OSSClientErrorDomain
                                                                  code:OSSClientErrorCodeCannotResumeUpload
@@ -692,6 +732,15 @@
                 uploadPart.uploadId = request.uploadId;
                 uploadPart.uploadPartData = uploadPartData;
                 uploadPart.contentMd5 = [OSSUtil base64Md5ForData:uploadPartData];
+
+                // 分块可能会重试，为了不扰乱进度，重试时进度不重置
+                int64_t lastSuccessProgress = uploadedLength;
+                uploadPart.uploadPartProgress = ^(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend) {
+                    int64_t currentProgress = uploadedLength + totalBytesSent;
+                    if (currentProgress > lastSuccessProgress) {
+                        request.uploadProgress(bytesSent, currentProgress, expectedUploadLength);
+                    }
+                };
                 OSSTask * uploadPartTask = [self uploadPart:uploadPart];
                 [uploadPartTask waitUntilFinished];
                 if (uploadPartTask.error) {
@@ -704,9 +753,6 @@
                     [alreadyUploadPart addObject:partInfo];
 
                     uploadedLength += readLength;
-                    if (request.uploadProgress && expectedUploadLength) {
-                        request.uploadProgress(readLength, uploadedLength, expectedUploadLength);
-                    }
                 }
 
                 if (request.isCancelled) {
@@ -727,6 +773,9 @@
         }
         if (request.callbackVar != nil) {
             complete.callbackVar = request.callbackVar;
+        }
+        if (request.completeMetaHeader != nil) {
+            complete.completeMetaHeader = request.completeMetaHeader;
         }
         OSSTask * completeTask = [self completeMultipartUpload:complete];
         [completeTask waitUntilFinished];
@@ -758,7 +807,7 @@
     if (!headError) {
         return YES;
     } else {
-        if (headError.domain == OSSServerErrorDomain && headError.code == -404) {
+        if ([headError.domain isEqualToString: OSSServerErrorDomain] && headError.code == -404) {
             return NO;
         } else {
             *error = headError;

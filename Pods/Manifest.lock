@@ -14,22 +14,24 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - AliyunOSSiOS (2.3.0)
-  - AsyncDisplayKit (1.9.8):
-    - AsyncDisplayKit/PINRemoteImage (= 1.9.8)
-  - AsyncDisplayKit/ASDealloc2MainObject (1.9.8)
-  - AsyncDisplayKit/PINRemoteImage (1.9.8):
+  - AliyunOSSiOS (2.5.0)
+  - AsyncDisplayKit (1.9.74):
+    - AsyncDisplayKit/PINRemoteImage (= 1.9.74)
+  - AsyncDisplayKit/ASDealloc2MainObject (1.9.74)
+  - AsyncDisplayKit/Core (1.9.74):
     - AsyncDisplayKit/ASDealloc2MainObject
-    - PINRemoteImage/iOS (>= 2.1.2)
+  - AsyncDisplayKit/PINRemoteImage (1.9.74):
+    - AsyncDisplayKit/Core
+    - PINRemoteImage/iOS (>= 3.0.0-beta.2)
   - DACircularProgress (2.3.1)
   - EGOCache (2.1.3)
   - FLAnimatedImage (1.0.12)
   - GHODictionary (1.0.9)
   - JDStatusBarNotification (1.5.3)
   - JSONModel (1.2.0)
-  - JSPatch (0.2):
-    - JSPatch/Core (= 0.2)
-  - JSPatch/Core (0.2)
+  - JSPatch (1.0):
+    - JSPatch/Core (= 1.0)
+  - JSPatch/Core (1.0)
   - Masonry (1.0.0)
   - MPMessagePack (1.3.5):
     - GHODictionary
@@ -42,19 +44,19 @@ PODS:
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
   - PINCache (2.2.2)
-  - PINRemoteImage (2.1.2):
-    - PINRemoteImage/FLAnimatedImage (= 2.1.2)
-  - PINRemoteImage/Core (2.1.2):
+  - PINRemoteImage (3.0.0-beta.2):
+    - PINRemoteImage/FLAnimatedImage (= 3.0.0-beta.2)
+  - PINRemoteImage/Core (3.0.0-beta.2):
     - PINCache (>= 2.1)
-  - PINRemoteImage/FLAnimatedImage (2.1.2):
+  - PINRemoteImage/FLAnimatedImage (3.0.0-beta.2):
     - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
-  - PINRemoteImage/iOS (2.1.2):
+  - PINRemoteImage/iOS (3.0.0-beta.2):
     - PINRemoteImage/Core
   - pop (1.0.9)
-  - SDWebImage (3.7.5):
-    - SDWebImage/Core (= 3.7.5)
-  - SDWebImage/Core (3.7.5)
+  - SDWebImage (3.7.6):
+    - SDWebImage/Core (= 3.7.6)
+  - SDWebImage/Core (3.7.6)
   - SSKeychain (1.4.0)
   - SVProgressHUD (2.0.3)
   - TFCamera (0.0.4):
@@ -79,10 +81,10 @@ PODS:
     - YYDispatchQueuePool
   - WebViewJavascriptBridge (5.0.5)
   - YYDispatchQueuePool (1.0)
-  - YYImage (1.0.1):
-    - YYImage/Core (= 1.0.1)
-  - YYImage/Core (1.0.1)
-  - YYText (1.0.4)
+  - YYImage (1.0.2):
+    - YYImage/Core (= 1.0.2)
+  - YYImage/Core (1.0.2)
+  - YYText (1.0.5)
 
 DEPENDENCIES:
   - AliyunOSSiOS (from `https://github.com/aliyun/AliyunOSSiOS.git`)
@@ -131,70 +133,72 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   AliyunOSSiOS:
-    :commit: 25e967ba7e2cbd8f944f5aca08952f0405bedf56
+    :commit: 80c67c8dc00492de45f5d1500a82e295940af159
     :git: https://github.com/aliyun/AliyunOSSiOS.git
   AsyncDisplayKit:
-    :commit: a6e66fa5d758d6675ddee982c128762e8a86a31a
+    :commit: bde4fe7e246fb262f2709f46556e236c6d6f462c
     :git: https://github.com/facebook/AsyncDisplayKit.git
   JDStatusBarNotification:
     :commit: 6d8a748a67ba2b8b8d6a13e1ad0279bc377edd3e
     :git: https://github.com/TimeFaceCoder/JDStatusBarNotification.git
   MYTableViewManager:
-    :commit: 67a5616b0a767b5882a06c3baffc056526ccdaee
+    :commit: 0e9b95df36f4437c3ed9831d7b07c04b0c076ab0
     :git: https://github.com/TimeFaceCoder/MYTableViewManager.git
   TFCamera:
     :commit: a34e3482546d10baba8a2f08cbcd66070e1a79fe
     :git: https://github.com/TimeFaceCoder/TFCamera.git
   TFHotfix:
-    :commit: 712b07a81ca96f70c98d5c40a836000f6dc2ab08
+    :commit: 02ca598fd1ead4b7ebea3342c48e223263a557ec
     :git: https://github.com/TimeFaceCoder/TFHotfix.git
   TFNavigator:
-    :commit: ccf9834340018a54e50678d2d59c9a38cd710d77
+    :commit: 1056eb9691f30ea66d007e61c95e351499b527ec
     :git: https://github.com/TimeFaceCoder/TFNavigator.git
   TFNetwork:
-    :commit: a057c76d30edb4a451730e51104f770adbf96d99
+    :commit: 31ed7c012f1fba833dbd3dc29510f73ad262a1d3
     :git: https://github.com/TimeFaceCoder/TFNetwork.git
   TFPhotoBrowser:
-    :commit: 106c7fc7dd73b228b0c70e9260c0f99ae3f3842b
+    :commit: 7b4e44bfea93c7954624ab689a96ae22243ab292
     :git: https://github.com/TimeFaceCoder/TFPhotoBrowser.git
   TFTableViewDataSource:
-    :commit: 656f0acee6b69879cd625663d3bb728a65fba29d
+    :commit: be58b9b4fff4d09cef3f568143d17f5d8e0ecce0
     :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
   TFUploadAssistant:
-    :commit: e37d3ec52532ea25753653e8324cf09c6095c46d
+    :commit: 2ef2e33c7fda68ffb831344b6c1e2ee2c0a8feca
     :git: https://github.com/TimeFaceCoder/TFUploadAssistant.git
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  AliyunOSSiOS: 9d9443097c4f0321290e347806bf0375d297cf2b
-  AsyncDisplayKit: a0a50ce59bdad7cf2fbd9dfda35c03ce60d98469
+  AliyunOSSiOS: 0c275ccd87b0b1fb82f3f8abe1aa1568a17b19d7
+  AsyncDisplayKit: cbd10f28030c0b904cef1bd8e7d96d775c5b0484
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   EGOCache: f0295dbe041156acabd39021354ad1045ee49e72
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   GHODictionary: 1f7873492445e0f33ac19575a358c3c91926b564
   JDStatusBarNotification: 29413865af11c862c17180610b0f46a21118b412
   JSONModel: 12523685c4b623553ccf844bbbf7007624317b2c
-  JSPatch: 23dcceeec8f8357644f8ef70eb002ef2dbd830de
+  JSPatch: c689ea4dde17441f2f4a95d40dfedb8900c20099
   Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
   MPMessagePack: 7c9c9cdee049b62e3578ee423ba451fa406bbd08
   MYTableViewManager: a4af70d74026202446e90507a54e0fa30aafaf78
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
-  PINRemoteImage: 2ce3f1fcc52f0360a3821f91f1a1bc653c5d2338
+  PINRemoteImage: 197554c5ba57a6ae90f5db441651180039fc9062
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  SDWebImage: 69c6303e3348fba97e03f65d65d4fbc26740f461
+  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
   SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   TFCamera: e2db7e6d153a05f4afc43434336952a2d0f0fbb1
   TFHotfix: 95f44939b542220e7de12d7c15d50d8327cbd4a5
   TFNavigator: 9c01918e2230f6aa6a244eaceb3e624df5146ccd
   TFNetwork: 2c70cbf58bb7be5293fd10b837224280b15bf223
-  TFPhotoBrowser: 728714cd3fad71d24f45206d0c434292191b727f
+  TFPhotoBrowser: 26c404fd27c12e2e07af2955ba18f7657ce5c4f4
   TFTableViewDataSource: 721bcdfe80ca51236c908a586b14df16fe84b11e
   TFUploadAssistant: 5889b8e26713c6552317bc199faffa2f1af3d30d
   WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
   YYDispatchQueuePool: 3dfb2274bcc74207688dde8ac6f7bdd46871dd7b
-  YYImage: b41b45bc5f32bfcdf67bdfb9c09da9e9832357c0
-  YYText: 41761822986179828a27ccf82aa97c7b5483c2e2
+  YYImage: 2cc79ed49b9549b71c6715cefe7b0f5ab3d33abf
+  YYText: ac09660c9ccd9b817f409a20caa6f5587444d2ae
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 1d699200d327750f4688a6362deb4a95231f6d8f
+
+COCOAPODS: 1.0.0

@@ -9,6 +9,9 @@
 #import "UIWindow+TFNavigator.h"
 #import <objc/runtime.h>
 
+NSString *const kTFNavigatorParameterUserInfo = @"kTFNavigatorParameterUserInfo";
+
+
 @implementation UIWindow (TFNavigator)
 
 - (UIViewController *)visibleViewController {

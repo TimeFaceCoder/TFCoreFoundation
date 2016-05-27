@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OSSDefine.h"
 #import "OSSNetworking.h"
 #import "OSSBolts.h"
 #import "OSSModel.h"
@@ -69,7 +70,7 @@
 
 + (instancetype)defaultRetryHandler {
     OSSURLRequestRetryHandler * retryHandler = [OSSURLRequestRetryHandler new];
-    retryHandler.maxRetryCount = 3;
+    retryHandler.maxRetryCount = OSSDefaultRetryCount;
     return retryHandler;
 }
 
@@ -84,6 +85,7 @@
     if (self = [super init]) {
         self.retryHandler = [OSSURLRequestRetryHandler defaultRetryHandler];
         self.interceptors = [[NSMutableArray alloc] init];
+        self.isHttpdnsEnable = YES;
     }
     return self;
 }
@@ -135,20 +137,18 @@
 #define URLENCODE(a) [OSSUtil encodeURL:(a)]
     OSSLogDebug(@"start to build request");
     // build base url string
-    NSString * urlString = nil; // self.allNeededMessage.endpoint;
+    NSString * urlString = self.allNeededMessage.endpoint;
 
     NSURL * endPointURL = [NSURL URLWithString:self.allNeededMessage.endpoint];
-    if ([OSSUtil isOssOriginBucketHost:endPointURL.host]) {
-        if (self.allNeededMessage.bucketName) {
-            urlString = [NSString stringWithFormat:@"%@://%@.%@", endPointURL.scheme, self.allNeededMessage.bucketName, endPointURL.host];
-        }
+    if ([OSSUtil isOssOriginBucketHost:endPointURL.host] && self.allNeededMessage.bucketName) {
+        urlString = [NSString stringWithFormat:@"%@://%@.%@", endPointURL.scheme, self.allNeededMessage.bucketName, endPointURL.host];
     }
 
-    NSURL * tempURL = (urlString == nil ? endPointURL : [NSURL URLWithString:urlString]);
-    NSString * originHost = tempURL.host;
-    if (!self.isAccessViaProxy) {
+    endPointURL = [NSURL URLWithString:urlString];
+    NSString * originHost = endPointURL.host;
+    if (!self.isAccessViaProxy && [OSSUtil isOssOriginBucketHost:endPointURL.host] && self.isHttpdnsEnable) {
         NSString * httpdnsResolvedResult = [OSSUtil getIpByHost:originHost];
-        urlString = [NSString stringWithFormat:@"%@://%@", tempURL.scheme, httpdnsResolvedResult];
+        urlString = [NSString stringWithFormat:@"%@://%@", endPointURL.scheme, httpdnsResolvedResult];
     }
 
     if (self.allNeededMessage.objectKey) {

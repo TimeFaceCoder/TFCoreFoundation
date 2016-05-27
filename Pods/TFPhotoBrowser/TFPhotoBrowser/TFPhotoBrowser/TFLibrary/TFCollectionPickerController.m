@@ -240,7 +240,7 @@
     if (indexPath.section < [self _momentsSections]) {
         TFCollectionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CollectionCell" forIndexPath:indexPath];
         
-        cell.titleLabel.text = NSLocalizedString(@"Moments", nil);
+        cell.titleLabel.text = TFPhotoBrowserLocalizedStrings(@"Moments");
         cell.thumbnailView.image = TFPhotoBrowserImageNamed(@"TFLibraryCollectionIcon");
         [PHCollection tf_requestThumbnailForMomentsWithAssetsFetchOptions:self.assetFetchOptions
                                                                completion:^(UIImage *result)

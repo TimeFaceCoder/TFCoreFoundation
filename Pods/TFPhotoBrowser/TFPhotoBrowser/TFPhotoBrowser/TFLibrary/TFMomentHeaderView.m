@@ -7,127 +7,184 @@
 //
 
 #import "TFMomentHeaderView.h"
+#import "TFPhotoBrowserBundle.h"
 
-@interface TFMomentHeaderView () {
-    UIVisualEffectView *_backgroundView;
-    UIView *_centeringView;
-}
+@interface TFMomentHeaderNomalView ()
+
+
 @end
 
-@implementation TFMomentHeaderView
+@implementation TFMomentHeaderNomalView
 
-- (void)_init {
-    _backgroundView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
-    _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:_backgroundView];
-    
-    _centeringView = [[UIView alloc] init];
-    _centeringView.translatesAutoresizingMaskIntoConstraints = NO;
-//    _centeringView.layer.borderWidth = 1;
-    [self addSubview:_centeringView];
-    
-    _primaryLabel = [[UILabel alloc] init];
-    _primaryLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-    _primaryLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [_centeringView addSubview:_primaryLabel];
-    
-    _secondaryLabel = [[UILabel alloc] init];
-    _secondaryLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
-    _secondaryLabel.translatesAutoresizingMaskIntoConstraints = NO;
-
-    [_centeringView addSubview:_secondaryLabel];
-    
-    _detailLabel = [[UILabel alloc] init];
-    _detailLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-    _detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _detailLabel.textColor = [UIColor colorWithRed:102/255.0f green:102/255.0f blue:102/255.0f alpha:1];
-
-    [_centeringView addSubview:_detailLabel];
-    [_detailLabel setContentHuggingPriority:1000 forAxis:UILayoutConstraintAxisHorizontal];
-    
-    _selectedButton = [[UIButton alloc]init];
-    _selectedButton.translatesAutoresizingMaskIntoConstraints = NO;
-    [_selectedButton setTitleColor:[UIColor colorWithRed:6/255.0f green:155/255.0f blue:242/255.0f alpha:1] forState:UIControlStateNormal];
-    [_selectedButton setTitle:@"全选" forState:UIControlStateNormal];
-    [_selectedButton setTitle:@"取消全选" forState:UIControlStateSelected];
-    _selectedButton.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-    [_selectedButton setImage:[UIImage imageNamed:@"TFLibraryResource.bundle/images/TFLibraryCollectionUnSelected.png"] forState:UIControlStateNormal];
-    [_selectedButton setImage:[UIImage imageNamed:@"TFLibraryResource.bundle/images/TFLibraryCollectionSelected.png"] forState:UIControlStateSelected];
-    [_selectedButton setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 10)];
-    [_selectedButton setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, 0)];
-    [_selectedButton addTarget:self action:@selector(onViewClick:) forControlEvents:UIControlEventTouchUpInside];
-
-    [_centeringView addSubview:_selectedButton];
-    
-    
-    [NSLayoutConstraint activateConstraints:@[
-                                              [NSLayoutConstraint constraintWithItem:_backgroundView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:0],
-                                              [NSLayoutConstraint constraintWithItem:_backgroundView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
-                                              [NSLayoutConstraint constraintWithItem:_backgroundView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
-                                              [NSLayoutConstraint constraintWithItem:_backgroundView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
-                                              
-                                              [NSLayoutConstraint constraintWithItem:_centeringView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1 constant:8],
-                                              [NSLayoutConstraint constraintWithItem:_centeringView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:-8],
-                                              [NSLayoutConstraint constraintWithItem:_centeringView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1 constant:0],
-                                              
-                                              [NSLayoutConstraint constraintWithItem:_primaryLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeTop multiplier:1 constant:0],
-                                              [NSLayoutConstraint constraintWithItem:_primaryLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
-                                              [NSLayoutConstraint constraintWithItem:_primaryLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_selectedButton attribute:NSLayoutAttributeLeading multiplier:1 constant:-8],
-                                              [NSLayoutConstraint constraintWithItem:_primaryLabel attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeWidth multiplier:1 constant:-112],
-                                              
-                                              
-                                              [NSLayoutConstraint constraintWithItem:_selectedButton attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeTop multiplier:1 constant:0],
-                                              [NSLayoutConstraint constraintWithItem:_selectedButton attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_primaryLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:8],
-                                              [NSLayoutConstraint constraintWithItem:_selectedButton attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
-                                              [NSLayoutConstraint constraintWithItem:_selectedButton attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_detailLabel attribute:NSLayoutAttributeTop multiplier:1 constant:0],
-                                              
-                                              
-                                              
-                                              [NSLayoutConstraint constraintWithItem:_secondaryLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_primaryLabel attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
-                                              [NSLayoutConstraint constraintWithItem:_secondaryLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeLeading multiplier:1 constant:0],
-                                              [NSLayoutConstraint constraintWithItem:_secondaryLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
-                                              
-                                              [NSLayoutConstraint constraintWithItem:_detailLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_selectedButton attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
-                                              [NSLayoutConstraint constraintWithItem:_detailLabel attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:_secondaryLabel attribute:NSLayoutAttributeTrailing multiplier:1 constant:8],
-                                              [NSLayoutConstraint constraintWithItem:_detailLabel attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeTrailing multiplier:1 constant:0],
-                                              [NSLayoutConstraint constraintWithItem:_detailLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_centeringView attribute:NSLayoutAttributeBottom multiplier:1 constant:0],
-                                              ]];
-}
-
-- (instancetype)initWithCoder:(NSCoder *)aDecoder {
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        [self _init];
+#pragma mark backView
+- (UIVisualEffectView *)backView {
+    if (!_backView) {
+        _backView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight]];
+        _backView.translatesAutoresizingMaskIntoConstraints = NO;
     }
-    return self;
+    return _backView;
 }
 
+#pragma mark primaryLabel
+- (UILabel *)primaryLabel {
+    if (!_primaryLabel) {
+        _primaryLabel = [[UILabel alloc] init];
+        _primaryLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+        _primaryLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _primaryLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    }
+    return _primaryLabel;
+}
+
+
+#pragma mark selectedButton
+- (UIButton *)selectedButton {
+    if (!_selectedButton) {
+        _selectedButton = [[UIButton alloc]init];
+        _selectedButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [_selectedButton setTitleColor:[UIColor colorWithRed:6/255.0f green:155/255.0f blue:242/255.0f alpha:1] forState:UIControlStateNormal];
+        
+        [_selectedButton setTitle:TFPhotoBrowserLocalizedStrings(@"Select all") forState:UIControlStateNormal];
+        [_selectedButton setTitle:TFPhotoBrowserLocalizedStrings(@"Deselect all") forState:UIControlStateSelected];
+        [_selectedButton setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+        _selectedButton.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+        [_selectedButton addTarget:self action:@selector(onViewClick:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _selectedButton;
+}
+
+#pragma mark 载入视图
+- (void)initSubViews {
+    //添加subview
+    [self addSubview:self.backView];
+    [self addSubview:self.primaryLabel];
+    [self addSubview:self.selectedButton];
+    
+    //添加约束
+    NSDictionary *viewsDic = @{@"backView":self.backView,
+                               @"primaryLabel":self.primaryLabel,
+                               @"selectedButton":self.selectedButton,
+                               };
+    NSDictionary *metricsDic = @{@"hSpace":@8.0,
+                                 @"vSpace":@5.0,
+                                 };
+    NSMutableArray *constraintsArr = [NSMutableArray array];
+    
+    //模糊背景
+    [constraintsArr addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[backView]-0-|" options:0 metrics:nil views:viewsDic]];
+    [constraintsArr addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[backView]-0-|" options:0 metrics:nil views:viewsDic]];
+    //主标题和副标题
+    [constraintsArr addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10.0-[primaryLabel]-10.0-|" options:0 metrics:metricsDic views:viewsDic]];
+    
+    
+    //选择按钮和右边详情
+    [constraintsArr addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-vSpace-[selectedButton]-vSpace-|" options:NSLayoutFormatAlignAllRight metrics:metricsDic views:viewsDic]];
+    [constraintsArr addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hSpace-[primaryLabel]-hSpace-[selectedButton]-hSpace-|" options:0 metrics:metricsDic views:viewsDic]];
+    
+    [NSLayoutConstraint activateConstraints:constraintsArr];
+    
+}
+
+
+#pragma mark 初始化方法
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self _init];
+        [self initSubViews];
     }
     return self;
 }
 
-//- (void)prepareForReuse {
-//    [super prepareForReuse];
-//    _primaryLabel.text = nil;
-//    _secondaryLabel.text = nil;
-//    _detailLabel.text = nil;
-//    _selectedButton.titleLabel.text = nil;
-//}
-
+#pragma mark 全选按钮点击
 - (void)onViewClick:(id)sender {
     UIButton *button = (UIButton*)sender;
-    button.selected = !button.selected;
+//    button.selected = !button.selected;
     
     NSDictionary *userInfo = @{
                                @"indexPath" : self.indexPath,
-                               @"state"     : [NSString stringWithFormat:@"%@",@(button.selected)]
+                               @"button"     :button
                                };
     [[NSNotificationCenter defaultCenter] postNotificationName:@"NOTICE_RELOAD_COLLECTION_INDEXPATH" object:nil userInfo:userInfo];
 }
 
+@end
+
+@implementation TFMomentHeaderDetailView
+
+#pragma mark secondaryLabel
+- (UILabel *)secondaryLabel {
+    if (!_secondaryLabel) {
+        _secondaryLabel = [[UILabel alloc] init];
+        _secondaryLabel.font = [UIFont systemFontOfSize:11];
+        _secondaryLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        _secondaryLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    }
+    return _secondaryLabel;
+}
+
+#pragma mark detailLabel
+- (UILabel *)detailLabel {
+    if (!_detailLabel) {
+        _detailLabel = [[UILabel alloc] init];
+        _detailLabel.font = [UIFont systemFontOfSize:11];
+        _detailLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _detailLabel;
+}
+
+#pragma mark 重写初始化方法写视图
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self initSubViews];
+    }
+    return self;
+}
+
+#pragma mark 载入视图
+- (void)initSubViews {
+    //添加subview
+    [self addSubview:self.backView];
+    [self addSubview:self.primaryLabel];
+    [self addSubview:self.secondaryLabel];
+    [self addSubview:self.detailLabel];
+    [self addSubview:self.selectedButton];
+    //添加约束
+    NSDictionary *viewsDic = @{@"backView":self.backView,
+                               @"primaryLabel":self.primaryLabel,
+                               @"secondaryLabel":self.secondaryLabel,
+                               @"detailLabel":self.detailLabel,
+                               @"selectedButton":self.selectedButton,
+                               };
+    NSDictionary *metricsDic = @{@"hSpace":@8.0,
+                                 @"vSpace":@5.0,
+                                 };
+    NSMutableArray *constraintsArr = [NSMutableArray array];
+    
+    //模糊背景
+    [constraintsArr addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[backView]-0-|" options:0 metrics:nil views:viewsDic]];
+    [constraintsArr addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[backView]-0-|" options:0 metrics:nil views:viewsDic]];
+    //主标题和副标题
+    [constraintsArr addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-vSpace-[primaryLabel]-(-4)-[secondaryLabel]-vSpace-|" options:NSLayoutFormatAlignAllLeft metrics:metricsDic views:viewsDic]];
+    
+    
+    //选择按钮和右边详情
+    [constraintsArr addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-vSpace-[selectedButton]-(-4)-[detailLabel]-vSpace-|" options:NSLayoutFormatAlignAllRight metrics:metricsDic views:viewsDic]];
+    //水平方向
+    [constraintsArr addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-hSpace-[primaryLabel]-hSpace-[selectedButton]-hSpace-|" options:0 metrics:metricsDic views:viewsDic]];
+    [constraintsArr addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[secondaryLabel]-hSpace-[detailLabel]" options:0 metrics:metricsDic views:viewsDic]];
+    
+    [NSLayoutConstraint activateConstraints:constraintsArr];
+    
+}
+
+
+
 
 @end
+
+@implementation TFMomentHeaderModel
+
+
+@end
+

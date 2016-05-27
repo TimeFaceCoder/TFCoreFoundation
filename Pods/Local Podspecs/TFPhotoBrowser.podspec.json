@@ -15,11 +15,10 @@
     "git": "https://github.com/TimeFaceCoder/TFPhotoBrowser.git"
   },
   "source_files": "TFPhotoBrowser/TFPhotoBrowser/**/*.{h,m,c}",
-  "resource_bundles": {
-    "TFLibraryResource": [
-      "Pod/Assets/*.png"
-    ]
-  },
+  "resources": [
+    "TFPhotoBrowser/TFPhotoBrowser/Resources/TFLibraryResource.bundle",
+    "TFPhotoBrowser/TFPhotoBrowser/Resources/TFPhotoBrowserLocalizations.bundle"
+  ],
   "frameworks": [
     "ImageIO",
     "QuartzCore",

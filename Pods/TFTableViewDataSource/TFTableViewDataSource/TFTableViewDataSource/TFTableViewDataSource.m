@@ -109,6 +109,9 @@
 
 #pragma mark - 初始化数据加载方法
 - (void)setupDataSource {
+    _downThresholdY = 200.0;
+    _upThresholdY = 25.0;
+    
     NSString *requestURL = [[TFTableViewDataSourceConfig sharedInstance] requestURLByListType:_listType];
     NSString *className = [[TFTableViewDataSourceConfig sharedInstance] classNameByListType:_listType];
     _dataRequest = [[TFTableViewDataRequest alloc] initWithRequestURL:requestURL params:_requestArgument];
@@ -233,16 +236,16 @@
     }
     __weak __typeof(self)weakSelf = self;
     [self.tableViewDataManager reloadView:result
-                                    block:^(BOOL finished, id object, NSError *error, MYTableViewSection *section)
+                                    block:^(BOOL finished, id object, NSError *error, NSArray <MYTableViewSection *> *sections)
      {
          typeof(self) strongSelf = weakSelf;
          if (finished) {
-             if (dataLoadPolicy == TFDataLoadPolicyReload) {
+             if (dataLoadPolicy == TFDataLoadPolicyReload || dataLoadPolicy == TFDataLoadPolicyNone) {
                  //重新加载列表数据
                  [strongSelf.manager removeAllSections];
              }
              NSInteger rangelocation = [strongSelf.manager.sections count];
-             [strongSelf.manager addSection:section];
+             [strongSelf.manager addSectionsFromArray:sections];
              NSInteger rangelength = 1;
              //需要在主线程执行
              if (_currentPage < _totalPage) {
@@ -251,7 +254,7 @@
                  //loading item
                  [section addItem:[MYTableViewLoadingItem itemWithTitle:NSLocalizedString(@"正在加载...", nil)]];
                  [strongSelf.manager addSection:section];
-                 rangelength +=1;
+                 rangelength += sections.count;
              }
              dispatch_async(dispatch_get_main_queue(), ^{
                  if (dataLoadPolicy == TFDataLoadPolicyMore) {

@@ -1,0 +1,29 @@
+/* 
+  TFPhotoBrowserLocalString.strings
+  TFPhotoBrowser
+
+  Created by Summer on 16/5/17.
+  Copyright © 2016年 TimeFace. All rights reserved.
+*/
+"Select all" = "全选";
+"Deselect all" = "取消全选";
+"dateFormatterOverYear" = "yyyy年MMMdd日";
+"dateFormatterOverWeek" = "MMMdd日";
+"dateFormatterOverWeekDetail" = "MMMdd日";
+"dateFormatterOverInWeek" = "EEEE";
+"Yesterday" = "昨天";
+"Today" = "今天";
+"Moments" = "时刻";
+"Choose %d photos at most" = "最多只可以选择%d张照片";
+"Open album privacy settings" = "打开相册隐私设置";
+"Open settings" = "去设置";
+"Request album permissions" = "请求相册权限";
+"Done" = "完成";
+"Paste" = "粘贴";
+"Selected" = "已选择";
+"Loading Photos" = "正在加载照片...";
+"Album" = "相册";
+"Can't support camera" = "不支持相机";
+"Photos need download from iCloud" = "图片需要从iCloud进行下载";
+"Back" = "返回";
+"This is?" = "这是谁?";

@@ -7,6 +7,7 @@
 //
 
 #import "TFPhotoTagView.h"
+#import "TFPhotoBrowserBundle.h"
 
 @interface TFPhotoTagView()
 
@@ -121,7 +122,7 @@
 
 - (UIView *)newContentView
 {
-    NSString *placeholderText = @"这是?";
+    NSString *placeholderText = TFPhotoBrowserLocalizedStrings(@"This is?");
     UIFont *textFieldFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:14];
     CGSize tagSize = [placeholderText sizeWithAttributes:@{NSFontAttributeName:[UIFont fontWithName:@"HelveticaNeue-Bold"
                                                                                                size:14]}];
@@ -172,7 +173,10 @@
 {
     //resize, reposition
     if(aNotification.object == self.tagTextField){
-        [self resizeTextField];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self resizeTextField];
+        });
+        NSLog(@"%@",[NSThread currentThread]);
     }
 }
 
@@ -307,7 +311,7 @@
     CGContextSetLineWidth(context, 1.0);//线的宽度
     UIColor *aColor = [UIColor whiteColor];//blue蓝色
     CGContextSetStrokeColorWithColor(context, aColor.CGColor);//线框颜色
-    CGContextStrokeRect(context,CGRectMake(fullRect.origin.x, fullRect.origin.y, MAX(fullRect.size.width, _tagFrame.size.width), _tagFrame.size.height));//画方框
+    CGContextStrokeRect(context,CGRectMake(fullRect.origin.x + MAX(0, fullRect.size.width-_tagFrame.size.width)/2.0, fullRect.origin.y, _tagFrame.size.width, _tagFrame.size.height));//画方框
     CGContextDrawPath(context, kCGPathFillStroke);//绘画路径
     
     float radius = 2.0f;
@@ -334,17 +338,19 @@
     CGPathAddLineToPoint(tagPath, NULL, CGRectGetMidX(containerRect), CGRectGetMinY(fullRect) + _tagFrame.size.height);
     CGPathAddLineToPoint(tagPath, NULL, CGRectGetMidX(containerRect)+(arrowWidth*0.5), CGRectGetMinY(containerRect));
     
+    CGFloat textFieldCenterX = CGRectGetMidX(containerRect);
+    CGFloat textFieldWidth = (_tagTextField.frame.size.width + 10.0)/2.0;
     //top right corner
-    CGPathAddArc(tagPath, NULL, CGRectGetMaxX(containerRect) - radius, CGRectGetMinY(containerRect) + radius, radius, 3 * (float)M_PI / 2, 0, 0);
+    CGPathAddArc(tagPath, NULL, textFieldCenterX + textFieldWidth - radius, CGRectGetMinY(containerRect) + radius, radius, 3 * (float)M_PI / 2, 0, 0);
     
     //bottom right corner
-    CGPathAddArc(tagPath, NULL, CGRectGetMaxX(containerRect) - radius, CGRectGetMaxY(containerRect) - radius, radius, 0, (float)M_PI / 2, 0);
+    CGPathAddArc(tagPath, NULL, textFieldCenterX + textFieldWidth - radius, CGRectGetMaxY(containerRect) - radius, radius, 0, (float)M_PI / 2, 0);
     
     //bottom left corner
-    CGPathAddArc(tagPath, NULL, CGRectGetMinX(containerRect) + radius, CGRectGetMaxY(containerRect) - radius, radius, (float)M_PI / 2, (float)M_PI, 0);
+    CGPathAddArc(tagPath, NULL, textFieldCenterX - textFieldWidth + radius, CGRectGetMaxY(containerRect) - radius, radius, (float)M_PI / 2, (float)M_PI, 0);
     
     //top left corner, the ending point
-    CGPathAddArc(tagPath, NULL, CGRectGetMinX(containerRect) + radius, CGRectGetMinY(containerRect) + radius, radius, (float)M_PI, 3 * (float)M_PI / 2, 0);
+    CGPathAddArc(tagPath, NULL, textFieldCenterX - textFieldWidth + radius, CGRectGetMinY(containerRect) + radius, radius, (float)M_PI, 3 * (float)M_PI / 2, 0);
     
     //we are done
     CGPathCloseSubpath(tagPath);
@@ -497,10 +503,10 @@ replacementString:(NSString *)string {
     CGSize minimumSize = self.tagTextField.isFirstResponder ? self.minimumTextFieldSizeWhileEditing :
     self.minimumTextFieldSize;
     
-    newTextFieldFrame.size.width = MAX(_tagFrame.size.width, minimumSize.width);
+    newTextFieldFrame.size.width = MAX(newTagSize.width, minimumSize.width);
     newTextFieldFrame.size.height = MAX(newTagSize.height, minimumSize.height);
-    [self.tagTextField setFrame:newTextFieldFrame];
     
+    self.tagTextField.frame = newTextFieldFrame;
     
     CGSize tagInsets = CGSizeMake(-7, -6);
     CGRect tagBounds = CGRectInset(self.tagTextField.bounds, tagInsets.width, tagInsets.height);
@@ -509,11 +515,14 @@ replacementString:(NSString *)string {
     tagBounds.origin.y = 0;
     
     CGRect tmpFrame = CGRectMake(0, 0, MAX(tagBounds.size.width, _tagFrame.size.width), tagBounds.size.height + _tagFrame.size.height);
-    
     CGPoint originalCenter = self.center;
     [self setFrame:tmpFrame];
     [self setCenter:originalCenter];
-    
+    newTextFieldFrame.origin.x = MAX(0, (tmpFrame.size.width - newTextFieldFrame.size.width)/2.0);
+    [self.tagTextField setFrame:newTextFieldFrame];
+
+//    self.backgroundColor = [UIColor purpleColor];
+//    self.tagTextField.backgroundColor = [UIColor cyanColor];
     [self setNeedsDisplay];
 }
 

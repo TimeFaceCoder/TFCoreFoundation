@@ -30,8 +30,10 @@ typedef void(^TFActionCompletionBlock)(__kindof TFURLAction *action);
  */
 @property (nonatomic, weak) id <UIViewControllerTransitioningDelegate> transitioningDelegate;
 
-
-//@property (nonatomic ,weak) UINavigationController *navigationController;
+/**
+ *  一般用于模态时，包装传入的viewController
+ */
+@property (nonatomic , assign) Class navigationViewControllerClass;
 /**
  *  根据url 与 userinfo 构建 TFURLAction
  *

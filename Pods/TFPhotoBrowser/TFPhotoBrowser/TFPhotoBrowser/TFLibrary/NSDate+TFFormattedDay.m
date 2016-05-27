@@ -7,6 +7,8 @@
 //
 
 #import "NSDate+TFFormattedDay.h"
+#import "TFPhotoBrowserBundle.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation NSDate (TFFormattedDay)
@@ -30,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
         weekdayFormatter.dateFormat = @"EEEE";
         
         dateFormatter = [NSDateFormatter new];
-        dateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"MMMM d" options:0 locale:nil];
+        dateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:TFPhotoBrowserLocalizedStrings(@"dateFormatterOverWeek") options:0 locale:nil];
     });
     
     NSString *dateString = nil;

@@ -10,12 +10,9 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "TFZoomingScrollView.h"
 
-#ifndef TFPhotoBrowserLocalizedStrings
-#define TFPhotoBrowserLocalizedStrings(key) \
-NSLocalizedStringFromTableInBundle((key), nil, [NSBundle bundleWithPath:[[NSBundle bundleForClass: self.class] pathForResource:@"TFPhotoBrowserLocalizations" ofType:@"bundle"]], nil)
-#endif
 
 // Declare private methods of browser
+
 @interface TFPhotoBrowser () {
     
     // Data

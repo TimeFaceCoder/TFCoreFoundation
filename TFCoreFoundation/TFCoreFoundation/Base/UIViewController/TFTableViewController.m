@@ -12,6 +12,7 @@
 #import "TFCGUtilities.h"
 #import <JDStatusBarNotification/JDStatusBarNotification.h>
 #import "TFDefaultStyle.h"
+#import <TFTableViewDataSourceConfig.h>
 
 @interface TFTableViewController() {
     CGFloat lastPosition;
@@ -52,10 +53,10 @@
     if (self.params && [self.params objectForKey:@"listType"]) {
         [self setListType:[[self.params objectForKey:@"listType"] intValue]];
     }
-    self.dataSource = [[TFTableViewDataSource alloc] initWithTableView:_tableView
-                                                              listType:self.listType
-                                                                params:self.requestParams
-                                                              delegate:self];
+    self.dataSource = [[[[TFTableViewDataSourceConfig sharedInstance] dataSourceClass] alloc] initWithTableView:_tableView
+                                                                                                       listType:self.listType
+                                                                                                         params:self.requestParams
+                                                                                                       delegate:self];
 }
 
 - (void)viewDidLoad {

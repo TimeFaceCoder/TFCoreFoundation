@@ -1,6 +1,8 @@
 source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 inhibit_all_warnings!
+
+target 'TFCoreFoundation' do
 pod 'YYImage'
 pod 'YYText'
 pod 'TFPhotoBrowser', :git => 'https://github.com/TimeFaceCoder/TFPhotoBrowser.git'
@@ -20,3 +22,4 @@ pod 'WebViewJavascriptBridge'
 pod 'NJKWebViewProgress'
 pod 'JSONModel'
 pod 'SSKeychain'
+end

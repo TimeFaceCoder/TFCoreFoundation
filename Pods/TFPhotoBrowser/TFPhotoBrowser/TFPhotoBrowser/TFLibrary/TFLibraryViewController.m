@@ -19,6 +19,7 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "TFImageCropViewController.h"
 #import "TFiCloudDownloadHelper.h"
+#import "TFPhotoBrowserBundle.h"
 
 
 static NSString * const kTFLCollectionIdentifier        = @"kTFLCollectionIdentifier";
@@ -82,7 +83,7 @@ static CGSize AssetGridThumbnailSize;
             //没有访问权限
             UILabel *label = [[UILabel alloc] init];
             label.backgroundColor = [UIColor clearColor];
-            label.text = NSLocalizedString(@"打开相册隐私设置", nil);
+            label.text = TFPhotoBrowserLocalizedStrings(@"Open album privacy settings");
             label.textColor = [UIColor colorWithRed:81/255.0f green:81/255.0f blue:81/255.0f alpha:1];
             label.font = [UIFont systemFontOfSize:18];
             label.numberOfLines = 2;
@@ -97,7 +98,7 @@ static CGSize AssetGridThumbnailSize;
             button.backgroundColor = [UIColor colorWithRed:6/255.0f green:155/255.0f blue:242/255.0f alpha:1];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             button.titleLabel.font = [UIFont systemFontOfSize:18];
-            [button setTitle:NSLocalizedString(@"去设置", nil) forState:UIControlStateNormal];
+            [button setTitle:TFPhotoBrowserLocalizedStrings(@"Open settings") forState:UIControlStateNormal];
             CGFloat buttonWidth = 100;
             CGFloat buttonHeight = 30;
             CGFloat buttonLeft = (self.view.frame.size.width - buttonWidth) / 2;
@@ -107,7 +108,7 @@ static CGSize AssetGridThumbnailSize;
             [button addTarget:self action:@selector(actionForSettingButton:) forControlEvents:UIControlEventTouchUpInside];
             [self.view addSubview:button];
             
-            self.navigationItem.title = NSLocalizedString(@"请求相册权限", nil);
+            self.navigationItem.title = TFPhotoBrowserLocalizedStrings(@"Request album permissions");
             return;
         }
         
@@ -125,7 +126,7 @@ static CGSize AssetGridThumbnailSize;
 
 - (void)performLoadAssets {
     // Load
-    self.navigationItem.title = NSLocalizedString(@"正在加载照片...", @"");
+    self.navigationItem.title = TFPhotoBrowserLocalizedStrings(@"Loading Photos");
     __weak typeof(self) weakSelf = self;
     if ([_items count] > 0) {
         [_items removeAllObjects];
@@ -243,7 +244,7 @@ static CGSize AssetGridThumbnailSize;
     UIBarButtonItem *flexSpace = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:self action:nil];
     NSMutableArray *items = [[NSMutableArray alloc] init];
     UIBarButtonItem *doneButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.selectedButton];
-    UIBarButtonItem *collectionButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"相册"
+    UIBarButtonItem *collectionButtonItem = [[UIBarButtonItem alloc] initWithTitle:TFPhotoBrowserLocalizedStrings(@"Album")
                                                                              style:UIBarButtonItemStyleDone
                                                                             target:self
                                                                             action:@selector(showAlbumList)];
@@ -266,7 +267,7 @@ static CGSize AssetGridThumbnailSize;
         [[_selectedButton titleLabel] setFont:[UIFont systemFontOfSize:14]];
         _selectedButton.layer.masksToBounds = YES;
         _selectedButton.layer.cornerRadius = 4;
-        [_selectedButton setTitle:@"完成" forState:UIControlStateNormal];
+        [_selectedButton setTitle:TFPhotoBrowserLocalizedStrings(@"Done") forState:UIControlStateNormal];
         [_selectedButton setFrame:CGRectMake(0, 0, 100, 32)];
         [_selectedButton addTarget:self action:@selector(onViewClick:) forControlEvents:UIControlEventTouchUpInside];
     }
@@ -296,10 +297,9 @@ static CGSize AssetGridThumbnailSize;
 - (void)updateViewState {
     NSInteger count = [self.selectedAssets count];
     _selectedButton.selected = count > 0;
-//    [_selectedButton setTitle:count > 0?[NSString stringWithFormat:@"完成(%@)",@([self.selectedAssets count])]:@"完成"
-//                     forState:UIControlStateNormal];
+
         BOOL isM = count && _maximumNumberOfSelection;
-        [_selectedButton setTitle:isM ? [NSString stringWithFormat:NSLocalizedString(@"照片选择完成", nil),[self.selectedAssets count],_maximumNumberOfSelection]:@"完成"
+        [_selectedButton setTitle:isM ? [NSString stringWithFormat:@"%@(%ld/%ld)",TFPhotoBrowserLocalizedStrings(@"Done"),[self.selectedAssets count],_maximumNumberOfSelection]:TFPhotoBrowserLocalizedStrings(@"Done")
                          forState:UIControlStateNormal];
 }
 
@@ -462,7 +462,7 @@ static CGSize AssetGridThumbnailSize;
                              }];
         }
         else {
-            [SVProgressHUD showImage:nil status:@"不支持相机"];
+            [SVProgressHUD showImage:nil status:TFPhotoBrowserLocalizedStrings(@"Can't support camera")];
         }
         
         [collectionView deselectItemAtIndexPath:indexPath animated:NO];
@@ -472,8 +472,7 @@ static CGSize AssetGridThumbnailSize;
             if (self.allowsMultipleSelection) {
                 //多选
                 if (asset.isImageResultIsInCloud) {
-                    [SVProgressHUD showInfoWithStatus:@"图片需要从iCloud进行下载"];
-                    __block TFLibraryCollectionViewCell *cell = (TFLibraryCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+                    [SVProgressHUD showInfoWithStatus:TFPhotoBrowserLocalizedStrings(@"Photos need download from iCloud")];
                     //图片需要从iCloud下载
                     [collectionView deselectItemAtIndexPath:indexPath animated:NO];
                 }
@@ -489,7 +488,6 @@ static CGSize AssetGridThumbnailSize;
                     //选择完成
                     if ([_libraryControllerDelegate respondsToSelector:@selector(didSelectPHAssets:removeList:infos:)]) {
                         [_libraryControllerDelegate didSelectPHAssets:@[asset] removeList:nil infos:nil];
-//                        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                     }
                 }
             }

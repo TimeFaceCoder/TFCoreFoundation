@@ -18,7 +18,6 @@ typedef NS_ENUM (NSInteger, TFRouteType) {
 
 typedef id (^TFRouterBlock)(NSDictionary *params);
 
-extern NSString *const TFParameterUserInfo;
 
 @interface TFRouter : NSObject
 

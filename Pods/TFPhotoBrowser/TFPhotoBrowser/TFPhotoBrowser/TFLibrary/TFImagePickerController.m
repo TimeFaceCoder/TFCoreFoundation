@@ -10,6 +10,7 @@
 
 
 @import Photos;
+
 #import "TFAsset.h"
 #import "TFPhotoBrowserBundle.h"
 #import "TFCollectionsTitleButton.h"
@@ -22,7 +23,7 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "TFPhotoBrowser.h"
 
-#define TFObjectSpacing 1.0
+#define TFObjectSpacing 2.0
 
 
 @interface TFImagePickerController () <UIPopoverPresentationControllerDelegate, TFCollectionPickerControllerDelegate, PHPhotoLibraryChangeObserver, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIViewControllerRestoration,TFPhotoBrowserDelegate,TFAssetCellDelegate>
@@ -40,6 +41,9 @@
     CGSize _fullScreenSize;
     UIView *_browserToolBarView;
     NSMutableDictionary  *headerViewDictionary;
+    NSArray *_headerModelsArr;
+    UIColor *_headerBackColor;
+    UIColor *_headerTitleColor;
 }
 
 @end
@@ -81,7 +85,7 @@
 
 - (void)selectAsset:(PHAsset *)asset {
     if ([_selectedAssets count] >= _maxSelectedCount) {
-        [SVProgressHUD showInfoWithStatus:[NSString localizedStringWithFormat:NSLocalizedString(@"最多只可以选择%d张照片", nil), _selectedAssets.count]];
+        [SVProgressHUD showInfoWithStatus:[NSString localizedStringWithFormat:TFPhotoBrowserLocalizedStrings(@"Choose %d photos at most"), _selectedAssets.count]];
         return;
     }
     [self addSelectedAssets:[NSOrderedSet orderedSetWithObject:asset]];
@@ -133,7 +137,7 @@
         //没有访问权限
         UILabel *label = [[UILabel alloc] init];
         label.backgroundColor = [UIColor clearColor];
-        label.text = NSLocalizedString(@"打开相册隐私设置", nil);
+        label.text = TFPhotoBrowserLocalizedStrings(@"Open album privacy settings");
         label.textColor = [UIColor colorWithRed:81/255.0f green:81/255.0f blue:81/255.0f alpha:1];
         label.font = [UIFont systemFontOfSize:18];
         label.numberOfLines = 2;
@@ -148,8 +152,8 @@
         button.backgroundColor = [UIColor colorWithRed:6/255.0f green:155/255.0f blue:242/255.0f alpha:1];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:18];
-        [button setTitle:NSLocalizedString(@"去设置", nil) forState:UIControlStateNormal];
-        CGFloat buttonWidth = 100;
+        [button setTitle:TFPhotoBrowserLocalizedStrings(@"Open settings") forState:UIControlStateNormal];
+        CGFloat buttonWidth = 120;
         CGFloat buttonHeight = 30;
         CGFloat buttonLeft = (self.view.frame.size.width - buttonWidth) / 2;
         CGFloat buttonTop = label.frame.origin.y + label.frame.size.height + 10;
@@ -158,12 +162,12 @@
         [button addTarget:self action:@selector(actionForSettingButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:button];
         
-        self.navigationItem.title = NSLocalizedString(@"请求相册权限", nil);
+        self.navigationItem.title = TFPhotoBrowserLocalizedStrings(@"Request album permissions");
         return;
 
     }
     if (_assetCollection == nil) {
-        self.title = NSLocalizedString(@"Moments", nil);
+        self.title = TFPhotoBrowserLocalizedStrings(@"Moments");
     } else {
         self.title = _assetCollection.localizedTitle;
     }
@@ -177,6 +181,8 @@
     } else {
         _fetchResult = nil;
         _moments = [PHAssetCollection fetchMomentsWithOptions:nil];
+        // 存储头部信息
+        [self saveHeaderModels];
     }
     
     if (self.isViewLoaded) {
@@ -191,6 +197,57 @@
     }
 }
 
+#pragma mark 存储头部信息
+- (void)saveHeaderModels {
+    //储存header显示数据避免重复判断数据转换
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDate *currentDate = [calendar dateBySettingHour:23 minute:59 second:59 ofDate:[NSDate date] options:NSCalendarWrapComponents];
+    NSDateComponents *currentDateComponents = [calendar components:NSCalendarUnitYear fromDate:currentDate];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
+    NSMutableArray *tempArr = [NSMutableArray array];
+    for (PHAssetCollection *collection in _moments) {
+        TFMomentHeaderModel *model = [[TFMomentHeaderModel alloc] init];
+        NSString *dateStr = @"";
+        NSDateComponents *startDateComponents = [calendar components:NSCalendarUnitYear fromDate:collection.startDate];
+        
+        NSDateComponents *components = [calendar components:NSCalendarUnitDay fromDate:collection.startDate toDate:currentDate options:NSCalendarWrapComponents];
+        if (currentDateComponents.year>startDateComponents.year) {
+            [formatter setDateFormat:TFPhotoBrowserLocalizedStrings(@"dateFormatterOverYear")];
+            
+            dateStr = [formatter stringFromDate:collection.startDate];
+        }
+        else if (components.day>6) {
+            
+            [formatter setDateFormat:TFPhotoBrowserLocalizedStrings(@"dateFormatterOverWeek")];
+            dateStr = [formatter stringFromDate:collection.startDate];
+            
+        }
+        else if (components.day>1) {
+            [formatter setDateFormat:TFPhotoBrowserLocalizedStrings(@"dateFormatterOverInWeek")];
+            dateStr = [formatter stringFromDate:collection.startDate];
+        }
+        else if (components.day==1) {
+            dateStr = TFPhotoBrowserLocalizedStrings(@"Yesterday");
+        }
+        else if (components.day==0) {
+            dateStr = TFPhotoBrowserLocalizedStrings(@"Today");
+        }
+        if (collection.localizedTitle) {
+            model.reuseIdentifier = TFMomentHeaderViewDetailIdentifier;
+            model.primary = collection.localizedTitle;
+            model.secondary = [collection.localizedLocationNames componentsJoinedByString:@"、"];
+            [formatter setDateFormat:TFPhotoBrowserLocalizedStrings(@"dateFormatterOverWeekDetail")];
+            model.detail = [formatter stringFromDate:collection.startDate];
+        }
+        else {
+            model.reuseIdentifier = TFMomentHeaderViewNomalIdentifier;
+            model.primary = dateStr;
+        }
+        [tempArr addObject:model];
+    }
+    _headerModelsArr = [NSArray arrayWithArray:tempArr];
+}
+
 - (void)actionForSettingButton:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
 }
@@ -203,9 +260,9 @@
     if ([self.delegate respondsToSelector:@selector(imagePickerControllerTitleForDoneButton:)]) {
         title = [self.delegate imagePickerControllerTitleForDoneButton:self];
     } else if (_selectedAssets.count > 0) {
-        title = [NSString stringWithFormat:NSLocalizedString(@"照片选择完成", nil),[self.selectedAssets count],_maxSelectedCount];
+        title = [NSString stringWithFormat:@"%@(%ld/%ld)",TFPhotoBrowserLocalizedStrings(@"Done"),[self.selectedAssets count],_maxSelectedCount];
     } else {
-        title = NSLocalizedString(@"完成", nil);
+        title = TFPhotoBrowserLocalizedStrings(@"Done");
     }
     
     _doneButton.title = title;
@@ -226,10 +283,10 @@
         
         dispatch_async(dispatch_get_main_queue(), ^{
             if (allSelected) {
-                _selectAllButton.title = NSLocalizedString(@"Deselect All", @"Photo picker button");
+                _selectAllButton.title = TFPhotoBrowserLocalizedStrings(@"Deselect All");
                 _selectAllButton.action = @selector(deselectAll:);
             } else {
-                _selectAllButton.title = NSLocalizedString(@"Select All", @"Photo picker button");
+                _selectAllButton.title = TFPhotoBrowserLocalizedStrings(@"Select all");
                 _selectAllButton.action = @selector(selectAll:);
             }
         });
@@ -308,7 +365,7 @@
     
     _scanButton = [[UIBarButtonItem alloc]initWithImage:TFPhotoBrowserImageNamed(@"TFImagePickScanIcon") style:UIBarButtonItemStylePlain target:self action:@selector(takeScan:)];
     
-    _pasteButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Paste", @"Button to paste a photo") style:UIBarButtonItemStylePlain target:self action:@selector(paste:)];
+    _pasteButton = [[UIBarButtonItem alloc] initWithTitle:TFPhotoBrowserLocalizedStrings(@"Paste") style:UIBarButtonItemStylePlain target:self action:@selector(paste:)];
     
     _selectAllButton = [[UIBarButtonItem alloc] initWithTitle:nil style:UIBarButtonItemStylePlain target:self action:@selector(selectAll:)];
     
@@ -342,7 +399,7 @@
 - (instancetype)init {
     UICollectionViewFlowLayout *layout = [[TFCollectionViewFloatingHeaderFlowLayout alloc] init];
     layout.minimumLineSpacing = TFObjectSpacing;
-    layout.minimumInteritemSpacing = 0.0;
+    layout.minimumInteritemSpacing = TFObjectSpacing;
     self = [super initWithCollectionViewLayout:layout];
     if (self) {
         [self _init];
@@ -385,16 +442,17 @@
     [self.collectionView registerClass:[TFAssetCell class] forCellWithReuseIdentifier:@"Cell"];
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.allowsMultipleSelection = self.allowsMultipleSelection;
-    [self.collectionView registerClass:[TFMomentHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView"];
-    
+    [self.collectionView registerClass:[TFMomentHeaderNomalView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:TFMomentHeaderViewNomalIdentifier];
+    [self.collectionView registerClass:[TFMomentHeaderDetailView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:TFMomentHeaderViewDetailIdentifier];
+
     [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
     
     UILongPressGestureRecognizer *recognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(showAsset:)];
     recognizer.minimumPressDuration = 0.5;
     [self.collectionView addGestureRecognizer:recognizer];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(actionForReloadNotification:) name:@"NOTICE_RELOAD_COLLECTION_INDEXPATH" object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(actionForReloadNotification:) name:@"NOTICE_RELOAD_COLLECTION_INDEXPATH" object:nil];    
 }
+
 
 
 
@@ -402,7 +460,22 @@
 - (void)viewDidLayoutSubviews {
     if (self.view.window && !_windowLoaded) {
         _windowLoaded = YES;
-        
+        //获取头部颜色信息
+        if (self.delegate) {
+            if ([self.delegate respondsToSelector:@selector(sectionHeaderTitleColorForImagePickerController:)]) {
+                _headerTitleColor = [self.delegate sectionHeaderTitleColorForImagePickerController:self];
+            }
+            if ([self.delegate respondsToSelector:@selector(sectionHeaderBackColorForImagePickerController:)]) {
+                _headerBackColor = [self.delegate sectionHeaderBackColorForImagePickerController:self];
+            }
+        }
+        if (!_headerTitleColor) {
+            _headerTitleColor = [UIColor blackColor];
+        }
+        if (!_headerBackColor) {
+            _headerBackColor = [UIColor clearColor];
+        }
+
         [self.collectionView reloadData];
         
         if (_moments != nil) {
@@ -562,7 +635,7 @@
     
     _collectionPicker.assetFetchOptions = [self _assetFetchOptions];
     if (_selectedAssets.count > 0) {
-        PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_selectedAssets.array title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
+        PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_selectedAssets.array title:TFPhotoBrowserLocalizedStrings(@"Selected")];
         _collectionPicker.additionalAssetCollections = @[ collection ];
     } else {
         _collectionPicker.additionalAssetCollections = @[];
@@ -645,7 +718,7 @@
     //    UICollectionReusableView
     NSLog(@"index.section = %@, item = %@",@(indexPath.section),@(indexPath.row));
 
-    TFMomentHeaderView *headerView = [headerViewDictionary objectForKey:[NSString stringWithFormat:@"%@",@(indexPath.section)]];
+    TFMomentHeaderNomalView *headerView = [headerViewDictionary objectForKey:[NSString stringWithFormat:@"%@",@(indexPath.section)]];
 
     __block BOOL allSelected = _moments[indexPath.section] != nil;
     
@@ -674,20 +747,27 @@
 - (void)actionForReloadNotification:(NSNotification*)notification {
     NSDictionary *userInfo = notification.userInfo;
     NSIndexPath *path = (NSIndexPath*)[userInfo objectForKey:@"indexPath"];
-    BOOL state = [[userInfo objectForKey:@"state"] boolValue];
+    UIButton *selectedAllBtn = (UIButton *)[userInfo objectForKey:@"button"];
+    BOOL state = selectedAllBtn.selected;
     PHAssetCollection *collection = _moments[path.section];
     PHFetchResult *fetchResult = [self _assetsForMoment:collection];
     NSMutableArray *array = [NSMutableArray array];
     for (PHAsset *asset in fetchResult) {
         if (state) {
-            [array addObject:asset];
-            if (![_selectedAssets containsObject:asset]) {
-                [self selectAsset:asset];
-            }
-        }else {
+            selectedAllBtn.selected = !selectedAllBtn.selected;
             if ([_selectedAssets containsObject:asset]) {
                 [self deselectAsset:asset];
             }
+        }else {
+            [array addObject:asset];
+            if (![_selectedAssets containsObject:asset]) {
+                if ([_selectedAssets count] < _maxSelectedCount) {
+                    selectedAllBtn.selected = !selectedAllBtn.selected;
+                }
+                [self selectAsset:asset];
+
+            }
+           
         }
         
     }
@@ -786,45 +866,34 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger columns = floor(collectionView.bounds.size.width / 100.0);
-    CGFloat width = floor((collectionView.bounds.size.width + TFObjectSpacing) / columns) - TFObjectSpacing;
-    
+    CGFloat width =  (collectionView.bounds.size.width-TFObjectSpacing*3)/4.0;
     return CGSizeMake(width, width);
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
            viewForSupplementaryElementOfKind:(NSString *)kind
                                  atIndexPath:(NSIndexPath *)indexPath {
-    TFMomentHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
+    TFMomentHeaderModel *model = _headerModelsArr [indexPath.section];
+    TFMomentHeaderDetailView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:model.reuseIdentifier forIndexPath:indexPath];
     [headerViewDictionary setObject:headerView forKey:[NSString stringWithFormat:@"%@",@(indexPath.section)]];
     headerView.indexPath = indexPath;
     
-    if (_moments != nil) {
-        PHAssetCollection *collection = _moments[indexPath.section];
-        
-        
-//        NSString *dateString = [collection.startDate tf_localizedDay];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc]init];
-        [formatter setDateFormat:@"yyyy.MM.dd"];
-        NSString *dateString = [formatter stringFromDate:collection.startDate];
-        
+    PHAssetCollection *collection = _moments[indexPath.section];
+    headerView.backView.backgroundColor = _headerBackColor;
+    headerView.primaryLabel.text = model.primary;
+    headerView.primaryLabel.textColor = _headerTitleColor;
         if (collection.localizedTitle != nil) {
-            headerView.primaryLabel.text = collection.localizedTitle;
-            headerView.secondaryLabel.text = [collection.localizedLocationNames componentsJoinedByString:@" & "];
-            headerView.detailLabel.text = dateString;
-        } else {
-            headerView.primaryLabel.text = dateString;
-            headerView.secondaryLabel.text = nil;
-            headerView.detailLabel.text = nil;
+            headerView.primaryLabel.text = model.primary;
+            headerView.secondaryLabel.text = model.secondary;
+            headerView.secondaryLabel.textColor = _headerTitleColor;
+            headerView.detailLabel.text = model.detail;
+            headerView.detailLabel.textColor = _headerTitleColor;
         }
         headerView.selectedButton.hidden = !_showAllSelectButton;
         if (!_showAllSelectButton) {
             return headerView;
         }
-        
         __block BOOL allSelected = _moments[indexPath.section] != nil;
-        
-//        PHAssetCollection *collection = _moments[indexPath.section];
         PHFetchResult *fetchResult = [self _assetsForMoment:collection];
         NSSet *selectedAssets = [_selectedAssets copy];
         
@@ -840,7 +909,6 @@
         });
         
         
-    }
     
     return headerView;
 }
@@ -854,7 +922,7 @@
             return CGSizeZero;
         }
         
-        return CGSizeMake(collectionView.bounds.size.width, 44.0);
+        return CGSizeMake(collectionView.bounds.size.width, 50.0);
     } else {
         return CGSizeZero;
     }
@@ -869,7 +937,7 @@
             return UIEdgeInsetsZero;
         }
         
-        return UIEdgeInsetsMake(0.0, 0.0, 10.0, 0.0);
+        return UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
     } else {
         return UIEdgeInsetsZero;
     }
@@ -1018,7 +1086,8 @@
             PHFetchResultChangeDetails *details = [changeInstance changeDetailsForFetchResult:_moments];
             if (details != nil) {
                 _moments = [details fetchResultAfterChanges];
-                
+                // 存储头部信息
+                [self saveHeaderModels];
                 // incremental updates throw exceptions too often
                 [self.collectionView reloadData];
                 
@@ -1146,7 +1215,7 @@
         _collectionPicker = collectionPicker;
         _collectionPicker.assetFetchOptions = [self _assetFetchOptions];
         if (_selectedAssets.count > 0) {
-            PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_selectedAssets.array title:NSLocalizedString(@"Selected", @"Collection name for selected photos")];
+            PHAssetCollection *collection = [PHAssetCollection transientAssetCollectionWithAssets:_selectedAssets.array title:TFPhotoBrowserLocalizedStrings(@"Selected")];
             _collectionPicker.additionalAssetCollections = @[ collection ];
         }
         _collectionPicker.delegate = self;

@@ -267,6 +267,16 @@ static const CGFloat TFMotionViewRotationFactor = 4.0f;
             // Ensure we don't zoom in or out too far, just in case
             zoomScale = MIN(MAX(self.minimumZoomScale, zoomScale), self.maximumZoomScale);
         }
+        else {
+            if(UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation))
+            {
+                zoomScale = xScale; // scale to fit on screen width only in portrait mode
+            }
+            else
+            {
+                zoomScale = yScale; // scale to fit on screen height only in landscape mode
+            }
+        }
     }
     return zoomScale;
 }
@@ -607,7 +617,7 @@ static const CGFloat TFMotionViewRotationFactor = 4.0f;
     [popover setSizeOnImage:sizeOnImage];
     if (!popover.text.length) {
 //        [popover becomeFirstResponder];
-        popover.text = NSLocalizedString(@"这是谁?", nil);
+        popover.text = NSLocalizedString(@"This is?", nil);
     }
 }
 

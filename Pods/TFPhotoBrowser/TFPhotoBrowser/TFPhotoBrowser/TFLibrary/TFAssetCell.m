@@ -14,13 +14,43 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TFAssetCell ()
 
 @property (nonatomic, strong) TFAssetImageView *imageView;
-@property (nonatomic, strong) UIImageView *selectedBadgeImageView;
+
+@property (nonatomic, strong) UIButton *selectedBadgeButton;
 
 @end
 
 const static CGFloat kPadding = 8.0f;
 
 @implementation TFAssetCell
+
+#pragma mark imageView
+- (TFAssetImageView *)imageView {
+    if (!_imageView) {
+        _imageView = [[TFAssetImageView alloc] init];
+        _imageView.contentMode = UIViewContentModeScaleAspectFill;
+        _imageView.clipsToBounds = YES;
+        _imageView.backgroundColor = [UIColor colorWithRed:0.921 green:0.921 blue:0.946 alpha:1.000];
+        _imageView.layer.borderColor = [UIColor colorWithRed:0.401 green:0.682 blue:0.017 alpha:1.000].CGColor;
+        _imageView.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _imageView;
+}
+
+#pragma mark selectedBadgeButton
+- (UIButton *)selectedBadgeButton {
+    if (!_selectedBadgeButton) {
+        _selectedBadgeButton = [[UIButton alloc] init];
+        _selectedBadgeButton.backgroundColor = [UIColor clearColor];
+        [_selectedBadgeButton addTarget:self
+                                 action:@selector(actionForSelecteButton:)
+                       forControlEvents:UIControlEventTouchUpInside];
+        [_selectedBadgeButton setImage:[UIImage imageNamed:@"TFLibraryResource.bundle/images/TFLibraryCollectionUnSelected.png"] forState:UIControlStateNormal];
+        [_selectedBadgeButton setImage:[UIImage imageNamed:@"TFLibraryResource.bundle/images/TFLibraryCollectionSelected.png"] forState:UIControlStateSelected];
+        _selectedBadgeButton.contentMode = UIViewContentModeCenter;
+        _selectedBadgeButton.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    return _selectedBadgeButton;
+}
 
 - (void)setAsset:(nullable PHAsset *)asset {
     self.imageView.asset = asset;
@@ -34,10 +64,13 @@ const static CGFloat kPadding = 8.0f;
 
 - (void)setAssetSelected:(BOOL)assetSelected {
     _assetSelected = assetSelected;
-    
-//    self.selectedBadgeImageView.hidden = !_assetSelected;
     _selectedBadgeButton.selected = _assetSelected;
-    
+        if (assetSelected) {
+            self.imageView.alpha = 0.8;
+        }
+        else {
+            self.imageView.alpha = 1.0;
+        }
     [self _updateAccessibility];
 }
 
@@ -48,25 +81,20 @@ const static CGFloat kPadding = 8.0f;
 }
 
 - (void)_init {
-    _imageView = [[TFAssetImageView alloc] init];
-    _imageView.contentMode = UIViewContentModeScaleAspectFill;
-    _imageView.clipsToBounds = YES;
-    _imageView.backgroundColor = [UIColor colorWithRed:0.921 green:0.921 blue:0.946 alpha:1.000];
-    _imageView.layer.borderColor = [UIColor colorWithRed:0.401 green:0.682 blue:0.017 alpha:1.000].CGColor;
-    [self.contentView addSubview:_imageView];
-    
-    _selectedBadgeButton = [[UIButton alloc] init];
-    _selectedBadgeButton.backgroundColor = [UIColor clearColor];
-    [_selectedBadgeButton addTarget:self
-                             action:@selector(actionForSelecteButton:)
-                   forControlEvents:UIControlEventTouchUpInside];
-    [_selectedBadgeButton setImage:[UIImage imageNamed:@"TFLibraryResource.bundle/images/TFLibraryCollectionUnSelected.png"] forState:UIControlStateNormal];
-    [_selectedBadgeButton setImage:[UIImage imageNamed:@"TFLibraryResource.bundle/images/TFLibraryCollectionSelected.png"] forState:UIControlStateSelected];
-    _selectedBadgeButton.contentMode = UIViewContentModeCenter;
-    [self.contentView addSubview:_selectedBadgeButton];
-    
-    
+   
+    //添加subview
+    [self.contentView addSubview:self.imageView];
+    [self.contentView addSubview:self.selectedBadgeButton];
     self.isAccessibilityElement = YES;
+    
+    //添加约束
+    NSDictionary *viewsDic = @{@"imageView":self.imageView,@"selectedBadgeButton":self.selectedBadgeButton};
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[imageView]-0-|" options:0 metrics:nil views:viewsDic]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[imageView]-0-|" options:0 metrics:nil views:viewsDic]];
+    
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[selectedBadgeButton]-5-|" options:0 metrics:nil views:viewsDic]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[selectedBadgeButton]-5-|" options:0 metrics:nil views:viewsDic]];
+
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder {
@@ -83,18 +111,6 @@ const static CGFloat kPadding = 8.0f;
         [self _init];
     }
     return self;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    _imageView.frame = self.contentView.bounds;
-    CGFloat width = 30;
-    CGFloat height = 30;
-
-    
-    CGFloat x = CGRectGetWidth(self.contentView.bounds) - kPadding - width;
-    _selectedBadgeButton.frame = CGRectMake(x, kPadding, width, height);
 }
 
 - (void)actionForSelecteButton:(id)sender {

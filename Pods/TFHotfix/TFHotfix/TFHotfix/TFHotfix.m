@@ -8,6 +8,7 @@
 
 #import "TFHotfix.h"
 #import <JSPatch/JPEngine.h>
+#import "TFCleaner.h"
 #import <AFNetworking/AFNetworking.h>
 #import "RegisterApp.h"
 #import "SyncHotfix.h"
@@ -22,6 +23,15 @@ NSString * const kTFFixSyncURL        = @"";
     NSString *_appKey;
     NSString *_version;
 }
+
++ (void)fixOnSandBox:(BOOL)sandBox {
+    isSandBox = sandBox;
+}
+
++ (BOOL)sandBox {
+    return isSandBox;
+}
+
 
 + (TFHotfix *)sharedInstance {
     static id sharedInstance = nil;
@@ -56,8 +66,16 @@ NSString * const kTFFixSyncURL        = @"";
     _appKey = appKey;
     RegisterApp *registerApp = [[RegisterApp alloc] initWithAppKey:appKey];
     [registerApp startWithCompletionBlockWithSuccess:^(__kindof TFBaseRequest *request) {
-        [JPEngine startEngine];
-        [self evaluateLoacalScript];
+        if ([[request.responseObject objectForKey:@"status"] boolValue]) {
+            if ([request.responseObject objectForKey:@"clean"]) {
+                //清除本地文件
+                [[NSFileManager defaultManager] removeItemAtURL:_localFilePath error:nil];
+            }
+            else {
+                [JPEngine startEngine];
+                [self evaluateLoacalScript];
+            }
+        }
     } failure:^(__kindof TFBaseRequest *request) {
     }];
 }
@@ -65,9 +83,14 @@ NSString * const kTFFixSyncURL        = @"";
 - (void)sync {
     SyncHotfix *syncHotfix = [[SyncHotfix alloc] initWithAppKey:_appKey];
     [syncHotfix startWithCompletionBlockWithSuccess:^(__kindof TFBaseRequest *request) {
-        NSString *fileUrl = [request.responseObject objectForKey:@"fileUrl"];
-        if (fileUrl.length) {
-            [self downloadFixFile:fileUrl];
+        if ([request.responseObject objectForKey:@"fileUrl"] && [[request.responseObject objectForKey:@"fileUrl"] count] > 0) {
+            NSString *fileUrl = [[request.responseObject objectForKey:@"fileUrl"] objectAtIndex:0];
+            if (fileUrl.length) {
+                [self downloadFixFile:fileUrl];
+            }
+        }
+        else {
+            [self removeLocalScript];
         }
     } failure:^(__kindof TFBaseRequest *request) {
         
@@ -99,9 +122,16 @@ NSString * const kTFFixSyncURL        = @"";
     [downloadTask resume];
 }
 
+- (void)removeLocalScript {
+    [[NSFileManager defaultManager] removeItemAtURL:_localFilePath error:nil];
+    [TFCleaner cleanAll];
+}
+
 - (void)evaluateLoacalScript {
     NSError *error = nil;
-    NSString *script = [NSString stringWithContentsOfURL:_localFilePath encoding:NSUTF8StringEncoding error:&error];
+    NSString *script = [NSString stringWithContentsOfURL:_localFilePath
+                                                encoding:NSUTF8StringEncoding
+                                                   error:&error];
     if (!error) {
         [JPEngine evaluateScript:script];
     }

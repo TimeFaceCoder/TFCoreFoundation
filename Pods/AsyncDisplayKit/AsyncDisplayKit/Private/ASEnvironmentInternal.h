@@ -12,7 +12,8 @@
 
 #pragma once
 
-enum class ASEnvironmentStatePropagation { DOWN, UP };
+BOOL ASEnvironmentStatePropagationEnabled();
+BOOL ASEnvironmentStateTraitCollectionPropagationEnabled();
 
 
 #pragma mark - Set and get extensible values for layout options
@@ -33,6 +34,11 @@ void ASEnvironmentPerformBlockOnObjectAndChildren(id<ASEnvironment> object, void
 void ASEnvironmentPerformBlockOnObjectAndParents(id<ASEnvironment> object, void(^block)(id<ASEnvironment> object));
 
 
+#pragma mark - 
+
+enum class ASEnvironmentStatePropagation { DOWN, UP };
+
+
 #pragma mark - Merging
 
 static const struct ASEnvironmentStateExtensions ASEnvironmentDefaultStateExtensions = {};
@@ -40,9 +46,11 @@ static const struct ASEnvironmentStateExtensions ASEnvironmentDefaultStateExtens
 static const struct ASEnvironmentLayoutOptionsState ASEnvironmentDefaultLayoutOptionsState = {};
 ASEnvironmentState ASEnvironmentMergeObjectAndState(ASEnvironmentState environmentState, ASEnvironmentLayoutOptionsState state, ASEnvironmentStatePropagation propagation);
 
-
 static const struct ASEnvironmentHierarchyState ASEnvironmentDefaultHierarchyState = {};
 ASEnvironmentState ASEnvironmentMergeObjectAndState(ASEnvironmentState environmentState, ASEnvironmentHierarchyState state, ASEnvironmentStatePropagation propagation);
+
+static const struct ASEnvironmentTraitCollection ASEnvironmentDefaultTraitCollection = {};
+ASEnvironmentState ASEnvironmentMergeObjectAndState(ASEnvironmentState environmentState, ASEnvironmentTraitCollection state, ASEnvironmentStatePropagation propagation);
 
 
 #pragma mark - Propagation

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *const kTFNavigatorParameterUserInfo;
+
+
 @interface UIWindow (TFNavigator)
 
 - (UIViewController *)visibleViewController;

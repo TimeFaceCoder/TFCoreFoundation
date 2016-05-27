@@ -81,7 +81,7 @@ const static CGFloat kLeftRightThreshold = 16;
     
     
     CGFloat contentTop = kTopBottomThreshold/2;
-    _titleLabel.text = @"Melvin Young";
+    _titleLabel.text = @"";
     
     if (_titleLabel.text.length) {
         contentTop = kTopBottomThreshold*1.5 + CGRectGetHeight(_titleLabel.frame);
@@ -89,7 +89,7 @@ const static CGFloat kLeftRightThreshold = 16;
     
     //content size
     
-    NSString *content = @"现在我们试试看中文显示的效果怎么样？我猜会很难看，中文字体太丑陋了，太粗旷了，完全没有美感啊。。。多加一些文字试试看现实的效果是不是👌，是不是能够显示完整的三行文字。";
+    NSString *content = @"";
     //    NSString *content = @"Baked Edds and Chorizo,breakfast of champions! It's hearty.full of protein and super energizing.";
     
     CGSize textSize = [content boundingRectWithSize:CGSizeMake(CGRectGetWidth(self.bounds) - kLeftRightThreshold * 2, 60)

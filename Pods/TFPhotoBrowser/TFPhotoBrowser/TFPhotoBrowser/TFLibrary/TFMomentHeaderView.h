@@ -8,15 +8,37 @@
 
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
-@interface TFMomentHeaderView : UICollectionReusableView
 
+static NSString *TFMomentHeaderViewNomalIdentifier = @"TFMomentHeaderViewNomal";
+static NSString *TFMomentHeaderViewDetailIdentifier = @"TFMomentHeaderViewDetail";
 
-@property (nonatomic, strong, readonly) UILabel *primaryLabel;
-@property (nonatomic, strong, readonly) UILabel *secondaryLabel;
-@property (nonatomic, strong, readonly) UILabel *detailLabel;
-@property (nonatomic, strong, readonly) UIButton *selectedButton;
+@interface TFMomentHeaderNomalView : UICollectionReusableView
+
+@property (nonatomic, strong) UIVisualEffectView *backView;///<背景view
+@property (nonatomic, strong) UILabel *primaryLabel;///<主标题
+@property (nonatomic, strong) UIButton *selectedButton;///<选择按钮
 @property (nonatomic, strong) NSIndexPath  *indexPath;
 @property (nonatomic, assign) BOOL  showAllSelectButton;
 
 @end
+
+@interface TFMomentHeaderDetailView : TFMomentHeaderNomalView
+
+@property (nonatomic, strong) UILabel *secondaryLabel;///<副标题
+@property (nonatomic, strong) UILabel *detailLabel;///<右边详情
+
+@end
+
+@interface TFMomentHeaderModel : NSObject
+
+@property (nonatomic, strong) NSString *reuseIdentifier;///<重用标志符
+
+@property (nonatomic, strong) NSString *primary;///<主标题
+
+@property (nonatomic, strong) NSString *secondary;///<副标题
+
+@property (nonatomic, strong) NSString *detail;///<详情
+
+@end
+
 NS_ASSUME_NONNULL_END

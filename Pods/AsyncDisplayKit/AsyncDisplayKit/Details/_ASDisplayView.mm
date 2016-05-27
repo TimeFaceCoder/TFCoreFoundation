@@ -26,7 +26,7 @@
   __unsafe_unretained ASDisplayNode *_node;  // Though UIView has a .node property added via category, since we can add an ivar to a subclass, use that for performance.
   BOOL _inHitTest;
   BOOL _inPointInside;
-  NSMutableArray *_accessibleElements;
+  NSArray *_accessibleElements;
 }
 
 @synthesize asyncdisplaykit_node = _node;
@@ -37,7 +37,7 @@
 }
 
 #pragma mark - NSObject Overrides
-- (id)init
+- (instancetype)init
 {
   return [self initWithFrame:CGRectZero];
 }
@@ -51,7 +51,7 @@
 
 #pragma mark - UIView Overrides
 
-- (id)initWithFrame:(CGRect)frame
+- (instancetype)initWithFrame:(CGRect)frame
 {
   if (!(self = [super initWithFrame:frame]))
     return nil;

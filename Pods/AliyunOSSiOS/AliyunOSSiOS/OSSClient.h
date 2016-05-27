@@ -15,6 +15,7 @@
 @class OSSGetBucketACLRequest;
 @class OSSGetObjectRequest;
 @class OSSPutObjectRequest;
+@class OSSPutObjectACLRequest;
 @class OSSDeleteObjectRequest;
 @class OSSCopyObjectRequest;
 @class OSSInitMultipartUploadRequest;
@@ -137,6 +138,12 @@
 - (OSSTask *)putObject:(OSSPutObjectRequest *)request;
 
 /**
+ Put Object ACL接口用于修改Object的访问权限。目前Object有三种访问权限：private, public-read, public-read-write。
+ Put Object ACL操作通过Put请求中的“x-oss-object-acl”头来设置，这个操作只有Bucket Owner有权限执行。如果操作成功，则返回200；否则返回相应的错误码和提示信息。
+ */
+- (OSSTask *)putObjectACL:(OSSPutObjectACLRequest *)request;
+
+/**
  对应RESTFul API：AppendObject
  以追加写的方式上传文件。通过Append Object操作创建的Object类型为Appendable Object，而通过Put Object上传的Object是Normal Object。
  */
@@ -219,7 +226,7 @@
  这个接口封装了分块上传的若干接口以实现断点上传，但是需要用户自行保存UploadId。
  对一个新文件，用户需要首先调用multipartUploadInit接口获得一个UploadId，然后调用此接口上传这个文件。
  如果上传失败，首先需要检查一下失败原因：
-     如果不是不可恢复的失败，那么可以用同一个UploadId和同一文件继续调用这个接口续传
+     如果非不可恢复的失败，那么可以用同一个UploadId和同一文件继续调用这个接口续传
      否则，需要重新获取UploadId，重新上传这个文件。
  详细参考demo。
  */

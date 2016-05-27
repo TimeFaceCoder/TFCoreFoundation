@@ -23,6 +23,8 @@ enum {
 
 @property (readonly) int64_t fileSize;
 
+@property (readonly) int64_t fileCreatedTime;
+
 @property (readonly) int64_t fileModifyTime;
 
 @property (nonatomic, strong) NSData *assetData;
@@ -30,6 +32,8 @@ enum {
 @property (nonatomic, strong) NSURL *assetURL;
 
 @property (nonatomic, strong) NSDictionary *metadata;
+
+@property (nonatomic, assign) UIImageOrientation imageOrientation;
 
 @end
 
@@ -43,7 +47,15 @@ enum {
         if (createTime != nil) {
             t = [createTime timeIntervalSince1970];
         }
+        _fileCreatedTime = t;
+        
+        NSDate *modifyTime = phAsset.modificationDate;
+        t = 0;
+        if (modifyTime != nil) {
+            t = [modifyTime timeIntervalSince1970];
+        }
         _fileModifyTime = t;
+        
         _phAsset = phAsset;
         [self getInfo];
         
@@ -85,6 +97,11 @@ enum {
     }
     return fileExtension;
 }
+
+- (int64_t)createdTime {
+    return _fileCreatedTime;
+}
+
 - (int64_t)modifyTime {
     return _fileModifyTime;
 }
@@ -105,6 +122,11 @@ enum {
     return _fileSize;
 }
 
+
+- (UIImageOrientation)orientation {
+    return _imageOrientation;
+}
+
 - (void)getInfo
 {
     if (!_hasGotInfo) {
@@ -120,6 +142,7 @@ enum {
             [[PHImageManager defaultManager] requestImageDataForAsset:self.phAsset
                                                               options:request
                                                         resultHandler:^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
+                                                            _imageOrientation = orientation;
                                                             _fileSize = imageData.length;
                                                             _assetURL = [NSURL URLWithString:self.phAsset.localIdentifier];
                                                         }
@@ -166,9 +189,10 @@ enum {
                                                     resultHandler:
          ^(NSData *imageData, NSString *dataUTI, UIImageOrientation orientation, NSDictionary *info) {
              
-             if ([TFConfiguration compressionQuality] >= 1) {
+             if ([TFConfiguration compressionQuality] >= 1 && asset.pixelWidth <= 4096 * 4 && asset.pixelHeight <= 4096 * 4) {
                  tmpData = [NSData dataWithData:imageData];
              }
+             
              else {
                  CIImage *ciimage = [CIImage imageWithData:imageData];
                  NSDictionary *metaData = [[NSDictionary alloc]initWithDictionary:ciimage.properties];
@@ -216,6 +240,9 @@ enum {
     
     CFMutableDictionaryRef properties = CFDictionaryCreateMutable(nil, 0,
                                                                   &kCFTypeDictionaryKeyCallBacks,  &kCFTypeDictionaryValueCallBacks);
+    CFDictionarySetValue(properties, kCGImageDestinationImageMaxPixelSize,
+                         (__bridge const void *)(@(4096 * 4)));
+    
     CFDictionarySetValue(properties, kCGImageDestinationLossyCompressionQuality,
                          (__bridge const void *)([NSNumber numberWithFloat:[TFConfiguration compressionQuality]]));
     

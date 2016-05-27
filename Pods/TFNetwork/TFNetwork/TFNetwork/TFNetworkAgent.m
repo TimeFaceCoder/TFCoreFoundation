@@ -78,10 +78,10 @@
         _manager.requestSerializer = [AFHTTPRequestSerializer serializer];
         _manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     } else if (request.requestSerializerType == TFRequestSerializerTypeJSON) {
-        _manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        _manager.requestSerializer = [AFHTTPRequestSerializer serializer];
         _manager.responseSerializer = [AFJSONResponseSerializer serializer];
     } else if (request.requestSerializerType == TFRequestSerializerTypeMsgPack) {
-        
+        _manager.requestSerializer = [AFHTTPRequestSerializer serializer];
     }
     
     _manager.requestSerializer.timeoutInterval = [request requestTimeoutInterval];
@@ -106,6 +106,7 @@
         }
     }
     
+    TFNLog(@"header - %@\n url - %@\n param - %@", headerFieldValueDictionary, url, param);
     // request.requestOperation 部分功能缺失
     if (method == TFRequestMethodGet) {
         request.sessionDataTask = [_manager GET:url

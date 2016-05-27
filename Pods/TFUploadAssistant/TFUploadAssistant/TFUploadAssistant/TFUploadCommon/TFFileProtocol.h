@@ -6,6 +6,7 @@
 //  Copyright © 2016 TimeFace. All rights reserved.
 //
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import <CommonCrypto/CommonDigest.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
@@ -49,6 +50,13 @@
 - (NSString *)fileExtension;
 
 /**
+ *  文件创建时间
+ *
+ *  @return 文件创建时间
+ */
+- (int64_t)createdTime;
+
+/**
  *    文件修改时间
  *
  *    @return 修改时间
@@ -67,5 +75,7 @@
  *    @return 文件大小
  */
 - (int64_t)size;
+
+- (UIImageOrientation)orientation;
 
 @end

@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-#define OSS_IOS_SDK_VERSION 2.2.0
+#define OSS_IOS_SDK_VERSION 2.5.0
 
+#import "OSSDefine.h"
 #import "OSSNetworking.h"
 #import "OSSClient.h"
 #import "OSSModel.h"
 #import "OSSUtil.h"
 #import "OSSLog.h"
+
+#import "OSSBolts.h"

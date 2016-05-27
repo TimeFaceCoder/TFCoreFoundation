@@ -7,58 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OSSDefine.h"
 #import "OSSModel.h"
+#import "OSSBolts.h"
 #import "OSSUtil.h"
 #import "OSSNetworking.h"
 #import "OSSLog.h"
 #import "OSSXMLDictionary.h"
-
-NSString * const OSSListBucketResultXMLTOKEN = @"ListBucketResult";
-NSString * const OSSNameXMLTOKEN = @"Name";
-NSString * const OSSDelimiterXMLTOKEN = @"Delimiter";
-NSString * const OSSMarkerXMLTOKEN = @"Marker";
-NSString * const OSSMaxKeysXMLTOKEN = @"MaxKeys";
-NSString * const OSSIsTruncatedXMLTOKEN = @"IsTruncated";
-NSString * const OSSContentsXMLTOKEN = @"Contents";
-NSString * const OSSKeyXMLTOKEN = @"Key";
-NSString * const OSSLastModifiedXMLTOKEN = @"LastModified";
-NSString * const OSSETagXMLTOKEN = @"ETag";
-NSString * const OSSTypeXMLTOKEN = @"Type";
-NSString * const OSSSizeXMLTOKEN = @"Size";
-NSString * const OSSStorageClassXMLTOKEN = @"StorageClass";
-NSString * const OSSCommonPrefixesXMLTOKEN = @"CommonPrefixes";
-NSString * const OSSOwnerXMLTOKEN = @"Owner";
-NSString * const OSSAccessControlListXMLTOKEN = @"AccessControlList";
-NSString * const OSSGrantXMLTOKEN = @"Grant";
-NSString * const OSSIDXMLTOKEN = @"ID";
-NSString * const OSSDisplayNameXMLTOKEN = @"DisplayName";
-NSString * const OSSBucketsXMLTOKEN = @"Buckets";
-NSString * const OSSBucketXMLTOKEN = @"Bucket";
-NSString * const OSSCreationDate = @"CreationDate";
-NSString * const OSSPrefixXMLTOKEN = @"Prefix";
-NSString * const OSSUploadIdXMLTOKEN = @"UploadId";
-NSString * const OSSLocationXMLTOKEN = @"Location";
-NSString * const OSSNextPartNumberMarkerXMLTOKEN = @"NextPartNumberMarker";
-NSString * const OSSMaxPartsXMLTOKEN = @"MaxParts";
-NSString * const OSSPartXMLTOKEN = @"Part";
-NSString * const OSSPartNumberXMLTOKEN = @"PartNumber";
-
-NSString * const OSSClientErrorDomain = @"com.aliyun.oss.clientError";
-NSString * const OSSServerErrorDomain = @"com.aliyun.oss.serverError";
-
-NSString * const OSSErrorMessageTOKEN = @"ErrorMessage";
-
-NSString * const OSSUAPrefix = @"aliyun-sdk-ios";
-NSString * const OSSSDKVersion = @"2.3.0";
-
-NSString * const OSSHttpHeaderContentDisposition = @"Content-Disposition";
-NSString * const OSSHttpHeaderXOSSCallback = @"x-oss-callback";
-NSString * const OSSHttpHeaderXOSSCallbackVar = @"x-oss-callback-var";
-NSString * const OSSHttpHeaderContentEncoding = @"Content-Encoding";
-NSString * const OSSHttpHeaderContentType = @"Content-Type";
-NSString * const OSSHttpHeaderContentMD5 = @"Content-MD5";
-NSString * const OSSHttpHeaderCacheControl = @"Cache-Control";
-NSString * const OSSHttpHeaderExpires = @"Expires";
 
 @implementation NSString (OSS)
 
@@ -240,40 +195,28 @@ static NSTimeInterval _clockSkew = 0.0;
 
 - (OSSFederationToken *)getToken:(NSError **)error {
     OSSFederationToken * validToken = nil;
-    static BOOL isNewlyGotten = NO;
     @synchronized(self) {
-        if (!self.cachedToken) {
+        if (self.cachedToken == nil) {
+
             self.cachedToken = self.federationTokenGetter();
-            isNewlyGotten = YES;
-        }
-
-        if (self.cachedToken.expirationTimeInGMTFormat) {
-            NSDateFormatter * fm = [NSDateFormatter new];
-            [fm setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
-            self.cachedToken.expirationTimeInMilliSecond = [[fm dateFromString:self.cachedToken.expirationTimeInGMTFormat] timeIntervalSince1970] * 1000;
-            self.cachedToken.expirationTimeInGMTFormat = nil;
-            OSSLogVerbose(@"Transform GMT date to expirationTimeInMilliSecond: %lld", self.cachedToken.expirationTimeInMilliSecond);
-        }
-
-        NSDate * expirationDate = [NSDate dateWithTimeIntervalSince1970:(NSTimeInterval)(self.cachedToken.expirationTimeInMilliSecond / 1000)];
-        NSTimeInterval interval = [expirationDate timeIntervalSinceDate:[NSDate oss_clockSkewFixedDate]];
-        // OSSLogVerbose(@"get federation token, after %lf second it would be expired", interval);
-        /* if this token will be expired after less than 15s, we abort it in case of when request arrived oss server,
-           it's expired already. */
-        if (interval < 15) {
-            OSSLogDebug(@"get federation token, but after %lf second it would be expired", interval);
-            if (isNewlyGotten) {
-                /* if the newly gotten token is expired already, we can't abort it which will lead to a dead loop */
-                /* we use it for 30s */
-                self.cachedToken.expirationTimeInMilliSecond += [[NSDate oss_clockSkewFixedDate] timeIntervalSince1970] * 1000 + (15 + 30) * 1000;
-                self.cachedToken.expirationTimeInGMTFormat = nil;
-                isNewlyGotten = NO;
-            } else {
-                self.cachedToken = self.federationTokenGetter();
-                isNewlyGotten = YES;
-            }
         } else {
-            isNewlyGotten = NO;
+            if (self.cachedToken.expirationTimeInGMTFormat) {
+                NSDateFormatter * fm = [NSDateFormatter new];
+                [fm setDateFormat:@"yyyy-MM-dd'T'HH:mm:ssZ"];
+                self.cachedToken.expirationTimeInMilliSecond = [[fm dateFromString:self.cachedToken.expirationTimeInGMTFormat] timeIntervalSince1970] * 1000;
+                self.cachedToken.expirationTimeInGMTFormat = nil;
+                OSSLogVerbose(@"Transform GMT date to expirationTimeInMilliSecond: %lld", self.cachedToken.expirationTimeInMilliSecond);
+            }
+
+            NSDate * expirationDate = [NSDate dateWithTimeIntervalSince1970:(NSTimeInterval)(self.cachedToken.expirationTimeInMilliSecond / 1000)];
+            NSTimeInterval interval = [expirationDate timeIntervalSinceDate:[NSDate oss_clockSkewFixedDate]];
+            // OSSLogVerbose(@"get federation token, after %lf second it would be expired", interval);
+            /* if this token will be expired after less than 30s, we abort it in case of when request arrived oss server,
+               it's expired already. */
+            if (interval < 30) {
+                OSSLogDebug(@"get federation token, but after %lf second it would be expired", interval);
+                self.cachedToken = self.federationTokenGetter();
+            }
         }
 
         validToken = self.cachedToken;
@@ -322,12 +265,13 @@ NSString * const BACKGROUND_SESSION_IDENTIFIER = @"com.aliyun.oss.backgroundsess
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.maxRetryCount = 3;
-        self.maxConcurrentRequestCount = 5;
+        self.maxRetryCount = OSSDefaultRetryCount;
+        self.maxConcurrentRequestCount = OSSDefaultMaxConcurrentNum;
         self.enableBackgroundTransmitService = NO;
+        self.isHttpdnsEnable = YES;
         self.backgroundSesseionIdentifier = BACKGROUND_SESSION_IDENTIFIER;
-        self.timeoutIntervalForRequest = 15;
-        self.timeoutIntervalForResource = 7 * 24 * 60 * 60;
+        self.timeoutIntervalForRequest = OSSDefaultTimeoutForRequestInSecond;
+        self.timeoutIntervalForResource = OSSDefaultTimeoutForResourceInSecond;
     }
     return self;
 }
@@ -347,7 +291,8 @@ NSString * const BACKGROUND_SESSION_IDENTIFIER = @"com.aliyun.oss.backgroundsess
     OSSLogVerbose(@"signing intercepting - ");
     NSError * error = nil;
 
-    /* define a constant array to contain all specified subresource */
+    /****************************************************************
+    * define a constant array to contain all specified subresource */
     static NSArray * OSSSubResourceARRAY = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -616,6 +561,12 @@ NSString * const BACKGROUND_SESSION_IDENTIFIER = @"com.aliyun.oss.backgroundsess
 @end
 
 @implementation OSSGetObjectResult
+@end
+
+@implementation OSSPutObjectACLRequest
+@end
+
+@implementation OSSPutObjectACLResult
 @end
 
 @implementation OSSPutObjectRequest
@@ -937,6 +888,7 @@ NSString * const BACKGROUND_SESSION_IDENTIFIER = @"com.aliyun.oss.backgroundsess
                     getBucketResult.bucketName = [parsedDict objectForKey:OSSNameXMLTOKEN];
                     getBucketResult.prefix = [parsedDict objectForKey:OSSPrefixXMLTOKEN];
                     getBucketResult.marker = [parsedDict objectForKey:OSSMarkerXMLTOKEN];
+                    getBucketResult.nextMarker = [parsedDict objectForKey:OSSNextMarkerXMLTOKEN];
                     getBucketResult.maxKeys = (int32_t)[[parsedDict objectForKey:OSSMaxKeysXMLTOKEN] integerValue];
                     getBucketResult.delimiter = [parsedDict objectForKey:OSSDelimiterXMLTOKEN];
                     getBucketResult.isTruncated = [[parsedDict objectForKey:OSSIsTruncatedXMLTOKEN] boolValue];
@@ -1033,6 +985,14 @@ NSString * const BACKGROUND_SESSION_IDENTIFIER = @"com.aliyun.oss.backgroundsess
                 [self parseResponseHeader:_response toResultObject:deleteObjectResult];
             }
             return deleteObjectResult;
+        }
+
+        case OSSOperationTypePutObjectACL: {
+            OSSPutObjectACLResult * putObjectACLResult = [OSSPutObjectACLResult new];
+            if (_response) {
+                [self parseResponseHeader:_response toResultObject:putObjectACLResult];
+            }
+            return putObjectACLResult;
         }
 
         case OSSOperationTypeCopyObject: {

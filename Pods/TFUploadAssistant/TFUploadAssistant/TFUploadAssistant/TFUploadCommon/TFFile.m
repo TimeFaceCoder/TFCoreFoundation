@@ -17,6 +17,8 @@
 
 @property (readonly)  int64_t fileSize;
 
+@property (readonly) int64_t fileCreatedTime;
+
 @property (readonly)  int64_t fileModifyTime;
 
 @property (nonatomic) NSFileHandle *file;
@@ -37,8 +39,16 @@
             return self;
         }
         _fileSize = [fileAttr fileSize];
-        NSDate *modifyTime = fileAttr[NSFileModificationDate];
+        
+        NSDate *createdTime = fileAttr[NSFileCreationDate];
         int64_t t = 0;
+        if (createdTime != nil) {
+            t = [createdTime timeIntervalSince1970];
+        }
+        _fileCreatedTime = t;
+        
+        NSDate *modifyTime = fileAttr[NSFileModificationDate];
+        t = 0;
         if (modifyTime != nil) {
             t = [modifyTime timeIntervalSince1970];
         }
@@ -98,6 +108,10 @@
     return [_filepath pathExtension];
 }
 
+- (int64_t)createdTime {
+    return _fileCreatedTime;
+}
+
 - (int64_t)modifyTime {
     return _fileModifyTime;
 }
@@ -116,5 +130,10 @@
 - (int64_t)size {
     return _fileSize;
 }
+
+- (UIImageOrientation)orientation {
+    return UIImageOrientationUp;
+}
+
 
 @end

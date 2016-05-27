@@ -13,5 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 NSBundle *TFPhotoBrowserBundle();
 UIImage *__nullable TFPhotoBrowserImageNamed(NSString *imageName);
+NSString *TFPhotoBrowserLocalizedStrings(NSString *key);
 
 NS_ASSUME_NONNULL_END

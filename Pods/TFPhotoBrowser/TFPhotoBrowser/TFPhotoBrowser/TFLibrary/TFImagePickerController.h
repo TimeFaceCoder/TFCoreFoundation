@@ -40,6 +40,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)imagePickerController:(TFImagePickerController *)picker didSelectedPickingAssets:(NSArray<PHAsset *> *)assets;
 
+/**
+ *  返回每个section头部标题文本颜色
+ *
+ *  @param picker
+ *
+ *  @return UIColor
+ */
+- (UIColor *)sectionHeaderTitleColorForImagePickerController:(TFImagePickerController *)picker;
+
+/**
+ *  返回每个section头部背景色
+ *
+ *  @param picker
+ *
+ *  @return UIColor
+ */
+- (UIColor *)sectionHeaderBackColorForImagePickerController:(TFImagePickerController *)picker;
+
+
 @end
 
 

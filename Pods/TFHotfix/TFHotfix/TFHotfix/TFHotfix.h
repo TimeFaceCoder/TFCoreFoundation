@@ -8,7 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+static BOOL isSandBox;
+
 @interface TFHotfix : NSObject
+
++ (void)fixOnSandBox:(BOOL)sandBox;
+
++ (BOOL)sandBox;
 
 + (TFHotfix *)sharedInstance;
 /**
@@ -21,6 +27,7 @@
  *  检查是否有patch更新，并下载执行
  */
 - (void)sync;
+
 
 
 @end

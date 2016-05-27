@@ -1,6 +1,6 @@
 {
   "name": "AsyncDisplayKit",
-  "version": "1.9.8",
+  "version": "1.9.74",
   "license": {
     "type": "BSD"
   },
@@ -12,32 +12,15 @@
   "summary": "Smooth asynchronous user interfaces for iOS apps.",
   "source": {
     "git": "https://github.com/facebook/AsyncDisplayKit.git",
-    "tag": "1.9.7.1"
+    "tag": "1.9.74"
   },
   "documentation_url": "http://asyncdisplaykit.org/appledoc/",
-  "public_header_files": [
-    "AsyncDisplayKit/*.h",
-    "AsyncDisplayKit/Details/**/*.h",
-    "AsyncDisplayKit/Layout/*.h",
-    "Base/*.h",
-    "AsyncDisplayKit/TextKit/ASTextNodeTypes.h",
-    "AsyncDisplayKit/TextKit/ASTextKitComponents.h"
-  ],
-  "source_files": [
-    "AsyncDisplayKit/**/*.{h,m,mm}",
-    "Base/*.{h,m}",
-    "AsyncDisplayKit/TextKit/*.h"
-  ],
   "frameworks": "AssetsLibrary",
   "weak_frameworks": [
     "Photos",
     "MapKit"
   ],
   "requires_arc": true,
-  "exclude_files": [
-    "AsyncDisplayKit/Details/ASDealloc2MainObject.h",
-    "AsyncDisplayKit/Details/ASDealloc2MainObject.m"
-  ],
   "default_subspecs": "PINRemoteImage",
   "social_media_url": "https://twitter.com/fbOpenSource",
   "libraries": "c++",
@@ -49,6 +32,32 @@
     "ios": "7.0"
   },
   "subspecs": [
+    {
+      "name": "Core",
+      "public_header_files": [
+        "AsyncDisplayKit/*.h",
+        "AsyncDisplayKit/Details/**/*.h",
+        "AsyncDisplayKit/Layout/*.h",
+        "Base/*.h",
+        "AsyncDisplayKit/TextKit/ASTextNodeTypes.h",
+        "AsyncDisplayKit/TextKit/ASTextKitComponents.h"
+      ],
+      "exclude_files": [
+        "AsyncDisplayKit/Private/_AS-objc-internal.h",
+        "AsyncDisplayKit/Details/ASDealloc2MainObject.h",
+        "AsyncDisplayKit/Details/ASDealloc2MainObject.m"
+      ],
+      "source_files": [
+        "AsyncDisplayKit/**/*.{h,m,mm}",
+        "Base/*.{h,m}",
+        "AsyncDisplayKit/TextKit/*.h"
+      ],
+      "dependencies": {
+        "AsyncDisplayKit/ASDealloc2MainObject": [
+
+        ]
+      }
+    },
     {
       "name": "ASDealloc2MainObject",
       "requires_arc": false,
@@ -65,9 +74,9 @@
       },
       "dependencies": {
         "PINRemoteImage/iOS": [
-          ">= 2.1.2"
+          ">= 3.0.0-beta.2"
         ],
-        "AsyncDisplayKit/ASDealloc2MainObject": [
+        "AsyncDisplayKit/Core": [
 
         ]
       }

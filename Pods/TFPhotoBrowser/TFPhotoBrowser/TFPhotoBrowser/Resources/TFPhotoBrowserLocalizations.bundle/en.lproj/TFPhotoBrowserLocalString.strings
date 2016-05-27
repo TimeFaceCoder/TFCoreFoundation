@@ -1,0 +1,29 @@
+/* 
+  TFPhotoBrowserLocalString.strings
+  TFPhotoBrowser
+
+  Created by Summer on 16/5/17.
+  Copyright © 2016年 TimeFace. All rights reserved.
+*/
+"Select all" = "Select all";
+"Deselect all" = "Deselect all";
+"dateFormatterOverYear" = "MMMM d, yyyy";
+"dateFormatterOverWeek" = "MMMM d";
+"dateFormatterOverWeekDetail" = "MMM d";
+"dateFormatterOverInWeek" = "EEEE";
+"Yesterday" = "Yesterday";
+"Today" = "Today";
+"Moments" = "Moments";
+"Choose %d photos at most" = "Choose %d photos at most";
+"Open album privacy settings" = "Open album privacy settings";
+"Open settings" = "Open settings";
+"Request album permissions" = "Request album permissions";
+"Done" = "Done";
+"Paste" = "Paste";
+"Selected" = "Selected";
+"Loading Photos" = "Loading Photos...";
+"Album" = "Album";
+"Can't support camera" = "Can't support camera";
+"Photos need download from iCloud" = "Photos need download from iCloud";
+"Back" = "Back";
+"This is?" = "This is?";

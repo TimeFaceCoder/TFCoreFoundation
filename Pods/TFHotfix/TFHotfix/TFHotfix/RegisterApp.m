@@ -7,6 +7,7 @@
 //
 
 #import "RegisterApp.h"
+#import "TFHotfix.h"
 
 @implementation RegisterApp {
     NSString *_appKey;
@@ -26,8 +27,15 @@
     return TFRequestMethodPost;
 }
 
+- (TFRequestSerializerType)requestSerializerType {
+    return TFRequestSerializerTypeJSON;
+}
+
 - (NSString *)requestUrl {
-    return @"http://hotfix.timeface.org/register";
+    if ([TFHotfix sandBox]) {
+        return @"http://stg2.v5time.net/hotfix/hotfix/register";
+    }
+    return @"http://hotfix.timeface.cn/hotfix/register";
 }
 
 - (id)requestArgument {
