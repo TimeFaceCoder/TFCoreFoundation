@@ -301,6 +301,26 @@ static BOOL hexStrToRGBA(NSString *str,
     return nil;
 }
 
++ (UIColor *)colorWithHexString:(NSString *)hexStr alpha:(CGFloat)alpha {
+    //剔除#
+    hexColor = [hexColor stringByReplacingOccurrencesOfString:@"#" withString:@""];
+    unsigned int red, green, blue;
+    NSRange range;
+    range.length =2;
+    
+    range.location =0;
+    [[NSScanner scannerWithString:[hexColor substringWithRange:range]]scanHexInt:&red];
+    range.location =2;
+    [[NSScanner scannerWithString:[hexColor substringWithRange:range]]scanHexInt:&green];
+    range.location =4;
+    [[NSScanner scannerWithString:[hexColor substringWithRange:range]]scanHexInt:&blue];
+    
+    return [UIColor colorWithRed:(float)(red/255.0f)
+                           green:(float)(green/255.0f)
+                            blue:(float)(blue/255.0f)
+                           alpha:alpha];
+}
+
 - (NSString *)hexString {
     return [self hexStringWithAlpha:NO];
 }

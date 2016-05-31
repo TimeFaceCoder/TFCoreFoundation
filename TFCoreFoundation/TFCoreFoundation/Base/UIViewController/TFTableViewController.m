@@ -80,6 +80,7 @@
         self.tableView.asyncDataSource = nil;
         self.tableView.asyncDelegate = nil;
     }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -87,7 +88,7 @@
     if (self.listType) {
         [self startLoadData];
     }
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

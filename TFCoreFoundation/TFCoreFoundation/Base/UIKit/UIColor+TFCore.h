@@ -60,6 +60,8 @@ extern void TF_HSL2HSB(CGFloat h, CGFloat s, CGFloat l,
 
 + (nullable UIColor *)colorWithHexString:(NSString *)hexStr;
 
++ (UIColor *)colorWithHexString:(NSString *)hexStr alpha:(CGFloat)alpha;
+
 - (UIColor *)colorByAddColor:(UIColor *)add blendMode:(CGBlendMode)blendMode;
 
 - (UIColor *)colorByChangeHue:(CGFloat)hueDelta

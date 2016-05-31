@@ -48,6 +48,8 @@ static TFStyle* gStyleSheet = nil;
 }
 
 
+
+
 - (void)didReceiveMemoryWarning:(void*)object {
     [self freeMemory];
 }
