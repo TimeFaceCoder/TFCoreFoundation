@@ -17,4 +17,5 @@
 
 - (UIColor *)getColorByHex:(NSString *)hexColor;
 
+- (UIColor *)getColorByHex:(NSString *)hexColor alpha:(CGFloat)alpha;
 @end

@@ -58,6 +58,10 @@ static TFStyle* gStyleSheet = nil;
     return [UIColor colorWithHexString:hexColor];
 }
 
+- (UIColor *)getColorByHex:(NSString *)hexColor alpha:(CGFloat)alpha {
+    return [UIColor colorWithHexString:hexColor alpha:alpha];
+}
+
 - (void)freeMemory {
     
 }
