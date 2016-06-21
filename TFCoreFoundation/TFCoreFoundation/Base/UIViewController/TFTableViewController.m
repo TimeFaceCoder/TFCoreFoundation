@@ -86,7 +86,10 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if (self.listType) {
-        [self startLoadData];
+        if (!_loaded) {
+            [self startLoadData];
+            _loaded = YES;
+        }
     }
     
 }
@@ -111,10 +114,7 @@
 }
 
 - (void)startLoadData {
-    if (!_loaded) {
-        [self.dataSource startLoading];
-        _loaded = YES;
-    }
+    [self.dataSource startLoading];
 }
 
 
