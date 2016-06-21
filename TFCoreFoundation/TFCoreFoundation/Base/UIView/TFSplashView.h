@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^TFSplashCompletion)(id object);
+typedef void (^TFSplashCompletion)(NSString *targetURL);
 
 @class YYImage;
 @interface TFSplashView : UIWindow
@@ -30,11 +30,8 @@ typedef NS_ENUM(NSUInteger, TFSplashAnimation) {
 
 @property (nonatomic, strong) UIView           *customView;
 
-@property (nonatomic, strong) NSDictionary     *adObject;
 
-
-- (void) showSplash;
-
+- (void) showSplashWithImageURL:(NSString *)imageURL targetURL:(NSString *)targetURL splashTime:(NSInteger)splashTime;
 
 - (void) showSplashWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle;
 

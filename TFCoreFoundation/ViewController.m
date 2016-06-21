@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "TFValidateUtility.h"
+#import "TFSplashView.h"
 
 @interface ViewController ()
 
@@ -19,8 +20,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

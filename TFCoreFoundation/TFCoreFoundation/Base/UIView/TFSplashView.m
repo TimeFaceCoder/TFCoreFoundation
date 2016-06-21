@@ -14,20 +14,24 @@
 #import "TFCGUtilities.h"
 #import <SDWebImage/SDWebImageManager.h>
 #import "YYImage+TFCore.h"
+#import "TFValidateUtility.h"
 
 @interface TFSplashViewViewController : UIViewController
 
 @property (nonatomic, strong          ) UIView             *customView;
-@property (nonatomic, strong          ) NSDictionary       *adObject;
 @property (nonatomic, strong          ) TFSplashCompletion completion;
 @property (nonatomic, strong, readonly) UIImageView        *imageView;
 @property (nonatomic, strong, readonly) UIImageView        *adImageView;
 @property (nonatomic, strong) TFKVStorage *storeage;
-@property (nonatomic, copy) NSString *adURL;
+@property (nonatomic, copy) NSString *targetURL;
+@property (nonatomic, copy) NSString *imageURL;
+@property (nonatomic, assign) NSInteger splashTime;
 
 - (instancetype)initWithSplashImage:(YYImage *)image
                          completion:(TFSplashCompletion)completion
-                           adObject:(NSDictionary *)adObject;
+                           imageURL:(NSString *)imageURL
+                          targetURL:(NSString *)targetURL
+                         splashTime:(NSInteger)splashTime;
 
 @end
 
@@ -35,13 +39,17 @@
 
 - (instancetype)initWithSplashImage:(YYImage *)image
                          completion:(TFSplashCompletion)completion
-                           adObject:(NSDictionary *)adObject
+                           imageURL:(NSString *)imagteURL
+                          targetURL:(NSString *)targetURL
+                         splashTime:(NSInteger)splashTime;
 {
     if ((self = [super init])) {
         _imageView = [[YYAnimatedImageView alloc] initWithImage:image];
         _adImageView = [[YYAnimatedImageView alloc] init];
         _completion = completion;
-        _adObject = adObject;
+        _targetURL = targetURL;
+        _imageURL = imagteURL;
+        _splashTime = splashTime;
     }
     
     return self;
@@ -72,14 +80,12 @@
     [self.adImageView setFrame:frame];
     
     //读取闪屏广告数据
-    if (_adObject) {
-        NSString *adImgUrl = [_adObject objectForKey:@"adImgUrl"];
-        _adURL = [_adObject objectForKey:@"adUri"];
-        BOOL adImageExists = [[SDWebImageManager sharedManager] cachedImageExistsForURL:[NSURL URLWithString:adImgUrl]];
+    if (![TFValidateUtility isBlankOrNull:self.imageURL]) {
+        BOOL adImageExists = [[SDWebImageManager sharedManager] cachedImageExistsForURL:[NSURL URLWithString:self.imageURL]];
         if (!adImageExists) {
             return;
         }
-        NSString *cacheKey = [[SDWebImageManager sharedManager] cacheKeyForURL:[NSURL URLWithString:adImgUrl]];
+        NSString *cacheKey = [[SDWebImageManager sharedManager] cacheKeyForURL:[NSURL URLWithString:self.imageURL]];
         UIImage *image = [[[SDWebImageManager sharedManager] imageCache] imageFromDiskCacheForKey:cacheKey];
         //custom splash image
         CATransition *animation = [CATransition animation];
@@ -112,7 +118,7 @@
 
 - (void)viewTapAction:(UIGestureRecognizer *)gestureRecognizer {
     if (_completion) {
-        _completion(_adURL);
+        _completion(self.targetURL);
     }
 }
 
@@ -123,20 +129,11 @@
     id _object;
 }
 
-- (instancetype)initWithSplashImage:(YYImage *)image
+- (instancetype)init
 {
     if ((self = [self initWithFrame:CGRectZero])) {
         self.windowLevel = UIWindowLevelNormal + 1.f;
         self.hidden = YES;
-        __weak typeof(self) _self = self;
-        
-        // We use a simple root view controller here instead of adding subviews to the window
-        // because the VC gives us rotation handling for free.
-        self.rootViewController = [[TFSplashViewViewController alloc] initWithSplashImage:image
-                                                                                     completion:^(id object)
-                                   {
-                                       [_self dismissSplashWithObject:object];
-                                   } adObject:_adObject];
     }
     
     return self;
@@ -146,7 +143,7 @@
     static TFSplashView *splashView;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        splashView = [[self alloc] initWithSplashImage:[YYImage defaultLaunchImage]];
+        splashView = [[self alloc] init];
     });
     return splashView;
 }
@@ -172,6 +169,21 @@
 }
 
 #pragma mark - Display
+
+- (void) showSplashWithImageURL:(NSString *)imageURL targetURL:(NSString *)targetURL splashTime:(NSInteger)splashTime {
+    
+    // We use a simple root view controller here instead of adding subviews to the window
+    // because the VC gives us rotation handling for free.
+    __weak typeof(self) _self = self;
+    self.rootViewController = [[TFSplashViewViewController alloc] initWithSplashImage:[YYImage defaultLaunchImage]
+                                                                           completion:^(id object)
+                               {
+                                   [_self dismissSplashWithObject:object];
+                               } imageURL:imageURL targetURL:targetURL splashTime:splashTime];
+    
+    [self showSplash];
+}
+
 
 - (void)showSplash {
     self.rootViewController.view.alpha = 1.f;
