@@ -32,6 +32,9 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        if (!_requestParams) {
+            _requestParams = [NSMutableDictionary dictionary];
+        }
     }
     return self;
 }
@@ -91,9 +94,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (!_requestParams) {
-        _requestParams = [NSMutableDictionary dictionary];
-    }
     if (!_manager) {
         _manager = [[CMMotionManager alloc] init];
     }
