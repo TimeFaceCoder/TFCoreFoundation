@@ -32,9 +32,6 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-        if (!_requestParams) {
-            _requestParams = [NSMutableDictionary dictionary];
-        }
     }
     return self;
 }
@@ -97,7 +94,9 @@
     if (!_manager) {
         _manager = [[CMMotionManager alloc] init];
     }
-    
+    if (!_requestParams) {
+        _requestParams = [NSMutableDictionary dictionary];
+    }
     [self showStateView:kTFViewStateLoading];
     self.navigationController.view.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
 }

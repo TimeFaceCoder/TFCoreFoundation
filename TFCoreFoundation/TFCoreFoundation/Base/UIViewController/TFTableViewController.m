@@ -114,7 +114,7 @@
 }
 
 - (void)startLoadData {
-    [self.dataSource startLoading];
+    [self.dataSource startLoadingWithParams:self.requestParams];
 }
 
 
