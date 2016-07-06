@@ -9,6 +9,7 @@
 #import "TFDefaultStyle.h"
 #import "TFCoreFoundationMacro.h"
 #import "UIColor+TFCore.h"
+#import "UIImage+TFCore.h"
 
 @implementation TFDefaultStyle
 
@@ -111,7 +112,72 @@
 }
 /////////////////////////////////////////////HUD提示-END////////////////////////////////////////////
 
+///////////////////////////////////////////ViewState自定义/////////////////////////////////////////
 
+- (UIColor *)viewStateBackgroundColor {
+    return RGBCOLOR(226,230,236);
+}
+
+- (UIColor *)viewStateButtonBackgroundColor {
+    return [UIColor whiteColor];
+}
+
+- (CGSize)viewStateButtonSize {
+    return CGSizeMake(200.0, 40.0);
+}
+
+- (CGFloat)viewStateButtonCornerRadius {
+    return 5.0;
+}
+
+- (UIColor *)viewStateButtonBorderColor {
+    return [self getColorByHex:@"dfdfdf"];
+}
+
+
+- (NSString *)viewStateDataErrorTitle {
+    return NSLocalizedString(@"网络数据异常", nil);
+}
+
+- (NSString *)viewStateDataErrorButtonTitle {
+    return NSLocalizedString(@"重新加载", nil);
+}
+
+- (NSString *)viewStateDataErrorImage {
+    return NSLocalizedString(@"ViewDataError", nil);
+}
+
+- (NSString *)viewStateDataLoadingTitle {
+    return NSLocalizedString(@"正在加载数据", nil);;
+}
+
+- (NSString *)viewStateDataNetErrorTitle {
+    return NSLocalizedString(@"网络连接错误", nil);
+}
+
+- (NSString *)viewStateDataNetErrorButtonTitle {
+    return NSLocalizedString(@"设置网络", nil);
+}
+
+- (NSString *)viewStateDataNetErrorImage {
+    return NSLocalizedString(@"ViewDataNetError", nil);
+}
+
+- (NSString *)viewStateDataNoDataTitle {
+    return NSLocalizedString(@"网络数据为空", nil);
+}
+
+- (NSString *)viewStateDataNoDataButtonTitle {
+    return NSLocalizedString(@"暂无内容", nil);
+}
+
+- (NSString *)viewStateDataNoDataImage {
+    return NSLocalizedString(@"ViewDataNoData", nil);
+}
+
+- (NSString *)viewStateDataTimeOutTitle {
+    return  NSLocalizedString(@"网络连接超时", nil);
+}
 
 
 @end

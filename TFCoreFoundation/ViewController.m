@@ -18,6 +18,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self removeStateView];
+    [self showStateView:kTFViewStateDataError];
+//    [self setViewState:kTFViewStateNetError];
     // Do any additional setup after loading the view, typically from a nib.
  
 }

@@ -53,5 +53,42 @@
 @property (nonatomic ,readonly) UIColor *alertLineColor;
 @property (nonatomic ,readonly) UIColor *alertTitleColor;
 @property (nonatomic ,readonly) UIColor *alertContentColor;
+///////////////////////////////////////////ViewState自定义/////////////////////////////////////////
+
+@property (nonatomic ,readonly) UIColor *viewStateBackgroundColor;
+
+@property (nonatomic ,readonly) UIColor *viewStateButtonBackgroundColor;
+
+@property (nonatomic ,readonly) CGSize viewStateButtonSize;
+
+@property (nonatomic ,readonly) CGFloat viewStateButtonCornerRadius;
+
+@property (nonatomic ,readonly) UIColor *viewStateButtonBorderColor;
+
+@property (nonatomic ,readonly) NSString *viewStateDataErrorTitle;///<数据错误提示文本
+
+@property (nonatomic ,readonly) NSString *viewStateDataErrorButtonTitle;///<数据错误底部按钮提示文本
+@property (nonatomic ,readonly) NSString *viewStateDataErrorImage;///<数据错误图片
+
+@property (nonatomic ,readonly) NSString *viewStateDataLoadingTitle;///<数据正在加载提示文本
+
+@property (nonatomic ,readonly) NSString *viewStateDataNetErrorTitle;///<网络错误提示文本
+
+@property (nonatomic ,readonly) NSString *viewStateDataNetErrorImage;///<网络错误图片
+
+@property (nonatomic ,readonly) NSString *viewStateDataNetErrorButtonTitle;///<网络错误底部按钮提示文本
+
+@property (nonatomic ,readonly) NSString *viewStateDataNoDataTitle;///<没有数据错误提示文本
+
+@property (nonatomic ,readonly) NSString *viewStateDataNoDataButtonTitle;///<没有数据错误提示文本
+
+@property (nonatomic ,readonly) NSString *viewStateDataNoDataImage;///<没有数据图片
+
+@property (nonatomic ,readonly) NSString *viewStateDataTimeOutTitle;///<网络超时提示文本
+
+@property (nonatomic ,readonly) NSString *viewStateDataTimeOutButtonTitle;///<没有数据错误提示文本
+@property (nonatomic ,readonly) UIImage *viewStateButtonBackgroundImage;///<按钮的背景图片
+
+
 
 @end

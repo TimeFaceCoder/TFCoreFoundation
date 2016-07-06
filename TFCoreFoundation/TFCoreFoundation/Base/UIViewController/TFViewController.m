@@ -14,7 +14,6 @@
 #import "TFCGUtilities.h"
 #import "TFDefaultStyle.h"
 #import "UIBarButtonItem+TFCore.h"
-#import "UIImage+TFCore.h"
 #import <FLAnimatedImage/FLAnimatedImage.h>
 #import <FLAnimatedImage/FLAnimatedImageView.h>
 
@@ -185,19 +184,19 @@
 - (NSString *)stateViewTitle:(NSInteger)viewState {
     NSString *title = @"";
     if (viewState == kTFViewStateDataError) {
-        title = NSLocalizedString(@"网络数据异常", nil);
+        title = TFSTYLEVAR(viewStateDataErrorTitle);
     }
     if (viewState == kTFViewStateLoading) {
-        title = NSLocalizedString(@"正在加载数据", nil);
+        title = TFSTYLEVAR(viewStateDataLoadingTitle);
     }
     if (viewState == kTFViewStateNetError) {
-        title = NSLocalizedString(@"网络连接错误", nil);
+        title = TFSTYLEVAR(viewStateDataNetErrorTitle);
     }
     if (viewState == kTFViewStateNoData) {
-        title = NSLocalizedString(@"网络数据为空", nil);
+        title = TFSTYLEVAR(viewStateDataNoDataTitle);
     }
     if (viewState == kTFViewStateTimeOut) {
-        title = NSLocalizedString(@"网络连接超时", nil);
+        title = TFSTYLEVAR(viewStateDataTimeOutTitle);
     }
     return title;
 }
@@ -205,18 +204,20 @@
 - (NSString *)stateViewButtonTitle:(NSInteger)viewState {
     NSString *title = @"";
     if (viewState == kTFViewStateDataError) {
-        title = NSLocalizedString(@"重新加载", nil);
+        title = TFSTYLEVAR(viewStateDataErrorButtonTitle);
     }
     if (viewState == kTFViewStateLoading) {
+        
     }
     if (viewState == kTFViewStateNetError) {
-        title = NSLocalizedString(@"设置网络", nil);
+        
+        title = TFSTYLEVAR(viewStateDataNetErrorButtonTitle);
     }
     if (viewState == kTFViewStateNoData) {
-        title = NSLocalizedString(@"暂无内容", nil);
+        title = TFSTYLEVAR(viewStateDataNoDataButtonTitle);
     }
     if (viewState == kTFViewStateTimeOut) {
-        title = NSLocalizedString(@"重新加载", nil);
+        title = TFSTYLEVAR(viewStateDataErrorButtonTitle);
     }
     return title;
 }
@@ -226,24 +227,42 @@
 - (UIImage *)stateViewImage:(NSInteger)viewState {
     UIImage *image = [UIImage new];
     if (viewState == kTFViewStateDataError) {
-        image =[UIImage imageNamed:NSLocalizedString(@"ViewDataError", nil)];
+        image =[UIImage imageNamed:TFSTYLEVAR(viewStateDataErrorImage)];
     }
     if (viewState == kTFViewStateLoading) {
     }
     if (viewState == kTFViewStateNetError) {
-        image =[UIImage imageNamed:NSLocalizedString(@"ViewDataNetError", nil)];
+        image =[UIImage imageNamed:TFSTYLEVAR(viewStateDataNetErrorImage)];
     }
     if (viewState == kTFViewStateNoData) {
-        image =[UIImage imageNamed:NSLocalizedString(@"ViewDataNetError", nil)];
+        image =[UIImage imageNamed:TFSTYLEVAR(viewStateDataNoDataImage)];
     }
     if (viewState == kTFViewStateTimeOut) {
-        image =[UIImage imageNamed:NSLocalizedString(@"ViewDataError", nil)];
+        image =[UIImage imageNamed:TFSTYLEVAR(viewStateDataNetErrorImage)];
     }    return image;
 }
 - (UIImage*)buttonBackgroundImageForStateView:(UIView *)view forState:(UIControlState)state {
-    UIImage *image = [UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(236/2, 30)];
-    return image;
+    return nil;
 }
+
+- (UIColor *)buttonBackgroundColorForStateView:(UIView *)view {
+    return TFSTYLEVAR(viewStateButtonBackgroundColor);
+}
+
+- (CGSize)buttonSizeForStateView:(UIView *)view {
+    return TFSTYLEVAR(viewStateButtonSize);
+}
+
+- (CGFloat)buttonCornerRadiusForStateView:(UIView *)view {
+    return TFSTYLEVAR(viewStateButtonCornerRadius);
+}
+
+- (UIColor *)buttonBorderColorForStateView:(UIView *)view {
+    return TFSTYLEVAR(viewStateButtonBorderColor);
+}
+
+
+
 
 #pragma mark - Private
 
@@ -298,8 +317,9 @@
 }
 
 - (UIColor *)backgroundColorForStateView:(UIView *)view {
-    return TFSTYLEVAR(viewBackgroundColor);
+    return TFSTYLEVAR(viewStateBackgroundColor);
 }
+
 
 - (CGFloat)spaceHeightForStateView:(UIView *)view {
     return 12;

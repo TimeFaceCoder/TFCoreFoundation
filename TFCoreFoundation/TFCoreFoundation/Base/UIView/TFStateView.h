@@ -24,6 +24,10 @@
 
 - (NSAttributedString *)buttonTitleForStateView:(UIView *)view forState:(UIControlState)state;
 - (UIImage *)buttonBackgroundImageForStateView:(UIView *)view forState:(UIControlState)state;
+- (UIColor *)buttonBackgroundColorForStateView:(UIView *)view;
+- (CGFloat)buttonCornerRadiusForStateView:(UIView *)view;
+- (UIColor *)buttonBorderColorForStateView:(UIView *)view;
+- (CGSize)buttonSizeForStateView:(UIView *)view;
 - (UIColor *)backgroundColorForStateView:(UIView *)view;
 - (CGPoint)offsetForStateView:(UIView *)view;
 - (CGRect)frameForStateView:(UIView *)view;

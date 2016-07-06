@@ -17,6 +17,7 @@
 @interface TFTableViewController() {
     CGFloat lastPosition;
     BOOL _loaded;
+    BOOL _isAnimating;
 }
 
 @property (nonatomic ,strong ,readwrite) ASTableView           *tableView;
@@ -71,6 +72,12 @@
          style.animationType = JDStatusBarAnimationTypeMove;
          return style;
      }];
+    if (!self.tabBarController.tabBar) {
+        self.hiddenTabBarWhenScrolling = NO;
+    }
+    else {
+        self.hiddenTabBarWhenScrolling = YES;
+    }
 }
 
 
@@ -222,19 +229,33 @@
     }
 }
 - (void)scrollViewDidScrollUp:(CGFloat)deltaY {
-    [self moveTabBar:-deltaY animated:YES];
+    [self setTabBarHidden:YES];
 }
 
 - (void)scrollViewDidScrollDown:(CGFloat)deltaY {
-    [self moveTabBar:-deltaY animated:YES];
+    [self setTabBarHidden:NO];
 }
 
 - (void)scrollFullScreenScrollViewDidEndDraggingScrollUp {
-    [self hideTabBar:YES];
+    [self setTabBarHidden:YES];
+    
 }
 
 - (void)scrollFullScreenScrollViewDidEndDraggingScrollDown {
-    [self showTabBar:YES];
+    [self setTabBarHidden:NO];
+}
+
+- (void)setTabBarHidden:(BOOL)hidden {
+    if (self.tabBarController.tabBar && _hiddenTabBarWhenScrolling==YES) {
+        if (self.tabBarController.tabBar.hidden!=hidden && self.tableView.contentSize.height>=CGRectGetHeight(self.view.frame)) {
+            _isAnimating = YES;
+            [UIView animateWithDuration:0.5 delay:0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                [self.tabBarController.tabBar setHidden:hidden];
+            } completion:^(BOOL finished) {
+                _isAnimating = NO;
+            }];
+        }
+    }
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "TFCoreFoundation.h"
+#import "TFDefaultStyle.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [TFStyle setGlobalStyleSheet:[[TFDefaultStyle alloc] init]];
     // Override point for customization after application launch.
     return YES;
 }

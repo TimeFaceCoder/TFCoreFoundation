@@ -16,5 +16,6 @@
 @property (nonatomic ,strong ,readonly) TFTableViewDataSource *dataSource;
 @property (nonatomic ,assign) NSInteger             listType;
 @property (nonatomic ,assign) BOOL                  usePullReload;
+@property (nonatomic ,assign) BOOL                  hiddenTabBarWhenScrolling;
 
 @end

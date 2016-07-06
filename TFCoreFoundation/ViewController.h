@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TFCoreFoundation/TFCoreFoundation.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : TFViewController
 
 
 @end

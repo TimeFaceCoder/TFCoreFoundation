@@ -150,13 +150,9 @@
         _button.backgroundColor = [UIColor whiteColor];
         _button.titleLabel.textColor = TFSTYLEVAR(loadingTextColor);
         _button.layer.borderWidth = 1;
-        _button.layer.borderColor = TFSTYLEVAR(loadingLineColor).CGColor;
-        _button.tf_size = CGSizeMake(236/2, 30);
-        _button.layer.cornerRadius = _button.tf_height / 2;
         _button.layer.masksToBounds = YES;
         _button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
         _button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        
         [_button addTarget:self action:@selector(didTapButton:) forControlEvents:UIControlEventTouchUpInside];
         
         [_contentView addSubview:_button];
@@ -246,12 +242,12 @@
     [views setObject:self forKey:@"self"];
     [views setObject:self.contentView forKey:@"contentView"];
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:[self]-(<=0)-[contentView]"
-                                                                 options:NSLayoutFormatAlignAllCenterY metrics:nil views:views]];
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[contentView]-0-|"
+                                                                 options:0 metrics:nil views:views]];
     
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[self]-(<=0)-[contentView]"
+    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[contentView(>=0)]"
                                                                  options:NSLayoutFormatAlignAllCenterX metrics:nil views:views]];
-    
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:self.contentView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeCenterY multiplier:1.0 constant:0.0]];
     // If a custom offset is available, we modify the contentView's constraints constants
     if (!CGPointEqualToPoint(self.offset, CGPointZero) && self.constraints.count == 4) {
         NSLayoutConstraint *vConstraint = self.constraints[1];
@@ -333,10 +329,9 @@
     // Assign the button's horizontal constraints
     if (_button.superview && [self canShowButton]) {
         [views setObject:_button forKey:@"button"];
-        [verticalSubviews addObject:@"[button]"];
-        padding = @100;
+        [verticalSubviews addObject:[NSString stringWithFormat:@"[button(%.f)]",_button.tf_height]];
+        padding = @((kScreenWidth-_button.tf_size.width)/2.0);
         metrics = NSDictionaryOfVariableBindings(padding,trailing,imgWidth,imgHeight);
-        
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[button]-padding-|"
                                                                                  options:0
                                                                                  metrics:metrics
@@ -364,7 +359,7 @@
     
     // Assign the vertical constraints to the content view
     if (verticalFormat.length > 0) {
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|%@|", verticalFormat]
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:|-0-%@-0-|", verticalFormat]
                                                                                  options:0 metrics:metrics views:views]];
     }
     
@@ -500,6 +495,38 @@ static char const * const kTFStateView            = "stateView";
     }
     return nil;
 }
+
+- (UIColor *)state_buttonBackgroundColor {
+    if (self.stateDataSource && [self.stateDataSource respondsToSelector:@selector(buttonBackgroundColorForStateView:)]) {
+        UIColor *color = [self.stateDataSource buttonBackgroundColorForStateView:self];
+        return color;
+    }
+    return [UIColor clearColor];
+}
+
+- (CGSize)state_buttonSize {
+    if (self.stateDataSource && [self.stateDataSource respondsToSelector:@selector(buttonSizeForStateView:)]) {
+        CGSize size = [self.stateDataSource buttonSizeForStateView:self];
+        return size;
+    }
+    return CGSizeMake(236/2, 30);
+}
+
+- (CGFloat)state_buttonCornerRadius {
+    if (self.stateDataSource && [self.stateDataSource respondsToSelector:@selector(buttonCornerRadiusForStateView:)]) {
+        
+        return [self.stateDataSource buttonCornerRadiusForStateView:self];
+    }
+    return 15.0;
+}
+
+- (UIColor *)state_buttonBorderColor {
+    if (self.stateDataSource && [self.stateDataSource respondsToSelector:@selector(buttonBorderColorForStateView:)]) {
+        return [self.stateDataSource buttonBorderColorForStateView:self];
+    }
+    return [UIColor clearColor];
+}
+
 
 - (UIColor *)state_dataSetBackgroundColor
 {
@@ -702,8 +729,11 @@ static char const * const kTFStateView            = "stateView";
         [view.button setAttributedTitle:[self state_buttonTitleForState:1] forState:1];
         [view.button setBackgroundImage:[self state_buttonBackgroundImageForState:0] forState:0];
         [view.button setBackgroundImage:[self state_buttonBackgroundImageForState:1] forState:1];
+        [view.button setBackgroundColor:[self state_buttonBackgroundColor]];
         [view.button setUserInteractionEnabled:[self state_isTouchAllowed]];
-        
+        [view.button setTf_size:[self state_buttonSize]];
+        view.button.layer.cornerRadius = [self state_buttonCornerRadius];
+        view.button.layer.borderColor = [self state_buttonBorderColor].CGColor;
         // Configure spacing
         view.verticalSpace = [self state_verticalSpace];
     }
