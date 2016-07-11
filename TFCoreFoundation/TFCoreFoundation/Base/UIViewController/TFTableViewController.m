@@ -247,7 +247,7 @@
 
 - (void)setTabBarHidden:(BOOL)hidden {
     if (self.tabBarController.tabBar && _hiddenTabBarWhenScrolling==YES) {
-        if (self.tabBarController.tabBar.hidden!=hidden && self.tableView.contentSize.height>=CGRectGetHeight(self.view.frame)) {
+        if (self.tabBarController.tabBar.hidden!=hidden && self.tableView.contentSize.height>=(CGRectGetHeight(self.view.frame) - (self.tableView.contentInset.top + self.tableView.frame.origin.y + self.tableView.contentInset.bottom))) {
             _isAnimating = YES;
             
             CGRect frame = self.view.frame;
