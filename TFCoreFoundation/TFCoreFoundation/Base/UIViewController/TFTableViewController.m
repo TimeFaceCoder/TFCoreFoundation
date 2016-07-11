@@ -249,6 +249,16 @@
     if (self.tabBarController.tabBar && _hiddenTabBarWhenScrolling==YES) {
         if (self.tabBarController.tabBar.hidden!=hidden && self.tableView.contentSize.height>=CGRectGetHeight(self.view.frame)) {
             _isAnimating = YES;
+            
+            CGRect frame = self.view.frame;
+            if (hidden) {
+                frame.size.height += 49;
+            }
+            else {
+                frame.size.height -= 49;
+            }
+            self.view.frame = frame;
+            
             [UIView animateWithDuration:0.5 delay:0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
                 [self.tabBarController.tabBar setHidden:hidden];
             } completion:^(BOOL finished) {
