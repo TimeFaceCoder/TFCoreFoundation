@@ -10,7 +10,6 @@
 #import <CoreMotion/CoreMotion.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "TFCoreFoundationMacro.h"
-#import "TFStateView.h"
 #import "TFCGUtilities.h"
 #import "TFDefaultStyle.h"
 #import "UIBarButtonItem+TFCore.h"
@@ -21,7 +20,6 @@
     
 }
 @property (nonatomic ,strong) CMMotionManager *manager;
-@property (nonatomic ,strong) TFStateView *stateView;
 @end
 
 @implementation TFViewController
@@ -201,6 +199,8 @@
     return title;
 }
 
+
+
 - (NSString *)stateViewButtonTitle:(NSInteger)viewState {
     NSString *title = @"";
     if (viewState == kTFViewStateDataError) {
@@ -261,8 +261,13 @@
     return TFSTYLEVAR(viewStateButtonBorderColor);
 }
 
+- (CGRect)frameForStateView:(UIView *)view {
+    return self.view.bounds;
+}
 
-
+- (CGPoint)offsetForStateView:(UIView *)view {
+    return CGPointZero;
+}
 
 #pragma mark - Private
 
@@ -322,7 +327,7 @@
 
 
 - (CGFloat)spaceHeightForStateView:(UIView *)view {
-    return 12;
+    return TFSTYLEVAR(viewStateSpaceHeight);
 }
 
 - (void)stateViewDidTapButton:(UIView *)view {
@@ -349,7 +354,6 @@
 
 
 #pragma mark - Delegate
-
 
 #pragma mark - TFStateViewDelegate
 

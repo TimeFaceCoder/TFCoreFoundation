@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <TFNavigator/TFNavigator.h>
+#import "TFStateView.h"
 // toast提示类型
 typedef NS_ENUM (NSInteger, TFMessageType) {
     /**
@@ -33,6 +34,7 @@ typedef NS_ENUM (NSInteger, TFMessageType) {
 
 @property (nonatomic ,strong) NSMutableDictionary *requestParams;
 @property (nonatomic ,assign) NSInteger viewState;
+@property (nonatomic ,strong) TFStateView *stateView;
 
 - (void)showToastMessage:(NSString *)message messageType:(TFMessageType)messageType;
 - (void)dismissToastView;

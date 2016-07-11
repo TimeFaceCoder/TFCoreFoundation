@@ -61,6 +61,8 @@
 
 @property (nonatomic ,readonly) CGSize viewStateButtonSize;
 
+@property (nonatomic ,readonly) CGFloat viewStateSpaceHeight;
+
 @property (nonatomic ,readonly) CGFloat viewStateButtonCornerRadius;
 
 @property (nonatomic ,readonly) UIColor *viewStateButtonBorderColor;

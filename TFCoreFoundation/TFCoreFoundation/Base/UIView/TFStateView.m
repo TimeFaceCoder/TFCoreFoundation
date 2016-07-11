@@ -742,7 +742,7 @@ static char const * const kTFStateView            = "stateView";
     view.offset = [self state_offset];
     // Configure frame
     self.frame = [self state_frame];
-    view.frame = self.frame;
+    view.frame = self.bounds;
     view.tf_top = 0;
     //    self.tfTop += 30.0f;
     

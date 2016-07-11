@@ -179,5 +179,10 @@
     return  NSLocalizedString(@"网络连接超时", nil);
 }
 
+- (CGFloat)viewStateSpaceHeight {
+    return 10.0;
+}
+
+
 
 @end
