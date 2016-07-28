@@ -7,6 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TFModel.h"
+
+@interface TFSplashModel : TFModel
+@property (copy, nonatomic) NSString *imageURL;
+@property (copy, nonatomic) NSString *targetURL;
+@property (assign, nonatomic) NSTimeInterval splashTime;
+@property (assign, nonatomic) CGFloat splashHeightRatio;
+@end
 
 typedef void (^TFSplashCompletion)(NSString *targetURL);
 
@@ -30,8 +38,7 @@ typedef NS_ENUM(NSUInteger, TFSplashAnimation) {
 
 @property (nonatomic, strong) UIView           *customView;
 
-
-- (void) showSplashWithImageURL:(NSString *)imageURL targetURL:(NSString *)targetURL splashTime:(NSInteger)splashTime;
+- (void) showSplashWithSplashModel:(TFSplashModel *)splashModel;
 
 - (void) showSplashWithNibName:(NSString *)nibName bundle:(NSBundle *)nibBundle;
 
