@@ -54,7 +54,7 @@
     if (self.params && [self.params objectForKey:@"listType"]) {
         [self setListType:[[self.params objectForKey:@"listType"] intValue]];
     }
-    self.dataSource = [[[[TFTableViewDataSourceConfig sharedInstance] dataSourceClass] alloc] initWithTableView:_tableView
+    self.dataSource = [[[[TFTableViewDataSourceConfig sharedInstance] dataSourceByListType:self.listType] alloc] initWithTableView:_tableView
                                                                                                        listType:self.listType
                                                                                                          params:self.requestParams
                                                                                                        delegate:self];
@@ -72,11 +72,9 @@
          style.animationType = JDStatusBarAnimationTypeMove;
          return style;
      }];
-    if (!self.tabBarController.tabBar) {
+    _hiddenTabBarWhenScrolling = YES;
+    if (self.tabBarController.tabBar.hidden==YES | self.hidesBottomBarWhenPushed == YES) {
         self.hiddenTabBarWhenScrolling = NO;
-    }
-    else {
-        self.hiddenTabBarWhenScrolling = YES;
     }
 }
 
