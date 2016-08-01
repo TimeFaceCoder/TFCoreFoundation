@@ -94,6 +94,7 @@ DEPENDENCIES:
   - JSONModel
   - MYTableViewManager (from `https://github.com/TimeFaceCoder/MYTableViewManager.git`)
   - NJKWebViewProgress
+  - PINRemoteImage (~> 3.0.0-beta.2)
   - SSKeychain
   - SVProgressHUD
   - TFCamera (from `https://github.com/TimeFaceCoder/TFCamera.git`)
@@ -160,7 +161,7 @@ CHECKOUT OPTIONS:
     :commit: 7b4e44bfea93c7954624ab689a96ae22243ab292
     :git: https://github.com/TimeFaceCoder/TFPhotoBrowser.git
   TFTableViewDataSource:
-    :commit: be58b9b4fff4d09cef3f568143d17f5d8e0ecce0
+    :commit: 0ee6aabb60d1ebee02003cde3bebf5f0952ffe68
     :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
   TFUploadAssistant:
     :commit: 2ef2e33c7fda68ffb831344b6c1e2ee2c0a8feca
@@ -199,6 +200,6 @@ SPEC CHECKSUMS:
   YYImage: 2cc79ed49b9549b71c6715cefe7b0f5ab3d33abf
   YYText: ac09660c9ccd9b817f409a20caa6f5587444d2ae
 
-PODFILE CHECKSUM: 1d699200d327750f4688a6362deb4a95231f6d8f
+PODFILE CHECKSUM: 014817eda71c6cc090005f0b6dcf2c9d0c49594f
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.0.1

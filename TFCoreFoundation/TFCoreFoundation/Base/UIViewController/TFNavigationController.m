@@ -60,14 +60,8 @@
         self.delegate = self;
         _canDragBack = YES;
         self.viewControllers = @[rootViewController];
-        
-        [[TFNavigationBar appearance] setTitleTextAttributes:
-         @{ NSForegroundColorAttributeName: TFSTYLEVAR(navBarTitleColor),
-            NSFontAttributeName: TFSTYLEVAR(navBarTitleFont)}];
-        
-        [[TFNavigationBar appearance] setBarBgColor:TFSTYLEVAR(navBarBackgroundColor)];
-        [[TFNavigationBar appearance] setTintColor:TFSTYLEVAR(navBarTitleColor)];
-        [[TFNavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
+        [TFDefaultStyle setAppUIDefalutStyle];
+       
     }
     
     return self;
@@ -285,7 +279,7 @@
     if (self.navigationBarVisibility == TFNavigationControllerNavigationBarVisibilityHidden) {
         return UIStatusBarStyleLightContent;
     } else {
-        return UIStatusBarStyleDefault;
+        return TFSTYLEVAR(defalutStatusBarStyle);
     }
 }
 

@@ -10,8 +10,23 @@
 #import "TFCoreFoundationMacro.h"
 #import "UIColor+TFCore.h"
 #import "UIImage+TFCore.h"
+#import "TFNavigationBar.h"
+
 
 @implementation TFDefaultStyle
+
++ (void)setAppUIDefalutStyle {
+    
+    [[TFNavigationBar appearance] setTitleTextAttributes:
+     @{ NSForegroundColorAttributeName: TFSTYLEVAR(navBarTitleColor),
+        NSFontAttributeName: TFSTYLEVAR(navBarTitleFont)}];
+    [[TFNavigationBar appearance] setBarBgColor:TFSTYLEVAR(navBarBackgroundColor)];
+    [[TFNavigationBar appearance] setTintColor:TFSTYLEVAR(navBarTitleColor)];
+    [[TFNavigationBar appearance] setBackgroundImage:[UIImage imageWithColor:[UIColor clearColor]] forBarMetrics:UIBarMetricsDefault];
+    
+    
+}
+
 
 /////////////////////////////////////////////全局字体格式定义//////////////////////////////////////////
 
@@ -71,6 +86,9 @@
     return [UIColor whiteColor];
 }
 
+- (UIStatusBarStyle)defalutStatusBarStyle {
+    return UIStatusBarStyleDefault;
+}
 
 ///////////////////////////////////////////AlertView样式定义/////////////////////////////////////////
 - (UIColor *)alertCancelColor {

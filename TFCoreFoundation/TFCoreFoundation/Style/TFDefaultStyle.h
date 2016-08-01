@@ -10,6 +10,11 @@
 
 @interface TFDefaultStyle : TFStyle
 
+/**
+ *  设置app的默认UI配置
+ 注：包括导航栏样式等等
+ */
++ (void)setAppUIDefalutStyle;
 /////////////////////////////////////////////全局字体格式定义//////////////////////////////////////////
 
 @property (nonatomic ,readonly) UIFont *font10;
@@ -36,6 +41,8 @@
 @property (nonatomic ,readonly) UIFont  *navBarTitleFont;
 
 @property (nonatomic ,readonly) UIColor *navBarTitleColor;
+
+@property (nonatomic ,readonly) UIStatusBarStyle defalutStatusBarStyle;
 
 /////////////////////////////////////////////HUD提示-START//////////////////////////////////////////
 @property (nonatomic ,readonly) UIFont  *loadingTextFont;
