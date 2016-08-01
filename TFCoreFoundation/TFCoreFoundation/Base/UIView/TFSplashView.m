@@ -16,6 +16,9 @@
 #import "YYImage+TFCore.h"
 #import "TFValidateUtility.h"
 
+@implementation TFSplashModel
+@end
+
 @interface TFSplashViewViewController : UIViewController
 
 @property (nonatomic, strong          ) UIView             *customView;
@@ -23,37 +26,27 @@
 @property (nonatomic, strong, readonly) UIImageView        *imageView;
 @property (nonatomic, strong, readonly) UIImageView        *adImageView;
 @property (nonatomic, strong) TFKVStorage *storeage;
-@property (nonatomic, copy) NSString *targetURL;
-@property (nonatomic, copy) NSString *imageURL;
-@property (nonatomic, assign) NSInteger splashTime;
+@property (strong, nonatomic) TFSplashModel *splashModel;
 
 - (instancetype)initWithSplashImage:(YYImage *)image
                          completion:(TFSplashCompletion)completion
-                           imageURL:(NSString *)imageURL
-                          targetURL:(NSString *)targetURL
-                         splashTime:(NSInteger)splashTime;
+                        splashModel:(TFSplashModel *)splashModel;
 
 @end
 
 @implementation TFSplashViewViewController
 
-- (instancetype)initWithSplashImage:(YYImage *)image
-                         completion:(TFSplashCompletion)completion
-                           imageURL:(NSString *)imagteURL
-                          targetURL:(NSString *)targetURL
-                         splashTime:(NSInteger)splashTime;
-{
+- (instancetype)initWithSplashImage:(YYImage *)image completion:(TFSplashCompletion)completion splashModel:(TFSplashModel *)splashModel {
     if ((self = [super init])) {
         _imageView = [[YYAnimatedImageView alloc] initWithImage:image];
         _adImageView = [[YYAnimatedImageView alloc] init];
         _completion = completion;
-        _targetURL = targetURL;
-        _imageURL = imagteURL;
-        _splashTime = splashTime;
+        _splashModel = splashModel;
     }
     
     return self;
 }
+
 
 - (void)setCustomView:(UIView *)customView
 {
@@ -76,16 +69,16 @@
     
     [self.view addSubview:self.adImageView];
     CGRect frame = self.view.bounds;
-    frame.size.height = frame.size.height * 0.82;
+    frame.size.height = frame.size.height * self.splashModel.splashHeightRatio;
     [self.adImageView setFrame:frame];
     
     //读取闪屏广告数据
-    if (![TFValidateUtility isBlankOrNull:self.imageURL]) {
-        BOOL adImageExists = [[SDWebImageManager sharedManager] cachedImageExistsForURL:[NSURL URLWithString:self.imageURL]];
+    if (![TFValidateUtility isBlankOrNull:self.splashModel.imageURL]) {
+        BOOL adImageExists = [[SDWebImageManager sharedManager] cachedImageExistsForURL:[NSURL URLWithString:self.splashModel.imageURL]];
         if (!adImageExists) {
             return;
         }
-        NSString *cacheKey = [[SDWebImageManager sharedManager] cacheKeyForURL:[NSURL URLWithString:self.imageURL]];
+        NSString *cacheKey = [[SDWebImageManager sharedManager] cacheKeyForURL:[NSURL URLWithString:self.splashModel.imageURL]];
         UIImage *image = [[[SDWebImageManager sharedManager] imageCache] imageFromDiskCacheForKey:cacheKey];
         //custom splash image
         CATransition *animation = [CATransition animation];
@@ -118,7 +111,7 @@
 
 - (void)viewTapAction:(UIGestureRecognizer *)gestureRecognizer {
     if (_completion) {
-        _completion(self.targetURL);
+        _completion(self.splashModel.targetURL);
     }
 }
 
@@ -170,7 +163,7 @@
 
 #pragma mark - Display
 
-- (void) showSplashWithImageURL:(NSString *)imageURL targetURL:(NSString *)targetURL splashTime:(NSInteger)splashTime {
+- (void)showSplashWithSplashModel:(TFSplashModel *)splashModel {
     
     // We use a simple root view controller here instead of adding subviews to the window
     // because the VC gives us rotation handling for free.
@@ -179,11 +172,11 @@
                                                                            completion:^(id object)
                                {
                                    [_self dismissSplashWithObject:object];
-                               } imageURL:imageURL targetURL:targetURL splashTime:splashTime];
+                               }
+                               splashModel:splashModel];
     
     [self showSplash];
 }
-
 
 - (void)showSplash {
     self.rootViewController.view.alpha = 1.f;
