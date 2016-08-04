@@ -64,6 +64,10 @@
 		B0E82FDB1CBA236000655B66 /* TFNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FDA1CBA236000655B66 /* TFNavigationController.m */; };
 		B0E82FDE1CBA238400655B66 /* UIWebView+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FDD1CBA238400655B66 /* UIWebView+TFCore.m */; };
 		B0E82FE11CBA23D700655B66 /* UIViewController+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FE01CBA23D700655B66 /* UIViewController+TFCore.m */; };
+		C46D84B51D5334AB009F65AF /* TFSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B01D5334AB009F65AF /* TFSegmentView.m */; };
+		C46D84B61D5334AB009F65AF /* TFSegmentViewTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B21D5334AB009F65AF /* TFSegmentViewTitleCell.m */; };
+		C46D84B71D5334AB009F65AF /* TFViewControllerPageNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B41D5334AB009F65AF /* TFViewControllerPageNode.m */; };
+		C46D84BA1D5334B2009F65AF /* TFPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B91D5334B2009F65AF /* TFPageViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,6 +200,14 @@
 		B0E82FDD1CBA238400655B66 /* UIWebView+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+TFCore.m"; sourceTree = "<group>"; };
 		B0E82FDF1CBA23D700655B66 /* UIViewController+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TFCore.h"; sourceTree = "<group>"; };
 		B0E82FE01CBA23D700655B66 /* UIViewController+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TFCore.m"; sourceTree = "<group>"; };
+		C46D84AF1D5334AB009F65AF /* TFSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFSegmentView.h; sourceTree = "<group>"; };
+		C46D84B01D5334AB009F65AF /* TFSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFSegmentView.m; sourceTree = "<group>"; };
+		C46D84B11D5334AB009F65AF /* TFSegmentViewTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFSegmentViewTitleCell.h; sourceTree = "<group>"; };
+		C46D84B21D5334AB009F65AF /* TFSegmentViewTitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFSegmentViewTitleCell.m; sourceTree = "<group>"; };
+		C46D84B31D5334AB009F65AF /* TFViewControllerPageNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFViewControllerPageNode.h; sourceTree = "<group>"; };
+		C46D84B41D5334AB009F65AF /* TFViewControllerPageNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFViewControllerPageNode.m; sourceTree = "<group>"; };
+		C46D84B81D5334B2009F65AF /* TFPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFPageViewController.h; sourceTree = "<group>"; };
+		C46D84B91D5334B2009F65AF /* TFPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFPageViewController.m; sourceTree = "<group>"; };
 		C8924AE191CF82B0A0DF3044 /* Pods-TFCoreFoundation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFCoreFoundation.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TFCoreFoundation/Pods-TFCoreFoundation.debug.xcconfig"; sourceTree = "<group>"; };
 		EF9A1DB4F620DCD06F118A37 /* Pods-TFCoreFoundation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFCoreFoundation.release.xcconfig"; path = "Pods/Target Support Files/Pods-TFCoreFoundation/Pods-TFCoreFoundation.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -454,6 +466,8 @@
 		B0E82FA01CB9F14000655B66 /* UIViewController */ = {
 			isa = PBXGroup;
 			children = (
+				C46D84B81D5334B2009F65AF /* TFPageViewController.h */,
+				C46D84B91D5334B2009F65AF /* TFPageViewController.m */,
 				B0E82FA11CB9F15300655B66 /* TFViewController.h */,
 				B0E82FA21CB9F15300655B66 /* TFViewController.m */,
 				B0E82FA41CB9F16500655B66 /* TFTableViewController.h */,
@@ -469,6 +483,12 @@
 		B0E82FA71CB9F17300655B66 /* UIView */ = {
 			isa = PBXGroup;
 			children = (
+				C46D84AF1D5334AB009F65AF /* TFSegmentView.h */,
+				C46D84B01D5334AB009F65AF /* TFSegmentView.m */,
+				C46D84B11D5334AB009F65AF /* TFSegmentViewTitleCell.h */,
+				C46D84B21D5334AB009F65AF /* TFSegmentViewTitleCell.m */,
+				C46D84B31D5334AB009F65AF /* TFViewControllerPageNode.h */,
+				C46D84B41D5334AB009F65AF /* TFViewControllerPageNode.m */,
 				B04860441CBB3FEB00DE6770 /* TFNavigationBar.h */,
 				B04860451CBB3FEB00DE6770 /* TFNavigationBar.m */,
 				B048604A1CBB471B00DE6770 /* TFAlertView.h */,
@@ -680,7 +700,9 @@
 				B07CBA311CBB910B004A81F2 /* TFModel.m in Sources */,
 				B043356F1CABB36C00960551 /* NSDictionary+TFCore.m in Sources */,
 				B043355B1CABA47200960551 /* NSObject+TFCoreForKVO.m in Sources */,
+				C46D84B51D5334AB009F65AF /* TFSegmentView.m in Sources */,
 				B0E82FB31CB9F3B100655B66 /* UIControl+TFCore.m in Sources */,
+				C46D84BA1D5334B2009F65AF /* TFPageViewController.m in Sources */,
 				B0E82FB91CB9F53600655B66 /* UIGestureRecognizer+TFCore.m in Sources */,
 				B0E82FB61CB9F42500655B66 /* UIFont+TFCore.m in Sources */,
 				B04860491CBB419600DE6770 /* TFViewTransitionAnimator.m in Sources */,
@@ -711,12 +733,14 @@
 				B0DA37201CC5C38A000F6683 /* TFValidateUtility.m in Sources */,
 				B0E82F9F1CB9EFE800655B66 /* UIView+TFCore.m in Sources */,
 				B0E82FDE1CBA238400655B66 /* UIWebView+TFCore.m in Sources */,
+				C46D84B61D5334AB009F65AF /* TFSegmentViewTitleCell.m in Sources */,
 				B04335611CABA8BD00960551 /* NSNumber+TFCore.m in Sources */,
 				B0E82FCC1CBA1BD100655B66 /* TFStyle.m in Sources */,
 				B03ABEE41CAB5AC4004067CA /* main.m in Sources */,
 				B0E82FC51CB9F7E200655B66 /* UITableView+TFCore.m in Sources */,
 				B07CBA2B1CBB875D004A81F2 /* YYImage+TFCore.m in Sources */,
 				B0E82FCF1CBA1D6500655B66 /* TFDefaultStyle.m in Sources */,
+				C46D84B71D5334AB009F65AF /* TFViewControllerPageNode.m in Sources */,
 				B0E82FBF1CB9F6D900655B66 /* UIScreen+TFCore.m in Sources */,
 				B043356C1CABB19800960551 /* NSArray+TFCore.m in Sources */,
 				B048604F1CBB4D3A00DE6770 /* TFStateView.m in Sources */,
