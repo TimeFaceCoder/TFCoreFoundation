@@ -1,14 +1,12 @@
-/*
- *  Copyright (c) 2014-present, Facebook, Inc.
- *  All rights reserved.
- *
- *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant
- *  of patent rights can be found in the PATENTS file in the same directory.
- *
- */
-
-#import "ASAssert.h"
+//
+//  ASTextKitTailTruncater.mm
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import "ASTextKitContext.h"
 #import "ASTextKitTailTruncater.h"
@@ -20,7 +18,6 @@
   NSCharacterSet *_avoidTailTruncationSet;
 }
 @synthesize visibleRanges = _visibleRanges;
-@synthesize truncationStringRect = _truncationStringRect;
 
 - (instancetype)initWithContext:(ASTextKitContext *)context
      truncationAttributedString:(NSAttributedString *)truncationAttributedString
@@ -183,6 +180,16 @@
 
     _visibleRanges = { visibleCharacterRange };
   }];
+}
+
+- (NSRange)firstVisibleRange
+{
+  std::vector<NSRange> visibleRanges = _visibleRanges;
+  if (visibleRanges.size() > 0) {
+    return visibleRanges[0];
+  }
+
+  return NSMakeRange(NSNotFound, 0);
 }
 
 @end

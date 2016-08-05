@@ -31,6 +31,7 @@
 
 - (void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didEndDisplayingViewControllerAtIndex:(NSUInteger)index;
 
+-(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didScrollContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth;
 @end
 
 
@@ -52,5 +53,7 @@
  * 根据索引获取viewcontroller
  */
 - (UIViewController *)viewControllerForPageAtIndex:(NSInteger)index;
+
+
 
 @end

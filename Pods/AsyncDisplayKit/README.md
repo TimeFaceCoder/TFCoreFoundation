@@ -1,7 +1,7 @@
 ![AsyncDisplayKit](https://github.com/facebook/AsyncDisplayKit/blob/master/docs/assets/logo.png)
 
-[![Apps Using](https://img.shields.io/badge/Apps%20Using%20ASDK-%3E3,658-28B9FE.svg)](http://cocoapods.org/pods/AsyncDisplayKit)
-[![Downloads](https://img.shields.io/badge/Total%20Downloads-%3E377,749-28B9FE.svg)](http://cocoapods.org/pods/AsyncDisplayKit)
+[![Apps Using](https://img.shields.io/badge/Apps%20Using%20ASDK-%3E4,646-28B9FE.svg)](http://cocoapods.org/pods/AsyncDisplayKit)
+[![Downloads](https://img.shields.io/badge/Total%20Downloads-%3E475,500-28B9FE.svg)](http://cocoapods.org/pods/AsyncDisplayKit)
 
 [![Platform](https://img.shields.io/badge/platforms-iOS%20%7C%20tvOS-orange.svg)](http://AsyncDisplayKit.org)
 [![Languages](https://img.shields.io/badge/languages-ObjC%20%7C%20Swift-orange.svg)](http://AsyncDisplayKit.org)
@@ -10,7 +10,7 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-59C939.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Build Status](https://travis-ci.org/facebook/AsyncDisplayKit.svg)](https://travis-ci.org/facebook/AsyncDisplayKit)
 [![License](https://img.shields.io/cocoapods/l/AsyncDisplayKit.svg)](https://github.com/facebook/AsyncDisplayKit/blob/master/LICENSE)
-
+ 
 
 AsyncDisplayKit is an iOS framework that keeps even the most complex user
 interfaces smooth and responsive.  It was originally built to make Facebook's
@@ -18,14 +18,14 @@ interfaces smooth and responsive.  It was originally built to make Facebook's
 [pop](https://github.com/facebook/pop)'s physics-based animations &mdash; but
 it's just as powerful with UIKit Dynamics and conventional app designs.
 
-### Quick start
+### Quick start  
 
 ASDK is available on [CocoaPods](http://cocoapods.org).  Add the following to your Podfile:
 
 ```ruby
 pod 'AsyncDisplayKit'
 ```
-
+ 
 (ASDK can also be used as a regular static library:  Copy the project to your
 codebase manually, adding `AsyncDisplayKit.xcodeproj` to your workspace.  Add
 `libAsyncDisplayKit.a`, MapKit, AssetsLibrary, and Photos to the "Link Binary With
@@ -46,7 +46,7 @@ CALayers:
 
 You can construct entire node hierarchies in parallel, or instantiate and size
 a single node on a background thread &mdash; for example, you could do
-something like this in a UIViewController:
+something like this in a UIViewController: 
 
 ```objective-c
 dispatch_async(_backgroundQueue, ^{

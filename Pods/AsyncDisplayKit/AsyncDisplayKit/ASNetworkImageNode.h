@@ -1,10 +1,12 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASNetworkImageNode.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import <AsyncDisplayKit/ASImageNode.h>
 #import <AsyncDisplayKit/ASImageProtocols.h>
@@ -45,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * The delegate, which must conform to the <ASNetworkImageNodeDelegate> protocol.
  */
-@property (atomic, weak, readwrite) id<ASNetworkImageNodeDelegate> delegate;
+@property (nullable, atomic, weak, readwrite) id<ASNetworkImageNodeDelegate> delegate;
 
 /**
  * A placeholder image to display while the URL is loading.
@@ -100,6 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
  * notifications such as finished decoding and downloading an image.
  */
 @protocol ASNetworkImageNodeDelegate <NSObject>
+@optional
 
 /**
  * Notification that the image node finished downloading an image.
@@ -110,8 +113,6 @@ NS_ASSUME_NONNULL_BEGIN
  * @discussion Called on a background queue.
  */
 - (void)imageNode:(ASNetworkImageNode *)imageNode didLoadImage:(UIImage *)image;
-
-@optional
 
 /**
  * Notification that the image node started to load

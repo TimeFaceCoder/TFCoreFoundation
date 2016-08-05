@@ -1,22 +1,27 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASVideoNode.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #if TARGET_OS_IOS
 #import <AsyncDisplayKit/ASButtonNode.h>
+#import <AsyncDisplayKit/ASNetworkImageNode.h>
 
-@class AVAsset, AVPlayer, AVPlayerItem;
+@class AVAsset, AVPlayer, AVPlayerItem, AVVideoComposition, AVAudioMix;
 @protocol ASVideoNodeDelegate;
 
 typedef enum {
   ASVideoNodePlayerStateUnknown,
   ASVideoNodePlayerStateInitialLoading,
-  ASVideoNodePlayerStateLoading,
+  ASVideoNodePlayerStateReadyToPlay,
+  ASVideoNodePlayerStatePlaybackLikelyToKeepUpButNotPlaying,
   ASVideoNodePlayerStatePlaying,
+  ASVideoNodePlayerStateLoading,
   ASVideoNodePlayerStatePaused,
   ASVideoNodePlayerStateFinished
 } ASVideoNodePlayerState;
@@ -29,16 +34,19 @@ NS_ASSUME_NONNULL_BEGIN
 //    there is room for further expansion and optimization.  Please report any issues or requests
 //    in an issue on GitHub: https://github.com/facebook/AsyncDisplayKit/issues
 
-@interface ASVideoNode : ASControlNode
+@interface ASVideoNode : ASNetworkImageNode
 
 - (void)play;
 - (void)pause;
 - (BOOL)isPlaying;
 
 @property (nullable, atomic, strong, readwrite) AVAsset *asset;
+@property (nullable, atomic, strong, readwrite) AVVideoComposition *videoComposition;
+@property (nullable, atomic, strong, readwrite) AVAudioMix *audioMix;
 
 @property (nullable, atomic, strong, readonly) AVPlayer *player;
 @property (nullable, atomic, strong, readonly) AVPlayerItem *currentItem;
+
 
 /**
  * When shouldAutoplay is set to true, a video node will play when it has both loaded and entered the "visible" interfaceState.
@@ -51,20 +59,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign, readwrite) BOOL shouldAggressivelyRecoverFromStall;
 
 @property (nonatomic, assign, readonly) ASVideoNodePlayerState playerState;
-//! Defaults to 100
+//! Defaults to 1000
 @property (nonatomic, assign) int32_t periodicTimeObserverTimescale;
 
 //! Defaults to AVLayerVideoGravityResizeAspect
 @property (atomic) NSString *gravity;
 
-//! Defaults to an ASDefaultPlayButton instance.
-@property (nullable, atomic) ASButtonNode *playButton;
-
-@property (nullable, atomic, weak, readwrite) id<ASVideoNodeDelegate> delegate;
+@property (nullable, atomic, weak, readwrite) id<ASVideoNodeDelegate, ASNetworkImageNodeDelegate> delegate;
 
 @end
 
-@protocol ASVideoNodeDelegate <NSObject>
+@protocol ASVideoNodeDelegate <ASNetworkImageNodeDelegate>
 @optional
 /**
  * @abstract Delegate method invoked when the node's video has played to its end time.
@@ -118,6 +123,12 @@ NS_ASSUME_NONNULL_BEGIN
  * @param videoNode The videoNode
  */
 - (void)videoNodeDidFinishInitialLoading:(ASVideoNode *)videoNode;
+/**
+ * @abstract Delegate method invoked when the AVPlayerItem for the asset has been set up and can be accessed throught currentItem.
+ * @param videoNode The videoNode.
+ * @param currentItem The AVPlayerItem that was constructed from the asset.
+ */
+- (void)videoNode:(ASVideoNode *)videoNode didSetCurrentItem:(AVPlayerItem *)currentItem;
 /**
  * @abstract Delegate method invoked when the video node has recovered from the stall
  * @param videoNode The videoNode

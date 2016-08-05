@@ -14,6 +14,7 @@
 @interface TFViewControllerPageNode ()<ASPagerDelegate, ASPagerDataSource>
 @property (nonatomic, strong) ASPagerNode* pagerNode;
 @property (nonatomic, assign) CGRect savedFrame;
+@property (nonatomic, assign, readwrite) NSInteger currentPageIndex;
 @end
 
 
@@ -21,9 +22,9 @@
 
 @implementation TFViewControllerPageNode
 
-- (NSInteger)currentPageIndex {
-    return self.pagerNode.currentPageIndex;
-}
+//- (NSInteger)currentPageIndex {
+//    return self.pagerNode.currentPageIndex;
+//}
 
 -(ASPagerNode *)pagerNode
 {
@@ -52,15 +53,19 @@
 {
     [super layout];
     self.savedFrame = self.frame;
+    self.pagerNode.frame = self.bounds;
 }
 
+-(NSInteger)currentPageIndex
+{
+    return self.pagerNode.currentPageIndex;
+}
 
 -(void)scrollToViewControllerAtIndex:(NSInteger)index animated:(BOOL)aniamted
 {
-    if (self.currentPageIndex != index) {
-        NSAssert([self numberOfPagesInPagerNode:self.pagerNode] >= index, @"out of range");
-        [self.pagerNode scrollToPageAtIndex:index animated:aniamted];
-    }
+    
+    NSAssert([self numberOfPagesInPagerNode:self.pagerNode] >= index, @"out of range");
+    [self.pagerNode scrollToPageAtIndex:index animated:aniamted];
 }
 
 - (UIViewController *)viewControllerForPageAtIndex:(NSInteger)index {
@@ -68,10 +73,6 @@
     return [cellNode valueForKey:@"_viewController"];
 }
 
--(ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize{
-    ASInsetLayoutSpec* spec = [ASInsetLayoutSpec insetLayoutSpecWithInsets:UIEdgeInsetsZero child:self.pagerNode];
-    return spec;
-}
 
 #pragma mark - ASPagerNodeDelegate
 - (NSInteger)numberOfPagesInPagerNode:(ASPagerNode *)pagerNode
@@ -105,12 +106,29 @@
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
+    self.currentPageIndex = self.pagerNode.currentPageIndex;
     if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:viewControllerAtIndex:)]) {
         [self.delegate viewControllerPageNode:self didSelectViewControllerAtIndex:self.currentPageIndex];
     }
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    [self viewControllerForPageAtIndex:self.pagerNode.currentPageIndex];
+    
+    CGSize contentSize = scrollView.contentSize;
+    CGSize viewSize = scrollView.frame.size;
+    
+    CGFloat contentCurrentOffset = scrollView.contentOffset.x;
+    
+    if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:didScrollContentOffset:inContentWidth:viewWidth:)]) {
+        NSLog(@"per:%f",contentCurrentOffset);
+        [self.delegate viewControllerPageNode:self didScrollContentOffset:contentCurrentOffset inContentWidth:contentSize.width viewWidth:viewSize.width];
+    }
+    
+}
+
 - (void)collectionView:(ASCollectionView *)collectionView willDisplayNodeForItemAtIndexPath:(NSIndexPath *)indexPath {
+
     if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:willDisplayViewControllerAtIndex:)]) {
         [self.delegate viewControllerPageNode:self willDisplayViewControllerAtIndex:self.currentPageIndex];
     }

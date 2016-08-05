@@ -3,7 +3,11 @@
 //  AsyncDisplayKit
 //
 //  Created by Huy Nguyen on 16/09/15.
-//  Copyright (c) 2015 Facebook. All rights reserved.
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
 //
 
 #import <UIKit/UIKit.h>
@@ -22,18 +26,6 @@ typedef ASTraitCollection * _Nonnull (^ASDisplayTraitsForTraitWindowSizeBlock)(C
 - (instancetype)initWithNode:(DisplayNodeType)node NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, strong, readonly) DisplayNodeType node;
-
-/**
- *  An optional context to pass along with an ASTraitCollection.
- *  This can be used to pass any internal state to all subnodes via the ASTraitCollection that is not
- *  included in UITraitCollection. This could range from more fine-tuned size classes to a class of
- *  constants that is based upon the new trait collection.
- *
- *  Be aware that internally this context is held by a C struct which cannot retain the pointer. Therefore
- *  ASVC keeps a strong reference to the context to make sure that it stays alive. If you change this value
- *  it will propagate the change to the subnodes.
- */
-@property (nonatomic, strong) id _Nullable traitColectionContext;
 
 /**
  * Set this block to customize the ASDisplayTraits returned when the VC transitions to the given traitCollection.
@@ -67,6 +59,13 @@ typedef ASTraitCollection * _Nonnull (^ASDisplayTraitsForTraitWindowSizeBlock)(C
  * backing node.
  */
 - (ASSizeRange)nodeConstrainedSize;
+
+@end
+
+@interface ASViewController (ASRangeControllerUpdateRangeProtocol)
+
+/// Automatically adjust range mode based on view events if the containing node confirms to the ASRangeControllerUpdateRangeProtocol
+@property (nonatomic, assign) BOOL automaticallyAdjustRangeModeBasedOnViewEvents;
 
 @end
 

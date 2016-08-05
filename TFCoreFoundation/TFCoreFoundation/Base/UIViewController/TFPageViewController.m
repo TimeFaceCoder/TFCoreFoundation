@@ -8,10 +8,9 @@
 
 #import "TFPageViewController.h"
 #import "TFSegmentView.h"
-#import <AsyncDisplayKit/AsyncDisplayKit.h>
-#import "TFPagerNodeChildViewController.h"
 #import "TFViewControllerPageNode.h"
-
+#import "UIView+TFCore.h"
+#import "TFCGUtilities.h"
 
 @interface TFPageViewController ()<TFViewControllerPageNodeDelegate>
 @property (nonatomic, strong)TFSegmentView* segmentView;
@@ -19,6 +18,8 @@
 @end
 
 @implementation TFPageViewController
+
+
 
 - (TFSegmentView *)segmentView
 {
@@ -57,7 +58,6 @@
     self.pageNode.frame = CGRectMake(0, self.segmentView.tf_bottom, self.view.tf_width, [self heightForViewControllers]);
 }
 
-
 -(CGFloat)heightForViewControllers
 {
     return self.view.tf_height - self.segmentView.tf_height;
@@ -90,7 +90,7 @@
 
 -(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didSelectViewControllerAtIndex:(NSUInteger)index
 {
-    self.segmentView.currentItemIndex = index;
+//    self.segmentView.currentItemIndex = index;
     [self didSelectViewController:[self.pageNode viewControllerForPageAtIndex:index] AtIndex:index];
 }
 
@@ -114,6 +114,9 @@
     
 }
 
-
+-(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didScrollContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth{
+//    NSLog(@"percent:%f",percent);
+    [self.segmentView updateCurrentSelectedIndexByContentOffset:contentOffset inContentWidth:contentWidth viewWidth:viewWidth];
+}
 
 @end

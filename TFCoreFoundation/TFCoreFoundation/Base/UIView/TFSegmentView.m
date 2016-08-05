@@ -8,7 +8,8 @@
 
 #import "TFSegmentView.h"
 #import "TFSegmentViewTitleCell.h"
-
+#import "UIView+TFCore.h"
+#import "UIColor+TFCore.h"
 static CGFloat kMinSegementItemWidth = 75.0;
 
 @interface TFSegmentView ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
@@ -105,17 +106,17 @@ static CGFloat kMinSegementItemWidth = 75.0;
     self.currentItemIndex = 0;
     self.textColor = UIColorHex(0x333333);
     self.selectedTextColor = UIColorHex(0x2f83eb);
-    self.font = TFSTYLEVAR(font16);
+    self.font = [UIFont systemFontOfSize:16];
     self.collectionView.frame = CGRectMake(0, 0, self.tf_width, self.tf_height);
 }
 
 -(void)setCurrentItemIndex:(NSInteger)currentItemIndex
 {
     if (_currentItemIndex != currentItemIndex) {
-
+        [self collectionView:self.collectionView didDeselectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
         [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:currentItemIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
         [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:currentItemIndex inSection:0]];
-        [self collectionView:self.collectionView didDeselectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+       
 
     }
     _currentItemIndex = currentItemIndex;
@@ -146,6 +147,19 @@ static CGFloat kMinSegementItemWidth = 75.0;
         layout.sectionInset = UIEdgeInsetsMake(0, sectionInset, 0, sectionInset);
         
     }
+}
+
+- (CGFloat)currentWidth {
+    if (_itemArr.count!=0) {
+        CGFloat currentWidth = 0.0;
+        NSMutableArray *tempArr = [NSMutableArray array];
+        for (NSString *item in _itemArr) {
+            CGFloat width = MAX([item sizeWithAttributes:@{NSFontAttributeName:_font}].width+20.0, kMinSegementItemWidth);
+            currentWidth += width;
+        }
+        return currentWidth;
+    }
+    return .0f;
 }
 
 #pragma mark UICollectionViewDelegate,UICollectionViewDataSource
@@ -180,24 +194,65 @@ static CGFloat kMinSegementItemWidth = 75.0;
     TFSegmentViewTitleCell *cell = (TFSegmentViewTitleCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.titleLabel.textColor = _selectedTextColor;
     [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-    [UIView animateWithDuration:0.3 animations:^{
-        _lineView.tf_width = cell.tf_width - _lineSpace *2;
-        _lineView.tf_left = cell.tf_left + _lineSpace;
-    } completion:^(BOOL finished) {
-        if (_currentItemIndex!=indexPath.row) {
-            _currentItemIndex = indexPath.row;
-            //调用变化
-            if (_changeBlock) {
-                _changeBlock (_currentItemIndex,_itemArr[_currentItemIndex]);
-            }
+    if (_currentItemIndex!=indexPath.row) {
+        _currentItemIndex = indexPath.row;
+        //调用变化
+        if (_changeBlock) {
+            _changeBlock (_currentItemIndex,_itemArr[_currentItemIndex]);
         }
-    }];
-    
+    }
+//    [UIView animateWithDuration:0.3 animations:^{
+//        _lineView.tf_width = cell.tf_width - _lineSpace *2;
+////        _lineView.tf_left = cell.tf_left + _lineSpace;
+//        _lineView.tf_centerX = cell.tf_centerX;
+//    } completion:^(BOOL finished) {
+////        if (_currentItemIndex!=indexPath.row) {
+////            _currentItemIndex = indexPath.row;
+////            //调用变化
+////            if (_changeBlock) {
+////                _changeBlock (_currentItemIndex,_itemArr[_currentItemIndex]);
+////            }
+////        }
+//    }];
+
 }
+
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     TFSegmentViewTitleCell *cell = (TFSegmentViewTitleCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.titleLabel.textColor = _textColor;
+}
+
+
+-(void)updateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWith;
+{
+    CGFloat targetCenterX = 0.0f;
+    if (_currentItemIndex != (int)(contentOffset / viewWith)) {
+        
+        [self collectionView:self.collectionView didDeselectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+        _currentItemIndex = contentOffset / viewWith;
+        [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+        TFSegmentViewTitleCell *cell = (TFSegmentViewTitleCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+        targetCenterX = cell.tf_centerX;
+    }
+    
+    
+    CGFloat sectionInset = 0.0;
+    if ([self currentWidth]<self.tf_width) {
+        sectionInset = (self.tf_width - [self currentWidth])/2.0;
+    }
+    CGFloat cellWidth = [self.itemWidthArr[_currentItemIndex] floatValue];
+    CGFloat firstCellWidth = [self.itemWidthArr[0] floatValue];
+    CGFloat leading = sectionInset + firstCellWidth/2.0f + [self currentWidth] * (contentOffset / contentWidth);
+    _lineView.tf_centerX = leading;
+    
+    if (abs(targetCenterX - _lineView.tf_centerX) < 10) {
+        
+        [UIView animateWithDuration:0.1f delay:0.0f usingSpringWithDamping:0.3 initialSpringVelocity:0.7 options:UIViewAnimationOptionTransitionNone animations:^{
+            _lineView.tf_centerX = targetCenterX;
+        } completion:nil];
+    }
 }
 
 /*

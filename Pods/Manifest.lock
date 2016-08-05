@@ -15,12 +15,12 @@ PODS:
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - AliyunOSSiOS (2.5.0)
-  - AsyncDisplayKit (1.9.74):
-    - AsyncDisplayKit/PINRemoteImage (= 1.9.74)
-  - AsyncDisplayKit/ASDealloc2MainObject (1.9.74)
-  - AsyncDisplayKit/Core (1.9.74):
+  - AsyncDisplayKit (1.9.81):
+    - AsyncDisplayKit/PINRemoteImage (= 1.9.81)
+  - AsyncDisplayKit/ASDealloc2MainObject (1.9.81)
+  - AsyncDisplayKit/Core (1.9.81):
     - AsyncDisplayKit/ASDealloc2MainObject
-  - AsyncDisplayKit/PINRemoteImage (1.9.74):
+  - AsyncDisplayKit/PINRemoteImage (1.9.81):
     - AsyncDisplayKit/Core
     - PINRemoteImage/iOS (>= 3.0.0-beta.2)
   - DACircularProgress (2.3.1)
@@ -88,7 +88,7 @@ PODS:
 
 DEPENDENCIES:
   - AliyunOSSiOS (from `https://github.com/aliyun/AliyunOSSiOS.git`)
-  - AsyncDisplayKit (from `https://github.com/facebook/AsyncDisplayKit.git`)
+  - AsyncDisplayKit (~> 1.9.81)
   - FLAnimatedImage
   - JDStatusBarNotification (from `https://github.com/TimeFaceCoder/JDStatusBarNotification.git`)
   - JSONModel
@@ -111,8 +111,6 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   AliyunOSSiOS:
     :git: https://github.com/aliyun/AliyunOSSiOS.git
-  AsyncDisplayKit:
-    :git: https://github.com/facebook/AsyncDisplayKit.git
   JDStatusBarNotification:
     :git: https://github.com/TimeFaceCoder/JDStatusBarNotification.git
   MYTableViewManager:
@@ -136,9 +134,6 @@ CHECKOUT OPTIONS:
   AliyunOSSiOS:
     :commit: 80c67c8dc00492de45f5d1500a82e295940af159
     :git: https://github.com/aliyun/AliyunOSSiOS.git
-  AsyncDisplayKit:
-    :commit: bde4fe7e246fb262f2709f46556e236c6d6f462c
-    :git: https://github.com/facebook/AsyncDisplayKit.git
   JDStatusBarNotification:
     :commit: 6d8a748a67ba2b8b8d6a13e1ad0279bc377edd3e
     :git: https://github.com/TimeFaceCoder/JDStatusBarNotification.git
@@ -170,7 +165,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   AliyunOSSiOS: 0c275ccd87b0b1fb82f3f8abe1aa1568a17b19d7
-  AsyncDisplayKit: cbd10f28030c0b904cef1bd8e7d96d775c5b0484
+  AsyncDisplayKit: 011ea22a76a79a5bbfc14501fede6e0196a3c2f0
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   EGOCache: f0295dbe041156acabd39021354ad1045ee49e72
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
@@ -200,6 +195,6 @@ SPEC CHECKSUMS:
   YYImage: 2cc79ed49b9549b71c6715cefe7b0f5ab3d33abf
   YYText: ac09660c9ccd9b817f409a20caa6f5587444d2ae
 
-PODFILE CHECKSUM: 014817eda71c6cc090005f0b6dcf2c9d0c49594f
+PODFILE CHECKSUM: bc286aa20a58777e14212b2ac14127d58767d2cc
 
 COCOAPODS: 1.0.1

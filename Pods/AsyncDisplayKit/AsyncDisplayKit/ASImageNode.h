@@ -1,10 +1,12 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASImageNode.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import <AsyncDisplayKit/ASControlNode.h>
 
@@ -140,6 +142,15 @@ typedef UIImage * _Nullable (^asimagenode_modification_block_t)(UIImage *image);
  * playback.
  */
 @property (atomic, assign) BOOL animatedImagePaused;
+
+/**
+ * @abstract The runloop mode used to animate the image.
+ *
+ * @discussion Defaults to NSRunLoopCommonModes. Another commonly used mode is NSDefaultRunLoopMode.
+ * Setting NSDefaultRunLoopMode will cause animation to pause while scrolling (if the ASImageNode is
+ * in a scroll view), which may improve scroll performance in some use cases.
+ */
+@property (atomic, strong) NSString *animatedImageRunLoopMode;
 
 @end
 

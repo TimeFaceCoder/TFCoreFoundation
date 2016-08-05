@@ -1,24 +1,24 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASMapNode.mm
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #if TARGET_OS_IOS
 #import "ASMapNode.h"
-#import <AsyncDisplayKit/ASDisplayNode+Subclasses.h>
-#import <AsyncDisplayKit/ASDisplayNodeExtras.h>
-#import <AsyncDisplayKit/ASInsetLayoutSpec.h>
-#import <AsyncDisplayKit/ASCenterLayoutSpec.h>
-#import <AsyncDisplayKit/ASThread.h>
-#import <AsyncDisplayKit/ASInternalHelpers.h>
-#import <AsyncDisplayKit/ASLayout.h>
+#import "ASDisplayNodeInternal.h"
+#import "ASDisplayNode+Subclasses.h"
+#import "ASDisplayNodeExtras.h"
+#import "ASInsetLayoutSpec.h"
+#import "ASInternalHelpers.h"
+#import "ASLayout.h"
 
 @interface ASMapNode()
 {
-  ASDN::RecursiveMutex _propertyLock;
   MKMapSnapshotter *_snapshotter;
   BOOL _snapshotAfterLayout;
   NSArray *_annotations;

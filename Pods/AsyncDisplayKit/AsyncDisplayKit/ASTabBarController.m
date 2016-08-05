@@ -3,7 +3,11 @@
 //  AsyncDisplayKit
 //
 //  Created by Garrett Moon on 5/10/16.
-//  Copyright © 2016 Facebook. All rights reserved.
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
 //
 
 #import "ASTabBarController.h"
@@ -35,6 +39,12 @@ ASVisibilityDepthImplementation;
 
 - (NSInteger)visibilityDepthOfChildViewController:(UIViewController *)childViewController
 {
+  NSUInteger viewControllerIndex = [self.viewControllers indexOfObjectIdenticalTo:childViewController];
+  if (viewControllerIndex == NSNotFound) {
+    //If childViewController is not actually a child, return NSNotFound which is also a really large number.
+    return NSNotFound;
+  }
+  
   if (self.selectedViewController == childViewController) {
     return [self visibilityDepth];
   }

@@ -1,10 +1,12 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASCollectionView.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import <UIKit/UIKit.h>
 
@@ -12,13 +14,12 @@
 #import <AsyncDisplayKit/ASCollectionViewProtocols.h>
 #import <AsyncDisplayKit/ASBaseDefines.h>
 #import <AsyncDisplayKit/ASBatchContext.h>
-#import <AsyncDisplayKit/ASCollectionViewFlowLayoutInspector.h>
-#import <AsyncDisplayKit/ASCollectionViewLayoutFacilitatorProtocol.h>
 
 @class ASCellNode;
 @class ASCollectionNode;
 @protocol ASCollectionDataSource;
 @protocol ASCollectionDelegate;
+@protocol ASCollectionViewLayoutInspecting;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -276,9 +277,20 @@ NS_ASSUME_NONNULL_BEGIN
  *
  * @param indexPath The index path of the requested node.
  *
- * @returns a node for display at this indexpath.
+ * @returns a node for display at this indexpath or nil
  */
-- (ASCellNode *)nodeForItemAtIndexPath:(NSIndexPath *)indexPath;
+- (nullable ASCellNode *)nodeForItemAtIndexPath:(NSIndexPath *)indexPath;
+
+
+/**
+ * Similar to -supplementaryViewForElementKind:atIndexPath:
+ *
+ * @param elementKind The kind of supplementary node to locate.
+ * @param indexPath The index path of the requested supplementary node.
+ *
+ * @returns The specified supplementary node or nil
+ */
+- (nullable ASCellNode *)supplementaryNodeForElementKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath;
 
 /**
  * Similar to -indexPathForCell:.
@@ -405,8 +417,9 @@ NS_ASSUME_NONNULL_BEGIN
  * due to the data access in async mode.
  *
  * @param collectionView The sender.
+ * @deprecated The data source is always accessed on the main thread, and this method will not be called.
  */
-- (void)collectionViewLockDataSource:(ASCollectionView *)collectionView;
+- (void)collectionViewLockDataSource:(ASCollectionView *)collectionView ASDISPLAYNODE_DEPRECATED;
 
 /**
  * Indicator to unlock the data source for data fetching in async mode.
@@ -414,8 +427,9 @@ NS_ASSUME_NONNULL_BEGIN
  * due to the data access in async mode.
  *
  * @param collectionView The sender.
+ * @deprecated The data source is always accessed on the main thread, and this method will not be called.
  */
-- (void)collectionViewUnlockDataSource:(ASCollectionView *)collectionView;
+- (void)collectionViewUnlockDataSource:(ASCollectionView *)collectionView ASDISPLAYNODE_DEPRECATED;
 
 @end
 
@@ -428,6 +442,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @optional
 
+/**
+ * Informs the delegate that the collection view will add the node
+ * at the given index path to the view hierarchy.
+ *
+ * @param collectionView The sender.
+ * @param indexPath The index path of the item that will be displayed.
+ *
+ * @warning AsyncDisplayKit processes collection view edits asynchronously. The index path
+ *   passed into this method may not correspond to the same item in your data source
+ *   if your data source has been updated since the last edit was processed.
+ */
 - (void)collectionView:(ASCollectionView *)collectionView willDisplayNodeForItemAtIndexPath:(NSIndexPath *)indexPath;
 
 /**
@@ -438,6 +463,10 @@ NS_ASSUME_NONNULL_BEGIN
  * @param collectionView The sender.
  * @param node The node which was removed from the view hierarchy.
  * @param indexPath The index path at which the node was located before it was removed.
+ *
+ * @warning AsyncDisplayKit processes collection view edits asynchronously. The index path
+ *   passed into this method may not correspond to the same item in your data source
+ *   if your data source has been updated since the last edit was processed.
  */
 - (void)collectionView:(ASCollectionView *)collectionView didEndDisplayingNode:(ASCellNode *)node forItemAtIndexPath:(NSIndexPath *)indexPath;
 
@@ -472,6 +501,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * Informs the delegate that the collection view did remove the node which was previously
  * at the given index path from the view hierarchy.
+ *
+ * @warning AsyncDisplayKit processes collection view edits asynchronously. The index path
+ *   passed into this method may not correspond to the same item in your data source
+ *   if your data source has been updated since the last edit was processed.
  *
  * This method is deprecated. Use @c collectionView:didEndDisplayingNode:forItemAtIndexPath: instead.
  */

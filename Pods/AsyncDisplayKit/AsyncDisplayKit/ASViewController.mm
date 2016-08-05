@@ -1,17 +1,20 @@
 //
-//  ASViewController.m
+//  ASViewController.mm
 //  AsyncDisplayKit
 //
 //  Created by Huy Nguyen on 16/09/15.
-//  Copyright (c) 2015 Facebook. All rights reserved.
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
 //
 
 #import "ASViewController.h"
 #import "ASAssert.h"
-#import "ASDimension.h"
+#import "ASAvailability.h"
 #import "ASDisplayNodeInternal.h"
 #import "ASDisplayNode+FrameworkPrivate.h"
-#import "ASDisplayNode+Beta.h"
 #import "ASTraitCollection.h"
 #import "ASEnvironmentInternal.h"
 #import "ASRangeControllerUpdateRangeProtocol+Beta.h"
@@ -53,17 +56,6 @@
   return self;
 }
 
-- (void)dealloc
-{
-  if (_traitColectionContext != nil) {
-    // The setter will iterate through the VC's subnodes and replace the traitCollectionContext in their ASEnvironmentTraitCollection with nil.
-    // Since the VC holds the only strong reference to this context and we are in the process of destroying
-    // the VC, all the references in the subnodes will be unsafe unless we nil them out. More than likely all the subnodes will be dealloc'ed
-    // as part of the VC being dealloc'ed, but this is just to make extra sure.
-    self.traitColectionContext = nil;
-  }
-}
-
 - (void)loadView
 {
   ASDisplayNodeAssertTrue(!_node.layerBacked);
@@ -82,12 +74,33 @@
   _node.frame = frame;
   _node.autoresizingMask = autoresizingMask;
   self.view = view;
+  
+  // ensure that self.node has a valid trait collection before a subclass's implementation of viewDidLoad.
+  // Any subnodes added in viewDidLoad will then inherit the proper environment.
+  if (AS_AT_LEAST_IOS8) {
+    ASEnvironmentTraitCollection traitCollection = [self environmentTraitCollectionForUITraitCollection:self.traitCollection];
+    [self progagateNewEnvironmentTraitCollection:traitCollection];
+  }
 }
 
 - (void)viewWillLayoutSubviews
 {
   [super viewWillLayoutSubviews];
   [_node measureWithSizeRange:[self nodeConstrainedSize]];
+  
+  if (!AS_AT_LEAST_IOS9) {
+    [self _legacyHandleViewDidLayoutSubviews];
+  }
+}
+
+- (void)_legacyHandleViewDidLayoutSubviews
+{
+  // In modal presentation the view does not automatic resize in iOS7 and iOS8. As workaround we adjust the frame of the
+  // view manually
+  if (self.presentingViewController != nil) {
+    CGSize maxConstrainedSize = [self nodeConstrainedSize].max;
+    _node.frame = (CGRect){.origin = CGPointZero, .size = maxConstrainedSize};
+  }
 }
 
 - (void)viewDidLayoutSubviews
@@ -176,7 +189,26 @@ ASVisibilityDepthImplementation;
 
 - (ASSizeRange)nodeConstrainedSize
 {
-  CGSize viewSize = self.view.bounds.size;
+  if (AS_AT_LEAST_IOS9) {
+    CGSize viewSize = self.view.bounds.size;
+    return ASSizeRangeMake(viewSize, viewSize);
+  } else {
+    return [self _legacyConstrainedSize];
+  }
+}
+
+- (ASSizeRange)_legacyConstrainedSize
+{
+  // In modal presentation the view does not have the right bounds in iOS7 and iOS8. As workaround using the superviews
+  // view bounds
+  UIView *view = self.view;
+  CGSize viewSize = view.bounds.size;
+  if (self.presentingViewController != nil) {
+    UIView *superview = view.superview;
+    if (superview != nil) {
+      viewSize = superview.bounds.size;
+    }
+  }
   return ASSizeRangeMake(viewSize, viewSize);
 }
 
@@ -187,52 +219,43 @@ ASVisibilityDepthImplementation;
 
 #pragma mark - ASEnvironmentTraitCollection
 
-- (void)setTraitColectionContext:(id)traitColectionContext
-{
-  if (_traitColectionContext != traitColectionContext) {
-    // propagate first so that nodes aren't hanging around with a dealloc'ed pointer
-    ASEnvironmentTraitCollectionUpdateDisplayContext(self.node, traitColectionContext);
-    
-    _traitColectionContext = traitColectionContext;
-  }
-}
-
-- (ASEnvironmentTraitCollection)displayTraitsForTraitCollection:(UITraitCollection *)traitCollection
+- (ASEnvironmentTraitCollection)environmentTraitCollectionForUITraitCollection:(UITraitCollection *)traitCollection
 {
   if (self.overrideDisplayTraitsWithTraitCollection) {
     ASTraitCollection *asyncTraitCollection = self.overrideDisplayTraitsWithTraitCollection(traitCollection);
-    self.traitColectionContext = asyncTraitCollection.traitCollectionContext;
     return [asyncTraitCollection environmentTraitCollection];
   }
   
+  ASDisplayNodeAssertMainThread();
   ASEnvironmentTraitCollection asyncTraitCollection = ASEnvironmentTraitCollectionFromUITraitCollection(traitCollection);
-  asyncTraitCollection.displayContext = self.traitColectionContext;
+  asyncTraitCollection.containerSize = self.view.frame.size;
   return asyncTraitCollection;
 }
 
-- (ASEnvironmentTraitCollection)displayTraitsForWindowSize:(CGSize)windowSize
+- (ASEnvironmentTraitCollection)environmentTraitCollectionForWindowSize:(CGSize)windowSize
 {
   if (self.overrideDisplayTraitsWithWindowSize) {
     ASTraitCollection *traitCollection = self.overrideDisplayTraitsWithWindowSize(windowSize);
-    self.traitColectionContext = traitCollection.traitCollectionContext;
     return [traitCollection environmentTraitCollection];
   }
-  return self.node.environmentTraitCollection;
+  ASEnvironmentTraitCollection traitCollection = self.node.environmentTraitCollection;
+  traitCollection.containerSize = windowSize;
+  return traitCollection;
 }
 
-- (void)progagateNewDisplayTraits:(ASEnvironmentTraitCollection)traitCollection
+- (void)progagateNewEnvironmentTraitCollection:(ASEnvironmentTraitCollection)environmentTraitCollection
 {
   ASEnvironmentState environmentState = self.node.environmentState;
-  ASEnvironmentTraitCollection oldTraitCollection = environmentState.traitCollection;
+  ASEnvironmentTraitCollection oldEnvironmentTraitCollection = environmentState.environmentTraitCollection;
   
-  if (ASEnvironmentTraitCollectionIsEqualToASEnvironmentTraitCollection(traitCollection, oldTraitCollection) == NO) {
-    environmentState.traitCollection = traitCollection;
+  if (ASEnvironmentTraitCollectionIsEqualToASEnvironmentTraitCollection(environmentTraitCollection, oldEnvironmentTraitCollection) == NO) {
+    environmentState.environmentTraitCollection = environmentTraitCollection;
     self.node.environmentState = environmentState;
     [self.node setNeedsLayout];
     
     NSArray<id<ASEnvironment>> *children = [self.node children];
     for (id<ASEnvironment> child in children) {
-      ASEnvironmentStatePropagateDown(child, environmentState.traitCollection);
+      ASEnvironmentStatePropagateDown(child, environmentState.environmentTraitCollection);
     }
   }
 }
@@ -241,24 +264,29 @@ ASVisibilityDepthImplementation;
 {
   [super traitCollectionDidChange:previousTraitCollection];
   
-  ASEnvironmentTraitCollection traitCollection = [self displayTraitsForTraitCollection:self.traitCollection];
-  [self progagateNewDisplayTraits:traitCollection];
+  ASEnvironmentTraitCollection environmentTraitCollection = [self environmentTraitCollectionForUITraitCollection:self.traitCollection];
+  environmentTraitCollection.containerSize = self.view.bounds.size;
+  [self progagateNewEnvironmentTraitCollection:environmentTraitCollection];
 }
 
 - (void)willTransitionToTraitCollection:(UITraitCollection *)newCollection withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
   [super willTransitionToTraitCollection:newCollection withTransitionCoordinator:coordinator];
   
-  ASEnvironmentTraitCollection traitCollection = [self displayTraitsForTraitCollection:newCollection];
-  [self progagateNewDisplayTraits:traitCollection];
+  // here we take the new UITraitCollection and use it to create a new ASEnvironmentTraitCollection on self.node
+  // We will propagate when the corresponding viewWillTransitionToSize:withTransitionCoordinator: is called and we have the
+  // new windowSize. There are cases when viewWillTransitionToSize: is called when willTransitionToTraitCollection: is not.
+  // Since we do the propagation on viewWillTransitionToSize: our subnodes should always get the proper trait collection.
+  ASEnvironmentTraitCollection asyncTraitCollection = ASEnvironmentTraitCollectionFromUITraitCollection(newCollection);
+  self.node.environmentTraitCollection = asyncTraitCollection;
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
   [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
   
-  ASEnvironmentTraitCollection traitCollection = [self displayTraitsForWindowSize:size];
-  [self progagateNewDisplayTraits:traitCollection];
+  ASEnvironmentTraitCollection environmentTraitCollection = [self environmentTraitCollectionForWindowSize:size];
+  [self progagateNewEnvironmentTraitCollection:environmentTraitCollection];
 }
 
 @end

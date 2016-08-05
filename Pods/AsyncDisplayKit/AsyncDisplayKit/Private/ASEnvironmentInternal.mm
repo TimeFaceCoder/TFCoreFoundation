@@ -1,12 +1,12 @@
-/*
- *  Copyright (c) 2014-present, Facebook, Inc.
- *  All rights reserved.
- *
- *  This source code is licensed under the BSD-style license found in the
- *  LICENSE file in the root directory of this source tree. An additional grant
- *  of patent rights can be found in the PATENTS file in the same directory.
- *
- */
+//
+//  ASEnvironmentInternal.mm
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import "ASEnvironmentInternal.h"
 
@@ -201,14 +201,14 @@ ASEnvironmentState ASEnvironmentMergeObjectAndState(ASEnvironmentState childEnvi
   
   // Support propagate down
   if (propagation == ASEnvironmentStatePropagation::DOWN) {
-    ASEnvironmentTraitCollection childTraitCollection = childEnvironmentState.traitCollection;
+    ASEnvironmentTraitCollection childTraitCollection = childEnvironmentState.environmentTraitCollection;
     childTraitCollection.horizontalSizeClass = parentTraitCollection.horizontalSizeClass;
     childTraitCollection.verticalSizeClass = parentTraitCollection.verticalSizeClass;
     childTraitCollection.userInterfaceIdiom = parentTraitCollection.userInterfaceIdiom;
     childTraitCollection.forceTouchCapability = parentTraitCollection.forceTouchCapability;
     childTraitCollection.displayScale = parentTraitCollection.displayScale;
-    childTraitCollection.displayContext = parentTraitCollection.displayContext;
-    childEnvironmentState.traitCollection = childTraitCollection;
+    childTraitCollection.containerSize = parentTraitCollection.containerSize;
+    childEnvironmentState.environmentTraitCollection = childTraitCollection;
 
   }
   return childEnvironmentState;

@@ -1,10 +1,12 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASImageProtocols.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import <UIKit/UIKit.h>
 #import <AsyncDisplayKit/ASBaseDefines.h>
@@ -142,11 +144,20 @@ withDownloadIdentifier:(id)downloadIdentifier;
 
 @protocol ASAnimatedImageProtocol <NSObject>
 
+@optional
+
 /**
  @abstract Should be called when the objects cover image is ready.
  @param coverImageReadyCallback a block which receives the cover image.
  */
 @property (nonatomic, strong, readwrite) void (^coverImageReadyCallback)(UIImage *coverImage);
+
+/**
+ @abstract Returns whether the supplied data contains a supported animated image format.
+ @param data the data to check if contains a supported animated image.
+ */
+- (BOOL)isDataSupported:(NSData *)data;
+
 
 @required
 

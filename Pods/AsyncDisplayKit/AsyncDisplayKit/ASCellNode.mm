@@ -1,14 +1,15 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASCellNode.mm
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #import "ASCellNode+Internal.h"
 
-#import "ASInternalHelpers.h"
 #import "ASEqualityHelpers.h"
 #import "ASDisplayNodeInternal.h"
 #import <AsyncDisplayKit/_ASDisplayView.h>
@@ -18,7 +19,6 @@
 
 #import <AsyncDisplayKit/ASViewController.h>
 #import <AsyncDisplayKit/ASInsetLayoutSpec.h>
-#import <AsyncDisplayKit/ASLayout.h>
 
 #pragma mark -
 #pragma mark ASCellNode
@@ -29,12 +29,13 @@
   ASDisplayNodeDidLoadBlock _viewControllerDidLoadBlock;
   ASDisplayNode *_viewControllerNode;
   UIViewController *_viewController;
+  BOOL _suspendInteractionDelegate;
 }
 
 @end
 
 @implementation ASCellNode
-@synthesize layoutDelegate = _layoutDelegate;
+@synthesize interactionDelegate = _interactionDelegate;
 
 - (instancetype)init
 {
@@ -168,12 +169,60 @@
 
 - (void)didRelayoutFromOldSize:(CGSize)oldSize toNewSize:(CGSize)newSize
 {
-  if (_layoutDelegate != nil) {
+  if (_interactionDelegate != nil) {
     ASPerformBlockOnMainThread(^{
       BOOL sizeChanged = !CGSizeEqualToSize(oldSize, newSize);
-      [_layoutDelegate nodeDidRelayout:self sizeChanged:sizeChanged];
+      [_interactionDelegate nodeDidRelayout:self sizeChanged:sizeChanged];
     });
   }
+}
+
+- (void)setSelected:(BOOL)selected
+{
+  if (_selected != selected) {
+    _selected = selected;
+    if (!_suspendInteractionDelegate) {
+      [_interactionDelegate nodeSelectedStateDidChange:self];
+    }
+  }
+}
+
+- (void)setHighlighted:(BOOL)highlighted
+{
+  if (_highlighted != highlighted) {
+    _highlighted = highlighted;
+    if (!_suspendInteractionDelegate) {
+      [_interactionDelegate nodeHighlightedStateDidChange:self];
+    }
+  }
+}
+
+- (void)__setSelectedFromUIKit:(BOOL)selected;
+{
+  if (selected != _selected) {
+    _suspendInteractionDelegate = YES;
+    self.selected = selected;
+    _suspendInteractionDelegate = NO;
+  }
+}
+
+- (void)__setHighlightedFromUIKit:(BOOL)highlighted;
+{
+  if (highlighted != _highlighted) {
+    _suspendInteractionDelegate = YES;
+    self.highlighted = highlighted;
+    _suspendInteractionDelegate = NO;
+  }
+}
+
+- (BOOL)selected
+{
+  return self.isSelected;
+}
+
+- (BOOL)highlighted
+{
+  return self.isSelected;
 }
 
 #pragma clang diagnostic push
@@ -209,14 +258,19 @@
 
 #pragma clang diagnostic pop
 
+- (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes
+{
+  // To be overriden by subclasses
+}
+
 - (void)cellNodeVisibilityEvent:(ASCellNodeVisibilityEvent)event inScrollView:(UIScrollView *)scrollView withCellFrame:(CGRect)cellFrame
 {
   // To be overriden by subclasses
 }
 
-- (void)visibilityDidChange:(BOOL)isVisible
+- (void)visibleStateDidChange:(BOOL)isVisible
 {
-  [super visibilityDidChange:isVisible];
+  [super visibleStateDidChange:isVisible];
   
   CGRect cellFrame = CGRectZero;
   if (_scrollView) {

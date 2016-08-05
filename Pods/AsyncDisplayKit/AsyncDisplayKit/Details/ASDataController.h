@@ -1,10 +1,12 @@
-/* Copyright (c) 2014-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
+//
+//  ASDataController.h
+//  AsyncDisplayKit
+//
+//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
+//  This source code is licensed under the BSD-style license found in the
+//  LICENSE file in the root directory of this source tree. An additional grant
+//  of patent rights can be found in the PATENTS file in the same directory.
+//
 
 #pragma once
 
@@ -54,17 +56,6 @@ FOUNDATION_EXPORT NSString * const ASDataControllerRowNodeKind;
  Fetch the number of sections.
  */
 - (NSUInteger)numberOfSectionsInDataController:(ASDataController *)dataController;
-
-/**
- Lock the data source for data fetching.
- */
-- (void)dataControllerLockDataSource;
-
-/**
- Unlock the data source after data fetching.
- */
-- (void)dataControllerUnlockDataSource;
-
 
 @end
 
@@ -132,20 +123,6 @@ FOUNDATION_EXPORT NSString * const ASDataControllerRowNodeKind;
  *
  */
 @property (nonatomic, weak) id<ASDataControllerEnvironmentDelegate> environmentDelegate;
-
-/**
- *  Designated initializer.
- *
- * @param asyncDataFetchingEnabled Enable the data fetching in async mode.
- *
- * @discussion If enabled, we will fetch data through `dataController:nodeAtIndexPath:` and `dataController:rowsInSection:` in background thread.
- * Otherwise, the methods will be invoked synchronically in calling thread. Enabling data fetching in async mode could avoid blocking main thread
- * while allocating cell on main thread, which is frequently reported issue for handling large scale data. On another hand, the application code
- * will take the responsibility to avoid data inconsistency. Specifically, we will lock the data source through `dataControllerLockDataSource`,
- * and unlock it by `dataControllerUnlockDataSource` after the data fetching. The application should not update the data source while
- * the data source is locked.
- */
-- (instancetype)initWithAsyncDataFetching:(BOOL)asyncDataFetchingEnabled;
 
 /** @name Data Updating */
 
