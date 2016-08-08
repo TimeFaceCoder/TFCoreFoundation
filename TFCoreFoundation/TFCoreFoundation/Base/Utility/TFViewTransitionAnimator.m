@@ -46,12 +46,15 @@
     [[transitionContext containerView] addSubview:toView];
     [[transitionContext containerView] addSubview:fromView];
     
-    [UIView animateWithDuration:[self transitionDuration:transitionContext] animations:^{
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0 options:UIViewAnimationOptionCurveLinear animations:^{
         toView.frame = CGRectMake(0, toFrame.origin.y, toFrame.size.width, toFrame.size.height);
         fromView.frame = CGRectMake(CGRectGetWidth(TFScreenBounds()), fromFrame.origin.y, fromFrame.size.width, fromFrame.size.height);
+        
     } completion:^(BOOL finished) {
         [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
+        
     }];
+
 }
 
 @end
