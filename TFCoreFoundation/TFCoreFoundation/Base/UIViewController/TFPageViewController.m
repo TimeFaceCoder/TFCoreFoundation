@@ -115,7 +115,7 @@
 }
 
 -(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didScrollContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth{
-//    NSLog(@"percent:%f",percent);
+
     [self.segmentView updateCurrentSelectedIndexByContentOffset:contentOffset inContentWidth:contentWidth viewWidth:viewWidth];
 }
 

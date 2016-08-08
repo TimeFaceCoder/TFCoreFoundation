@@ -116,8 +116,6 @@ static CGFloat kMinSegementItemWidth = 75.0;
         [self collectionView:self.collectionView didDeselectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
         [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:currentItemIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
         [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:currentItemIndex inSection:0]];
-       
-
     }
     _currentItemIndex = currentItemIndex;
 }
@@ -190,7 +188,7 @@ static CGFloat kMinSegementItemWidth = 75.0;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     TFSegmentViewTitleCell *cell = (TFSegmentViewTitleCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.titleLabel.textColor = _selectedTextColor;
     [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
@@ -201,20 +199,6 @@ static CGFloat kMinSegementItemWidth = 75.0;
             _changeBlock (_currentItemIndex,_itemArr[_currentItemIndex]);
         }
     }
-//    [UIView animateWithDuration:0.3 animations:^{
-//        _lineView.tf_width = cell.tf_width - _lineSpace *2;
-////        _lineView.tf_left = cell.tf_left + _lineSpace;
-//        _lineView.tf_centerX = cell.tf_centerX;
-//    } completion:^(BOOL finished) {
-////        if (_currentItemIndex!=indexPath.row) {
-////            _currentItemIndex = indexPath.row;
-////            //调用变化
-////            if (_changeBlock) {
-////                _changeBlock (_currentItemIndex,_itemArr[_currentItemIndex]);
-////            }
-////        }
-//    }];
-
 }
 
 
@@ -233,11 +217,14 @@ static CGFloat kMinSegementItemWidth = 75.0;
         _currentItemIndex = contentOffset / viewWith;
         [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
         [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
-        TFSegmentViewTitleCell *cell = (TFSegmentViewTitleCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
-        targetCenterX = cell.tf_centerX;
+  
     }
+
     
+    TFSegmentViewTitleCell *cell = (TFSegmentViewTitleCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+    targetCenterX = cell.tf_centerX;
     
+
     CGFloat sectionInset = 0.0;
     if ([self currentWidth]<self.tf_width) {
         sectionInset = (self.tf_width - [self currentWidth])/2.0;
@@ -254,13 +241,5 @@ static CGFloat kMinSegementItemWidth = 75.0;
         } completion:nil];
     }
 }
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

@@ -63,7 +63,7 @@
 
 -(void)scrollToViewControllerAtIndex:(NSInteger)index animated:(BOOL)aniamted
 {
-    
+
     NSAssert([self numberOfPagesInPagerNode:self.pagerNode] >= index, @"out of range");
     [self.pagerNode scrollToPageAtIndex:index animated:aniamted];
 }
@@ -113,15 +113,13 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    [self viewControllerForPageAtIndex:self.pagerNode.currentPageIndex];
-    
+
     CGSize contentSize = scrollView.contentSize;
     CGSize viewSize = scrollView.frame.size;
     
     CGFloat contentCurrentOffset = scrollView.contentOffset.x;
     
     if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:didScrollContentOffset:inContentWidth:viewWidth:)]) {
-        NSLog(@"per:%f",contentCurrentOffset);
         [self.delegate viewControllerPageNode:self didScrollContentOffset:contentCurrentOffset inContentWidth:contentSize.width viewWidth:viewSize.width];
     }
     
