@@ -66,6 +66,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSURL *url = self.params[kTFNavigatorParameterUserInfo][@"url"];
+    _url = url.absoluteString;
     // Do any additional setup after loading the view.
     
 }
@@ -79,6 +81,7 @@
     [super viewDidAppear:animated];
     if (_url.length) {
         if (!firstLoaded) {
+            
             [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_url]]];
             firstLoaded = YES;
         }
@@ -113,7 +116,6 @@
 - (UIWebView *)webView {
     if (!_webView) {
         _webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-        _webView.delegate = self;
         _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
         _webView.scalesPageToFit = YES;
         
@@ -122,8 +124,8 @@
         
         _progressProxy = [[NJKWebViewProgress alloc] init]; // instance variable
         _webView.delegate = _progressProxy;
-        _progressProxy.webViewProxyDelegate = _briage;
-        _progressProxy.progressDelegate = self;
+        _progressProxy.webViewProxyDelegate = self;
+        _progressProxy.progressDelegate = _progressProxy;
         
         CGFloat progressBarHeight = 2.f;
         CGRect navigaitonBarBounds = self.navigationController.navigationBar.bounds;
@@ -195,6 +197,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
     self.title = [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    [self removeStateView];
     [self updateLeftBarButton];
 }
 
