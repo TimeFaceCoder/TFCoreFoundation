@@ -66,7 +66,6 @@
 /// @name UIView
 ///--------------------------------
 
-#import <TFCoreFoundation/TFNavigationBar.h>
 #import <TFCoreFoundation/TFAlertView.h>
 #import <TFCoreFoundation/TFSplashView.h>
 #import <TFCoreFoundation/TFStateView.h>
