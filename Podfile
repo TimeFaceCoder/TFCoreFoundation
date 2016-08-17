@@ -21,7 +21,7 @@ pod 'FLAnimatedImage'
 pod 'WebViewJavascriptBridge'
 pod 'NJKWebViewProgress'
 pod 'JSONModel'
-pod 'SSKeychain'
+pod 'SAMKeychain'
 pod 'PINRemoteImage', '~> 3.0.0-beta.2'
 
 end

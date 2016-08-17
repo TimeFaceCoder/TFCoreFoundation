@@ -54,10 +54,10 @@ PODS:
   - PINRemoteImage/iOS (3.0.0-beta.2):
     - PINRemoteImage/Core
   - pop (1.0.9)
+  - SAMKeychain (1.5.0)
   - SDWebImage (3.7.6):
     - SDWebImage/Core (= 3.7.6)
   - SDWebImage/Core (3.7.6)
-  - SSKeychain (1.4.0)
   - SVProgressHUD (2.0.3)
   - TFCamera (0.0.4):
     - Masonry
@@ -95,7 +95,7 @@ DEPENDENCIES:
   - MYTableViewManager (from `https://github.com/TimeFaceCoder/MYTableViewManager.git`)
   - NJKWebViewProgress
   - PINRemoteImage (~> 3.0.0-beta.2)
-  - SSKeychain
+  - SAMKeychain
   - SVProgressHUD
   - TFCamera (from `https://github.com/TimeFaceCoder/TFCamera.git`)
   - TFHotfix (from `https://github.com/TimeFaceCoder/TFHotfix.git`)
@@ -180,8 +180,8 @@ SPEC CHECKSUMS:
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
   PINRemoteImage: 197554c5ba57a6ae90f5db441651180039fc9062
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  SAMKeychain: 1fc9ae02f576365395758b12888c84704eebc423
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
-  SSKeychain: c71293fa57216a40ab06c23f4085387583293de4
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   TFCamera: e2db7e6d153a05f4afc43434336952a2d0f0fbb1
   TFHotfix: 95f44939b542220e7de12d7c15d50d8327cbd4a5
@@ -195,6 +195,6 @@ SPEC CHECKSUMS:
   YYImage: 2cc79ed49b9549b71c6715cefe7b0f5ab3d33abf
   YYText: ac09660c9ccd9b817f409a20caa6f5587444d2ae
 
-PODFILE CHECKSUM: bc286aa20a58777e14212b2ac14127d58767d2cc
+PODFILE CHECKSUM: 5a3e0502dd1f29db9547ae72de15186e21b6d069
 
 COCOAPODS: 1.0.1

@@ -81,14 +81,14 @@ EOM
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "JSPatch/JSPatch/JSPatch.js"
-  install_resource "SSKeychain/Support/en.lproj"
+  install_resource "SAMKeychain/Support/SAMKeychain.bundle"
   install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
   install_resource "TFPhotoBrowser/TFPhotoBrowser/TFPhotoBrowser/Resources/TFLibraryResource.bundle"
   install_resource "TFPhotoBrowser/TFPhotoBrowser/TFPhotoBrowser/Resources/TFPhotoBrowserLocalizations.bundle"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "JSPatch/JSPatch/JSPatch.js"
-  install_resource "SSKeychain/Support/en.lproj"
+  install_resource "SAMKeychain/Support/SAMKeychain.bundle"
   install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
   install_resource "TFPhotoBrowser/TFPhotoBrowser/TFPhotoBrowser/Resources/TFLibraryResource.bundle"
   install_resource "TFPhotoBrowser/TFPhotoBrowser/TFPhotoBrowser/Resources/TFPhotoBrowserLocalizations.bundle"
