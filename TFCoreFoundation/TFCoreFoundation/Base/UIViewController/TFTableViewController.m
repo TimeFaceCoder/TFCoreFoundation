@@ -41,13 +41,14 @@
 
 - (void)loadView {
     [super loadView];
-    _tableView = [[ASTableView alloc] initWithFrame:CGRectZero style:self.tableViewStyle asyncDataFetching:YES];
+    _tableView = [[ASTableView alloc] initWithFrame:CGRectZero style:self.tableViewStyle];
     _tableView.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
     
 }
 - (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
     _tableView.frame = self.view.bounds;
 }
 - (void)createDataSource {

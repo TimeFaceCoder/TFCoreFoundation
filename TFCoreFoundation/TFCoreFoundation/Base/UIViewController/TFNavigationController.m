@@ -8,7 +8,6 @@
 
 #import "TFNavigationController.h"
 #import "TFCoreFoundationMacro.h"
-#import "TFNavigationBar.h"
 #import "TFDirectionalPanGestureRecognizer.h"
 #import "TFViewTransitionAnimator.h"
 #import "TFDefaultStyle.h"
@@ -44,7 +43,7 @@
     return self;
 }
 - (id)init {
-    self = [super initWithNavigationBarClass:[TFNavigationBar class] toolbarClass:nil];
+    self = [super init];
     if(self) {
         // Custom initialization here, if needed.
         self.delegate = self;
@@ -54,13 +53,12 @@
 }
 
 - (id)initWithRootViewController:(UIViewController *)rootViewController {
-    self = [super initWithNavigationBarClass:[TFNavigationBar class] toolbarClass:nil];
+    self = [super init];
     if(self) {
         
         self.delegate = self;
         _canDragBack = YES;
         self.viewControllers = @[rootViewController];
-        [TFDefaultStyle setAppUIDefalutStyle];
        
     }
     

@@ -150,7 +150,6 @@ static CGFloat kMinSegementItemWidth = 75.0;
 - (CGFloat)currentWidth {
     if (_itemArr.count!=0) {
         CGFloat currentWidth = 0.0;
-        NSMutableArray *tempArr = [NSMutableArray array];
         for (NSString *item in _itemArr) {
             CGFloat width = MAX([item sizeWithAttributes:@{NSFontAttributeName:_font}].width+20.0, kMinSegementItemWidth);
             currentWidth += width;
@@ -229,12 +228,11 @@ static CGFloat kMinSegementItemWidth = 75.0;
     if ([self currentWidth]<self.tf_width) {
         sectionInset = (self.tf_width - [self currentWidth])/2.0;
     }
-    CGFloat cellWidth = [self.itemWidthArr[_currentItemIndex] floatValue];
     CGFloat firstCellWidth = [self.itemWidthArr[0] floatValue];
     CGFloat leading = sectionInset + firstCellWidth/2.0f + [self currentWidth] * (contentOffset / contentWidth);
     _lineView.tf_centerX = leading;
     
-    if (abs(targetCenterX - _lineView.tf_centerX) < 10) {
+    if (fabs(targetCenterX - _lineView.tf_centerX) < 10) {
         
         [UIView animateWithDuration:0.1f delay:0.0f usingSpringWithDamping:0.3 initialSpringVelocity:0.7 options:UIViewAnimationOptionTransitionNone animations:^{
             _lineView.tf_centerX = targetCenterX;

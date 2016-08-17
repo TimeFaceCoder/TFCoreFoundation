@@ -150,7 +150,6 @@
 /// @name UIView
 ///--------------------------------
 
-#import "TFNavigationBar.h"
 #import "TFAlertView.h"
 #import "TFSplashView.h"
 #import "TFStateView.h"

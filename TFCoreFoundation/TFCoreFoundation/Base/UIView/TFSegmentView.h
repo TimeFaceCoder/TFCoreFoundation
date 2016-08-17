@@ -48,8 +48,13 @@ typedef void(^SegmentViewChangeBlock)(NSInteger currentIndex,NSString *currentIt
 + (instancetype)itemWithFrame:(CGRect)frame itemArray:(NSArray<NSString *> *)itemArray;
 
 
-- (void)scrollByPercent:(CGFloat)percent;
-
+/**
+ *  更新底部线的位置
+ *
+ *  @param contentOffset
+ *  @param contentWidth
+ *  @param viewWidth     
+ */
 - (void)updateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth;
 
 @end

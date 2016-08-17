@@ -10,11 +10,6 @@
 
 @interface TFDefaultStyle : TFStyle
 
-/**
- *  设置app的默认UI配置
- 注：包括导航栏样式等等
- */
-+ (void)setAppUIDefalutStyle;
 /////////////////////////////////////////////全局字体格式定义//////////////////////////////////////////
 
 @property (nonatomic ,readonly) UIFont *font10;
