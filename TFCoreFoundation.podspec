@@ -10,6 +10,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/TimeFaceCoder/TFCoreFoundation.git"}
   s.source_files  = "TFCoreFoundation/TFCoreFoundation/**/*.{h,m,c}"
   s.requires_arc = true
+  s.license = { :type => "MIT", :file => "LICENSE" }
   s.libraries = 'z', 'sqlite3'
   s.frameworks = 'UIKit', 'CoreFoundation', 'CoreText', 'CoreGraphics', 'CoreImage', 'QuartzCore', 'ImageIO', 'AssetsLibrary', 'Accelerate', 'MobileCoreServices', 'SystemConfiguration'
   s.dependency 'JDStatusBarNotification'
