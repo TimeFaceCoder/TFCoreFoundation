@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "TFPageViewController.h"
 typedef void(^SegmentViewChangeBlock)(NSInteger currentIndex,NSString *currentItem);
 
-@interface TFSegmentView : UIView
+@interface TFSegmentView : UIView<SegmentViewDelegate>
 
 @property (nonatomic, assign) CGFloat lineHeight;///<底部线的高度，默认4pt
 
@@ -55,6 +55,6 @@ typedef void(^SegmentViewChangeBlock)(NSInteger currentIndex,NSString *currentIt
  *  @param contentWidth
  *  @param viewWidth     
  */
-- (void)updateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth;
-
+//- (void)updateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth;
+- (void)segmentViewUpdateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWith;
 @end

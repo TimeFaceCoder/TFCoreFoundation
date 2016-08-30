@@ -207,7 +207,7 @@ static CGFloat kMinSegementItemWidth = 75.0;
 }
 
 
--(void)updateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWith;
+-(void)segmentViewUpdateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWith;
 {
     CGFloat targetCenterX = 0.0f;
     if (_currentItemIndex != (int)(contentOffset / viewWith)) {

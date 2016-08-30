@@ -13,26 +13,24 @@
 #import "TFCGUtilities.h"
 
 @interface TFPageViewController ()<TFViewControllerPageNodeDelegate>
-@property (nonatomic, strong)TFSegmentView* segmentView;
 @property (nonatomic, strong)TFViewControllerPageNode* pageNode;
+@property (nonatomic, strong)TFSegmentView* headerView;
 @end
 
 @implementation TFPageViewController
 
 
 
-- (TFSegmentView *)segmentView
-{
-    if (!_segmentView) {
-        _segmentView = [[TFSegmentView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, [self heightForSegment]) itemArray:[self titlesForViewControllers]];
+- (UIView<SegmentViewDelegate> *)headerSegmentView {
+    if (!_headerView) {
+        _headerView = [[TFSegmentView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, [self heightForSegment]) itemArray:[self titlesForViewControllers]];
         __weak TFPageViewController* wself = self;
-        _segmentView.changeBlock = ^(NSInteger currentIndex,NSString *currentItem) {
+        _headerView.changeBlock = ^(NSInteger currentIndex,NSString *currentItem) {
             [wself.pageNode scrollToViewControllerAtIndex:currentIndex animated:YES];
         };
     }
-    return _segmentView;
+    return _headerView;
 }
-
 - (TFViewControllerPageNode *)pageNode
 {
     if (!_pageNode) {
@@ -47,7 +45,12 @@
 //    self.automaticallyAdjustsScrollViewInsets = NO;
     self.edgesForExtendedLayout = UIRectEdgeNone;
     //当在UINavigationController里使用SegmentView时，上面两行必须使用一行，否则SegmentView会不显示，因为SegmentView包含一个CollectionView
-    [self.view addSubview:self.segmentView];
+    [self.view addSubview:self.headerSegmentView];
+    __weak TFPageViewController* wself = self;
+    self.headerSegmentView.changeBlock = ^(NSInteger currentIndex,NSString *currentItem) {
+        [wself.pageNode scrollToViewControllerAtIndex:currentIndex animated:YES];
+    };
+    
     [self.view addSubnode:self.pageNode];
 }
 
@@ -55,12 +58,13 @@
 
 - (void)viewDidLayoutSubviews
 {
-    self.pageNode.frame = CGRectMake(0, self.segmentView.tf_bottom, self.view.tf_width, [self heightForViewControllers]);
+    self.headerSegmentView.frame = CGRectMake(0, 0, self.view.tf_width, [self heightForSegment]);
+    self.pageNode.frame = CGRectMake(0, self.headerSegmentView.tf_bottom, self.view.tf_width, [self heightForViewControllers]);
 }
 
 -(CGFloat)heightForViewControllers
 {
-    return self.view.tf_height - self.segmentView.tf_height;
+    return self.view.tf_height - self.headerSegmentView.tf_height;
 }
 
 - (CGFloat)heightForSegment {
@@ -115,8 +119,9 @@
 }
 
 -(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didScrollContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth{
-
-    [self.segmentView updateCurrentSelectedIndexByContentOffset:contentOffset inContentWidth:contentWidth viewWidth:viewWidth];
+    if (self.headerSegmentView && [self.headerSegmentView respondsToSelector:@selector(segmentViewUpdateCurrentSelectedIndexByContentOffset:inContentWidth:viewWidth:)]) {
+        [self.headerSegmentView segmentViewUpdateCurrentSelectedIndexByContentOffset:contentOffset inContentWidth:contentWidth viewWidth:viewWidth];
+    }
 }
 
 @end

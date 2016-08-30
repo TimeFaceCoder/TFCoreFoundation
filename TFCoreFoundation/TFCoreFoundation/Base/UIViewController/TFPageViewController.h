@@ -7,8 +7,30 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import <AsyncDisplayKit/AsyncDisplayKit.h>
+typedef void(^SegmentViewChangeBlock)(NSInteger currentIndex,NSString *currentItem);
+
+
+/**
+ *  Segment View Delegate.
+ */
+@protocol SegmentViewDelegate <NSObject>
+@required
+/**
+ *  @brief changeBlock called when segmented view current index is udpated
+ */
+@property (nonatomic, copy)SegmentViewChangeBlock changeBlock;
+@optional
+
+/**
+ *  update segment view current selected index by contentoffset (of pageNode) in contentWidth and viewWith.
+ *
+ *  @param contentOffset contentOffset in pageNode. x of contentOffset
+ *  @param contentWidth  contentWidth in pageNode. width of contentSize
+ *  @param viewWith      viewWidth in pageNode. width of frame.size
+ */
+- (void)segmentViewUpdateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWith;
+@end
 
 /**
  *  PageController base class. Any one who want to implement 
@@ -56,5 +78,5 @@
 
 - (void)didEndDisplayingViewController:(UIViewController *)viewController AtIndex:(NSInteger)index;
 
-
+- (UIView<SegmentViewDelegate> *)headerSegmentView;
 @end

@@ -18,13 +18,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self removeStateView];
-    [self showStateView:kTFViewStateDataError];
+//    [self removeStateView];
+//    [self showStateView:kTFViewStateDataError];
 //    [self setViewState:kTFViewStateNetError];
     // Do any additional setup after loading the view, typically from a nib.
  
 }
 
+- (NSArray*)titlesForViewControllers {
+    return @[@"A",@"B",@"C",];
+}
+
+- (UIViewController *)viewControllerAtIndex:(NSUInteger)index {
+    UIViewController* vc = [[UIViewController alloc]init];
+    return vc;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

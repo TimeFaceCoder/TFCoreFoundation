@@ -18,4 +18,11 @@ Pod::Spec.new do |s|
   s.dependency 'JSONModel'
   s.dependency 'WebViewJavascriptBridge'
   s.dependency 'SAMKeychain'
+  s.dependency 'pop'
+  s.dependency 'AsyncDisplayKit'
+  s.dependency 'YYImage'
+  s.dependency 'FLAnimatedImage'
+  s.dependency 'PINRemoteImage'
+  s.dependency 'SDWebImage'
+  s.dependency 'TFNavigator' :git => 'https://github.com/TimeFaceCoder/TFNavigator.git'
 end
