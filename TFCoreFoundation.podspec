@@ -24,5 +24,4 @@ Pod::Spec.new do |s|
   s.dependency 'FLAnimatedImage'
   s.dependency 'PINRemoteImage'
   s.dependency 'SDWebImage'
-  s.dependency 'TFNavigator' :git => 'https://github.com/TimeFaceCoder/TFNavigator.git'
 end
