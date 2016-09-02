@@ -78,12 +78,7 @@
 //    [self removeGuideView];
 }
 
-- (void)dealloc {
-    if (!_stateView) {
-        _stateView.stateDataSource = nil;
-        _stateView.stateDelegate = nil;
-    }
-}
+
 
 - (void)viewDidLoad
 {
@@ -94,8 +89,8 @@
     if (!_requestParams) {
         _requestParams = [NSMutableDictionary dictionary];
     }
-    [self showStateView:kTFViewStateLoading];
     self.navigationController.view.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
+    [self showStateView:kTFViewStateNone];
 }
 
 - (void)didReceiveMemoryWarning
@@ -111,23 +106,14 @@
 #pragma mark - Public
 
 
-- (TFStateView *)stateView {
-    if (!_stateView) {
-        _stateView = [[TFStateView alloc] initWithFrame:self.view.bounds];
-        _stateView.stateDataSource = self;
-        _stateView.stateDelegate = self;
-        _stateView.userInteractionEnabled = YES;
-    }
-    return _stateView;
+- (void)removeStateView {
+//    [self tf_showStateView:kTFViewStateNone];
 }
 
-- (void)showStateView:(NSInteger)viewState {
-    _viewState = viewState;
-    [self.stateView showStateView];
+- (void)showStateView:(NSInteger)state {
+//    [self tf_showStateView:state];
 }
-- (void)removeStateView {
-    [self.stateView removeStateView];
-}
+
 
 - (void)showBackButton {
     self.navigationItem.leftBarButtonItem = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@""]
@@ -283,80 +269,5 @@
 - (BOOL)shouldAutorotate {
     return YES;
 }
-
-#pragma mark - EmptyDataSetSource
-
-- (NSAttributedString *)titleForStateView:(UIView *)view {
-    
-    NSDictionary *attributes = @{NSFontAttributeName:TFSTYLEVAR(loadingTextFont),
-                                 NSForegroundColorAttributeName:TFSTYLEVAR(loadingTextColor)};
-    
-    NSString *text = [self stateViewTitle:_viewState];
-    return [[NSAttributedString alloc] initWithString:text
-                                           attributes:attributes];
-}
-
-- (NSAttributedString *)buttonTitleForStateView:(UIView *)view forState:(UIControlState)state {
-    
-    NSDictionary *attributes = @{NSFontAttributeName:TFSTYLEVAR(font16),
-                                 NSForegroundColorAttributeName:TFSTYLEVAR(loadingTextColor)};
-    NSString *text = [self stateViewButtonTitle:_viewState];
-    return [[NSAttributedString alloc] initWithString:text
-                                           attributes:attributes];
-    
-}
-
-- (UIImage *)imageForStateView:(UIView *)view {
-    UIImage *image = [self stateViewImage:_viewState];
-    return image;
-}
-
-- (FLAnimatedImage *)animationImageForStateView:(UIView *)view {
-    if (_viewState == kTFViewStateLoading) {
-        NSURL *url = [[NSBundle mainBundle] URLForResource:@"TFViewLoading" withExtension:@"gif"];
-        NSData *data = [NSData dataWithContentsOfURL:url];
-        FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:data];
-        return image;
-    }
-    return nil;
-}
-
-- (UIColor *)backgroundColorForStateView:(UIView *)view {
-    return TFSTYLEVAR(viewStateBackgroundColor);
-}
-
-
-- (CGFloat)spaceHeightForStateView:(UIView *)view {
-    return TFSTYLEVAR(viewStateSpaceHeight);
-}
-
-- (void)stateViewDidTapButton:(UIView *)view {
-    [self reloadData];
-}
-
-- (void)stateViewDidTapView:(UIView *)view {
-    [self reloadData];
-}
-
-- (void)stateViewWillAppear:(UIView *)view {
-    [UIView animateWithDuration:.25 animations:^{
-        [self.view addSubview:self.stateView];
-    }];
-}
-- (void)stateViewWillDisappear:(UIView *)view {
-    [UIView animateWithDuration:.25 animations:^{
-        [self.stateView removeFromSuperview];
-    }];
-}
-
-
-#pragma mark - 页面引导
-
-
-#pragma mark - Delegate
-
-#pragma mark - TFStateViewDelegate
-
-#pragma mark - TFStateViewDataSource
 
 @end

@@ -93,6 +93,11 @@
 @property (nonatomic ,readonly) NSString *viewStateDataTimeOutButtonTitle;///<没有数据错误提示文本
 @property (nonatomic ,readonly) UIImage *viewStateButtonBackgroundImage;///<按钮的背景图片
 
+@property (nonatomic, readonly) NSDictionary* viewStateTitleAttributes;///<默认提示title的属性
+
+@property (nonatomic, readonly) NSDictionary* viewStateButtonTitleAttributes;///<默认提示button title的属性
+
+@property (nonatomic, readonly) NSDictionary* viewStateDescptionAttributes;///<默认descption的属性
 
 
 @end

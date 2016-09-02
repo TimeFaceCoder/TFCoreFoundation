@@ -187,6 +187,17 @@
     return 10.0;
 }
 
+- (NSDictionary *)viewStateTitleAttributes {
+    return @{NSFontAttributeName:self.loadingTextFont,NSForegroundColorAttributeName:self.loadingTextColor};
+}
 
+-(NSDictionary *)viewStateButtonTitleAttributes {
+    return @{NSFontAttributeName:self.font16,
+             NSForegroundColorAttributeName:self.loadingTextColor};
+}
+
+- (NSDictionary *)viewStateDescptionAttributes {
+    return @{NSFontAttributeName:self.loadingTextFont,NSForegroundColorAttributeName:self.loadingTextColor};
+}
 
 @end

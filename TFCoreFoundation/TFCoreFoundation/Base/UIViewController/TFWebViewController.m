@@ -69,7 +69,7 @@
     NSURL *url = self.params[kTFNavigatorParameterUserInfo][@"url"];
     _url = url.absoluteString;
     // Do any additional setup after loading the view.
-    
+    [self showStateView:kTFViewStateLoading];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

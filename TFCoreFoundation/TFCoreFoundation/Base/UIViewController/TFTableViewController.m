@@ -77,6 +77,7 @@
     if (self.tabBarController.tabBar.hidden==YES | self.hidesBottomBarWhenPushed == YES) {
         self.hiddenTabBarWhenScrolling = NO;
     }
+    [self showStateView:kTFViewStateLoading];
 }
 
 

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0C5B09AB5709EFB3D0233DDD /* libPods-TFCoreFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D03EFAAF3A21FBE631A045B /* libPods-TFCoreFoundation.a */; };
+		6C654EC91D79599C00757341 /* UIView+EmptyDataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C654EC81D79599C00757341 /* UIView+EmptyDataSet.m */; };
+		6C654ECE1D795BD900757341 /* UIViewController+EmptyState.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C654ECB1D795BD900757341 /* UIViewController+EmptyState.m */; };
+		6C654ECF1D795BD900757341 /* UIViewController+Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C654ECD1D795BD900757341 /* UIViewController+Toast.m */; };
 		B03ABEE41CAB5AC4004067CA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B03ABEE31CAB5AC4004067CA /* main.m */; };
 		B03ABEE71CAB5AC4004067CA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B03ABEE61CAB5AC4004067CA /* AppDelegate.m */; };
 		B03ABEEA1CAB5AC4004067CA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B03ABEE91CAB5AC4004067CA /* ViewController.m */; };
@@ -88,6 +91,12 @@
 
 /* Begin PBXFileReference section */
 		5D03EFAAF3A21FBE631A045B /* libPods-TFCoreFoundation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TFCoreFoundation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6C654EC71D79599C00757341 /* UIView+EmptyDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+EmptyDataSet.h"; sourceTree = "<group>"; };
+		6C654EC81D79599C00757341 /* UIView+EmptyDataSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+EmptyDataSet.m"; sourceTree = "<group>"; };
+		6C654ECA1D795BD900757341 /* UIViewController+EmptyState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+EmptyState.h"; sourceTree = "<group>"; };
+		6C654ECB1D795BD900757341 /* UIViewController+EmptyState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+EmptyState.m"; sourceTree = "<group>"; };
+		6C654ECC1D795BD900757341 /* UIViewController+Toast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Toast.h"; sourceTree = "<group>"; };
+		6C654ECD1D795BD900757341 /* UIViewController+Toast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Toast.m"; sourceTree = "<group>"; };
 		B03ABEDF1CAB5AC4004067CA /* TFCoreFoundation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TFCoreFoundation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B03ABEE31CAB5AC4004067CA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B03ABEE51CAB5AC4004067CA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -463,6 +472,10 @@
 		B0E82FA01CB9F14000655B66 /* UIViewController */ = {
 			isa = PBXGroup;
 			children = (
+				6C654ECA1D795BD900757341 /* UIViewController+EmptyState.h */,
+				6C654ECB1D795BD900757341 /* UIViewController+EmptyState.m */,
+				6C654ECC1D795BD900757341 /* UIViewController+Toast.h */,
+				6C654ECD1D795BD900757341 /* UIViewController+Toast.m */,
 				C46D84B81D5334B2009F65AF /* TFPageViewController.h */,
 				C46D84B91D5334B2009F65AF /* TFPageViewController.m */,
 				B0E82FA11CB9F15300655B66 /* TFViewController.h */,
@@ -480,6 +493,8 @@
 		B0E82FA71CB9F17300655B66 /* UIView */ = {
 			isa = PBXGroup;
 			children = (
+				6C654EC71D79599C00757341 /* UIView+EmptyDataSet.h */,
+				6C654EC81D79599C00757341 /* UIView+EmptyDataSet.m */,
 				C46D84AF1D5334AB009F65AF /* TFSegmentView.h */,
 				C46D84B01D5334AB009F65AF /* TFSegmentView.m */,
 				C46D84B11D5334AB009F65AF /* TFSegmentViewTitleCell.h */,
@@ -711,7 +726,10 @@
 				B04335641CABAA5700960551 /* NSData+TFCore.m in Sources */,
 				B04860531CBB640E00DE6770 /* TFKVStorage.m in Sources */,
 				B0E82FAA1CB9F1AD00655B66 /* UIBarButtonItem+TFCore.m in Sources */,
+				6C654ECF1D795BD900757341 /* UIViewController+Toast.m in Sources */,
+				6C654ECE1D795BD900757341 /* UIViewController+EmptyState.m in Sources */,
 				B0E82F991CB9EE9A00655B66 /* TFCGUtilities.m in Sources */,
+				6C654EC91D79599C00757341 /* UIView+EmptyDataSet.m in Sources */,
 				B0E82FE11CBA23D700655B66 /* UIViewController+TFCore.m in Sources */,
 				B048604C1CBB471B00DE6770 /* TFAlertView.m in Sources */,
 				B03ABEE71CAB5AC4004067CA /* AppDelegate.m in Sources */,
