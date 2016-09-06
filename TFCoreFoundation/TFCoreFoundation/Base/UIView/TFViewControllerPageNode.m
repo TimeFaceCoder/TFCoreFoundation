@@ -128,14 +128,14 @@
 - (void)collectionView:(ASCollectionView *)collectionView willDisplayNodeForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:willDisplayViewControllerAtIndex:)]) {
-        [self.delegate viewControllerPageNode:self willDisplayViewControllerAtIndex:self.currentPageIndex];
+        [self.delegate viewControllerPageNode:self willDisplayViewControllerAtIndex:indexPath.item];
     }
 }
 
 -(void)collectionView:(ASCollectionView *)collectionView didEndDisplayingNode:(ASCellNode *)node forItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:willDisplayViewControllerAtIndex:)]) {
-        [self.delegate viewControllerPageNode:self didEndDisplayingViewControllerAtIndex:self.currentPageIndex];
+        [self.delegate viewControllerPageNode:self didEndDisplayingViewControllerAtIndex:indexPath.item];
     }
     [node removeFromSupernode];
 }
