@@ -71,12 +71,15 @@ typedef void(^SegmentViewChangeBlock)(NSInteger currentIndex,NSString *currentIt
  */
 - (UIViewController *)viewControllerAtIndex:(NSUInteger)index;
 
+- (NSInteger)currentIndex;
 
 - (void)didSelectViewController:(UIViewController *)viewController AtIndex:(NSInteger)index;
 
 - (void)willDisplayViewController:(UIViewController *)viewController AtIndex:(NSInteger)index;
 
 - (void)didEndDisplayingViewController:(UIViewController *)viewController AtIndex:(NSInteger)index;
+
+- (void)scrollToViewControllerAtIndex:(NSInteger)index animated:(BOOL)animated;
 
 - (UIView<SegmentViewDelegate> *)headerSegmentView;
 @end

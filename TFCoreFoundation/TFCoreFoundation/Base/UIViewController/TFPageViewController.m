@@ -48,7 +48,7 @@
     [self.view addSubview:self.headerSegmentView];
     __weak TFPageViewController* wself = self;
     self.headerSegmentView.changeBlock = ^(NSInteger currentIndex,NSString *currentItem) {
-        [wself.pageNode scrollToViewControllerAtIndex:currentIndex animated:YES];
+        [wself scrollToViewControllerAtIndex:currentIndex animated:YES];
     };
     
     [self.view addSubnode:self.pageNode];
@@ -122,6 +122,14 @@
     if (self.headerSegmentView && [self.headerSegmentView respondsToSelector:@selector(segmentViewUpdateCurrentSelectedIndexByContentOffset:inContentWidth:viewWidth:)]) {
         [self.headerSegmentView segmentViewUpdateCurrentSelectedIndexByContentOffset:contentOffset inContentWidth:contentWidth viewWidth:viewWidth];
     }
+}
+
+- (void)scrollToViewControllerAtIndex:(NSInteger)index animated:(BOOL)animated{
+    [self.pageNode scrollToViewControllerAtIndex:index animated:animated];
+}
+
+- (NSInteger)currentIndex {
+    return self.pageNode.currentPageIndex;
 }
 
 @end
