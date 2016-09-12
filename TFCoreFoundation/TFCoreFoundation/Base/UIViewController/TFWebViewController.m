@@ -14,6 +14,7 @@
 #import <WebViewJavascriptBridge/WebViewJavascriptBridge.h>
 #import "TFDefaultStyle.h"
 #import <TFNavigator/UIWindow+TFNavigator.h>
+#import "UIViewController+EmptyState.h"
 
 @interface TFWebViewController()<UIWebViewDelegate,NJKWebViewProgressDelegate> {
     BOOL firstLoaded;
@@ -69,7 +70,7 @@
     NSURL *url = self.params[kTFNavigatorParameterUserInfo][@"url"];
     _url = url.absoluteString;
     // Do any additional setup after loading the view.
-    [self showStateView:kTFViewStateLoading];
+    [self tf_showStateView:kTFViewStateLoading];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -197,7 +198,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)webViewDidFinishLoad:(UIWebView*)webView {
     self.title = [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    [self removeStateView];
+    [self tf_removeStateView];
     [self updateLeftBarButton];
 }
 
@@ -205,7 +206,7 @@
 - (void)webView:(UIWebView*)webView didFailLoadWithError:(NSError*)error {
     [self webViewDidFinishLoad:webView];
     if (error) {
-        [self showStateView:kTFViewStateDataError];
+        [self tf_showStateView:kTFViewStateDataError];
     }
 }
 #pragma mark - NJKWebViewProgressDelegate

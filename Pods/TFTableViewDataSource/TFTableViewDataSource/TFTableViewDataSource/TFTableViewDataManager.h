@@ -9,20 +9,38 @@
 #import <Foundation/Foundation.h>
 #import "TFTableViewDataManagerProtocol.h"
 #import "TFTableViewDataSource.h"
+#import <TFTableViewItem.h>
 
 @interface TFTableViewDataManager : NSObject<TFTableViewDataManagerProtocol>
 
+/**
+ *  @brief the table view datasource.
+ */
 @property (nonatomic ,weak) TFTableViewDataSource *tableViewDataSource;
+
 /**
- *  列表内点击事件 block
+ *  @brief the current index path of current handle cell.
  */
-@property (nonatomic ,copy) CellViewClickHandler   cellViewClickHandler;
-/**
- *  列表删除事件 block
- */
-@property (nonatomic ,copy) DeletionHandlerWithCompletion deleteHanlder;
 @property (nonatomic ,strong) NSIndexPath *currentIndexPath;
+
+/**
+ *  @brief 当前列表类型
+ */
 @property (nonatomic ,assign) NSInteger listType;
 
+/**
+ *  @brief cell内的点击动作
+ */
+@property (nonatomic ,copy) CellClickHandler cellClickHandler;
+
+/**
+ *  @brief 删除某个列表
+ */
+@property (nonatomic ,copy) DeletionHandler deletionHandler;
+
+/**
+ *  @brief 清空完成block
+ */
 - (void)clearCompletionBlock;
+
 @end

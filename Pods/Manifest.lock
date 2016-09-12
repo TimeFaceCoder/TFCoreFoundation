@@ -15,14 +15,14 @@ PODS:
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - AliyunOSSiOS (2.5.0)
-  - AsyncDisplayKit (1.9.81):
-    - AsyncDisplayKit/PINRemoteImage (= 1.9.81)
-  - AsyncDisplayKit/ASDealloc2MainObject (1.9.81)
-  - AsyncDisplayKit/Core (1.9.81):
+  - AsyncDisplayKit (2.0-beta.1):
+    - AsyncDisplayKit/PINRemoteImage (= 2.0-beta.1)
+  - AsyncDisplayKit/ASDealloc2MainObject (2.0-beta.1)
+  - AsyncDisplayKit/Core (2.0-beta.1):
     - AsyncDisplayKit/ASDealloc2MainObject
-  - AsyncDisplayKit/PINRemoteImage (1.9.81):
+  - AsyncDisplayKit/PINRemoteImage (2.0-beta.1):
     - AsyncDisplayKit/Core
-    - PINRemoteImage/iOS (>= 3.0.0-beta.2)
+    - PINRemoteImage/iOS (>= 3.0.0-beta.3)
   - DACircularProgress (2.3.1)
   - EGOCache (2.1.3)
   - FLAnimatedImage (1.0.12)
@@ -35,23 +35,20 @@ PODS:
   - Masonry (1.0.0)
   - MPMessagePack (1.3.5):
     - GHODictionary
-  - MYTableViewManager (0.1.5):
-    - AsyncDisplayKit
-    - pop
   - NJKWebViewProgress (0.2.3):
     - NJKWebViewProgress/Core (= 0.2.3)
     - NJKWebViewProgress/ProgressView (= 0.2.3)
   - NJKWebViewProgress/Core (0.2.3)
   - NJKWebViewProgress/ProgressView (0.2.3)
-  - PINCache (2.2.2)
-  - PINRemoteImage (3.0.0-beta.2):
-    - PINRemoteImage/FLAnimatedImage (= 3.0.0-beta.2)
-  - PINRemoteImage/Core (3.0.0-beta.2):
-    - PINCache (>= 2.1)
-  - PINRemoteImage/FLAnimatedImage (3.0.0-beta.2):
+  - PINCache (3.0.1-beta)
+  - PINRemoteImage (3.0.0-beta.3):
+    - PINRemoteImage/FLAnimatedImage (= 3.0.0-beta.3)
+  - PINRemoteImage/Core (3.0.0-beta.3):
+    - PINCache (>= 3.0.0-beta)
+  - PINRemoteImage/FLAnimatedImage (3.0.0-beta.3):
     - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
-  - PINRemoteImage/iOS (3.0.0-beta.2):
+  - PINRemoteImage/iOS (3.0.0-beta.3):
     - PINRemoteImage/Core
   - pop (1.0.9)
   - SAMKeychain (1.5.0)
@@ -75,7 +72,9 @@ PODS:
     - pop
     - SDWebImage
     - SVProgressHUD
-  - TFTableViewDataSource (0.0.1)
+  - TFTableViewDataSource (1.0.0)
+  - TFTableViewManager (1.0.0):
+    - AsyncDisplayKit
   - TFUploadAssistant (0.0.1):
     - EGOCache
     - YYDispatchQueuePool
@@ -88,13 +87,12 @@ PODS:
 
 DEPENDENCIES:
   - AliyunOSSiOS (from `https://github.com/aliyun/AliyunOSSiOS.git`)
-  - AsyncDisplayKit (~> 1.9.81)
+  - AsyncDisplayKit (from `https://github.com/TimeFaceCoder/AsyncDisplayKit.git`)
   - FLAnimatedImage
   - JDStatusBarNotification (from `https://github.com/TimeFaceCoder/JDStatusBarNotification.git`)
   - JSONModel
-  - MYTableViewManager (from `https://github.com/TimeFaceCoder/MYTableViewManager.git`)
   - NJKWebViewProgress
-  - PINRemoteImage (~> 3.0.0-beta.2)
+  - PINRemoteImage (~> 3.0.0-beta.3)
   - SAMKeychain
   - SVProgressHUD
   - TFCamera (from `https://github.com/TimeFaceCoder/TFCamera.git`)
@@ -102,7 +100,8 @@ DEPENDENCIES:
   - TFNavigator (from `https://github.com/TimeFaceCoder/TFNavigator.git`)
   - TFNetwork (from `https://github.com/TimeFaceCoder/TFNetwork.git`)
   - TFPhotoBrowser (from `https://github.com/TimeFaceCoder/TFPhotoBrowser.git`)
-  - TFTableViewDataSource (from `https://github.com/TimeFaceCoder/TFTableViewDataSource.git`)
+  - TFTableViewDataSource (from `https://github.com/TimeFaceCoder/TFTableViewDataSource.git`, branch `v_1.0.0`)
+  - TFTableViewManager (from `https://github.com/TimeFaceCoder/TFTableViewManager.git`)
   - TFUploadAssistant (from `https://github.com/TimeFaceCoder/TFUploadAssistant.git`)
   - WebViewJavascriptBridge
   - YYImage
@@ -111,10 +110,10 @@ DEPENDENCIES:
 EXTERNAL SOURCES:
   AliyunOSSiOS:
     :git: https://github.com/aliyun/AliyunOSSiOS.git
+  AsyncDisplayKit:
+    :git: https://github.com/TimeFaceCoder/AsyncDisplayKit.git
   JDStatusBarNotification:
     :git: https://github.com/TimeFaceCoder/JDStatusBarNotification.git
-  MYTableViewManager:
-    :git: https://github.com/TimeFaceCoder/MYTableViewManager.git
   TFCamera:
     :git: https://github.com/TimeFaceCoder/TFCamera.git
   TFHotfix:
@@ -126,7 +125,10 @@ EXTERNAL SOURCES:
   TFPhotoBrowser:
     :git: https://github.com/TimeFaceCoder/TFPhotoBrowser.git
   TFTableViewDataSource:
+    :branch: v_1.0.0
     :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
+  TFTableViewManager:
+    :git: https://github.com/TimeFaceCoder/TFTableViewManager.git
   TFUploadAssistant:
     :git: https://github.com/TimeFaceCoder/TFUploadAssistant.git
 
@@ -134,12 +136,12 @@ CHECKOUT OPTIONS:
   AliyunOSSiOS:
     :commit: 80c67c8dc00492de45f5d1500a82e295940af159
     :git: https://github.com/aliyun/AliyunOSSiOS.git
+  AsyncDisplayKit:
+    :commit: cf1f438c651f5fe7abdc38850d43ba98e621657b
+    :git: https://github.com/TimeFaceCoder/AsyncDisplayKit.git
   JDStatusBarNotification:
     :commit: 6d8a748a67ba2b8b8d6a13e1ad0279bc377edd3e
     :git: https://github.com/TimeFaceCoder/JDStatusBarNotification.git
-  MYTableViewManager:
-    :commit: 0e9b95df36f4437c3ed9831d7b07c04b0c076ab0
-    :git: https://github.com/TimeFaceCoder/MYTableViewManager.git
   TFCamera:
     :commit: a34e3482546d10baba8a2f08cbcd66070e1a79fe
     :git: https://github.com/TimeFaceCoder/TFCamera.git
@@ -156,8 +158,11 @@ CHECKOUT OPTIONS:
     :commit: 7b4e44bfea93c7954624ab689a96ae22243ab292
     :git: https://github.com/TimeFaceCoder/TFPhotoBrowser.git
   TFTableViewDataSource:
-    :commit: 0ee6aabb60d1ebee02003cde3bebf5f0952ffe68
+    :commit: 75964f75932571fcf3e162e1a508df8940ae4d49
     :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
+  TFTableViewManager:
+    :commit: f1dbb467286b07578b4490e8ace3ab11044d0821
+    :git: https://github.com/TimeFaceCoder/TFTableViewManager.git
   TFUploadAssistant:
     :commit: 2ef2e33c7fda68ffb831344b6c1e2ee2c0a8feca
     :git: https://github.com/TimeFaceCoder/TFUploadAssistant.git
@@ -165,7 +170,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   AliyunOSSiOS: 0c275ccd87b0b1fb82f3f8abe1aa1568a17b19d7
-  AsyncDisplayKit: 011ea22a76a79a5bbfc14501fede6e0196a3c2f0
+  AsyncDisplayKit: 5825688cd0b447ca0e39fb16e91fc23e48fd7294
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   EGOCache: f0295dbe041156acabd39021354ad1045ee49e72
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
@@ -175,10 +180,9 @@ SPEC CHECKSUMS:
   JSPatch: c689ea4dde17441f2f4a95d40dfedb8900c20099
   Masonry: b529bb169217897b6354d4b56b1fada6d475b13d
   MPMessagePack: 7c9c9cdee049b62e3578ee423ba451fa406bbd08
-  MYTableViewManager: a4af70d74026202446e90507a54e0fa30aafaf78
   NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
-  PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
-  PINRemoteImage: 197554c5ba57a6ae90f5db441651180039fc9062
+  PINCache: 6911fe422a633e18b3d3ddf2bd4f0e55e36e2892
+  PINRemoteImage: 308731aa6534500e58fc211b9cc2bb7252df25ba
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SAMKeychain: 1fc9ae02f576365395758b12888c84704eebc423
   SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
@@ -188,13 +192,14 @@ SPEC CHECKSUMS:
   TFNavigator: 9c01918e2230f6aa6a244eaceb3e624df5146ccd
   TFNetwork: 2c70cbf58bb7be5293fd10b837224280b15bf223
   TFPhotoBrowser: 26c404fd27c12e2e07af2955ba18f7657ce5c4f4
-  TFTableViewDataSource: 721bcdfe80ca51236c908a586b14df16fe84b11e
+  TFTableViewDataSource: 910bee4e758395b00da7edae702c09fff877c54d
+  TFTableViewManager: f206be524ad73c10498b1402025d6b04e6efb12a
   TFUploadAssistant: 5889b8e26713c6552317bc199faffa2f1af3d30d
   WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
   YYDispatchQueuePool: 3dfb2274bcc74207688dde8ac6f7bdd46871dd7b
   YYImage: 2cc79ed49b9549b71c6715cefe7b0f5ab3d33abf
   YYText: ac09660c9ccd9b817f409a20caa6f5587444d2ae
 
-PODFILE CHECKSUM: 5a3e0502dd1f29db9547ae72de15186e21b6d069
+PODFILE CHECKSUM: c67829e70fd6a469e9a1e5cdf5b9ebdcd191f9d1
 
 COCOAPODS: 1.0.1

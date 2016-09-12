@@ -92,6 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (CGRect)convertRect:(CGRect)rect fromViewOrWindow:(nullable UIView *)view;
 
+- (NSLayoutConstraint *)equallyRelatedConstraintWithView:(UIView *)view attribute:(NSLayoutAttribute)attribute;
 
 @property (nonatomic) CGFloat tf_left;        ///< Shortcut for frame.origin.x.
 @property (nonatomic) CGFloat tf_top;         ///< Shortcut for frame.origin.y

@@ -26,8 +26,6 @@
 
 - (NSArray *)supplementaryNodeKindsInDataController:(ASCollectionDataController *)dataController;
 
-- (NSUInteger)dataController:(ASCollectionDataController *)dataController numberOfSectionsForSupplementaryNodeOfKind:(NSString *)kind;
-
 - (NSUInteger)dataController:(ASCollectionDataController *)dataController supplementaryNodesOfKind:(NSString *)kind inSection:(NSUInteger)section;
 
 @optional
@@ -39,6 +37,8 @@
 @end
 
 @interface ASCollectionDataController : ASChangeSetDataController
+
+- (instancetype)initWithDataSource:(id<ASCollectionDataControllerSource>)dataSource NS_DESIGNATED_INITIALIZER;
 
 - (ASCellNode *)supplementaryNodeOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath;
 

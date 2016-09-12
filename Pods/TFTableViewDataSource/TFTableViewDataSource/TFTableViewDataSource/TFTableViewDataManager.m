@@ -7,7 +7,6 @@
 //
 
 #import "TFTableViewDataManager.h"
-#import "TFTableViewItem.h"
 
 @interface TFTableViewDataManager() {
     
@@ -28,20 +27,19 @@
     _tableViewDataSource = tableViewDataSource;
     _listType = listType;
     __weak __typeof(self)weakSelf = self;
-    _cellViewClickHandler = ^ (TFTableViewItem *item ,NSInteger actionType) {
+    _cellClickHandler = ^ (TFTableViewItem *item ,NSInteger actionType) {
         __typeof(&*weakSelf) strongSelf = weakSelf;
         strongSelf.currentIndexPath = item.indexPath;
-        [item deselectRowAnimated:YES];
         if ([strongSelf.tableViewDataSource.delegate respondsToSelector:@selector(actionOnView:actionType:)]) {
             [strongSelf.tableViewDataSource.delegate actionOnView:item actionType:actionType];
         }
         [strongSelf cellViewClickHandler:item actionType:actionType];
     };
-    
-    _deleteHanlder = ^(TFTableViewItem *item ,Completion completion) {
+    _deletionHandler = ^(TFTableViewItem *item ,NSIndexPath *indexPath) {
         __typeof(&*weakSelf) strongSelf = weakSelf;
-        [strongSelf deleteHanlder:item completion:completion];
+        [strongSelf deleteHanlder:item];
     };
+    
     return self;
 }
 
@@ -52,7 +50,7 @@
  *  @param completionBlock 回调block
  */
 - (void)reloadView:(NSDictionary *)result block:(TableViewReloadCompletionBlock)completionBlock {
-    
+
 }
 /**
  *  列表内View事件处理
@@ -68,7 +66,7 @@
  *
  *  @param item
  */
-- (void)deleteHanlder:(TFTableViewItem *)item completion:(void (^)(void))completion {
+- (void)deleteHanlder:(TFTableViewItem *)item{
     self.currentIndexPath = item.indexPath;
 }
 
@@ -84,8 +82,8 @@
 
 
 - (void)clearCompletionBlock {
-    self.cellViewClickHandler = nil;
-    self.deleteHanlder        = nil;
+    self.cellClickHandler = nil;
+    self.deletionHandler = nil;
 }
 
 @end

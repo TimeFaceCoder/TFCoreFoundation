@@ -1,6 +1,6 @@
 {
   "name": "AsyncDisplayKit",
-  "version": "1.9.74",
+  "version": "2.0-beta.1",
   "license": {
     "type": "BSD"
   },
@@ -11,8 +11,7 @@
   },
   "summary": "Smooth asynchronous user interfaces for iOS apps.",
   "source": {
-    "git": "https://github.com/facebook/AsyncDisplayKit.git",
-    "tag": "1.9.74"
+    "git": "https://github.com/TimeFaceCoder/AsyncDisplayKit.git"
   },
   "documentation_url": "http://asyncdisplaykit.org/appledoc/",
   "frameworks": "AssetsLibrary",
@@ -21,15 +20,15 @@
     "MapKit"
   ],
   "requires_arc": true,
+  "platforms": {
+    "ios": "8.0"
+  },
   "default_subspecs": "PINRemoteImage",
   "social_media_url": "https://twitter.com/fbOpenSource",
   "libraries": "c++",
   "pod_target_xcconfig": {
     "CLANG_CXX_LANGUAGE_STANDARD": "c++11",
     "CLANG_CXX_LIBRARY": "libc++"
-  },
-  "platforms": {
-    "ios": "7.0"
   },
   "subspecs": [
     {
@@ -74,7 +73,7 @@
       },
       "dependencies": {
         "PINRemoteImage/iOS": [
-          ">= 3.0.0-beta.2"
+          ">= 3.0.0-beta.3"
         ],
         "AsyncDisplayKit/Core": [
 

@@ -50,6 +50,7 @@ typedef struct ASEnvironmentLayoutOptionsState {
   
   struct ASEnvironmentStateExtensions _extensions;
 } ASEnvironmentLayoutOptionsState;
+extern ASEnvironmentLayoutOptionsState ASEnvironmentLayoutOptionsStateMakeDefault();
 
 
 #pragma mark - ASEnvironmentHierarchyState
@@ -60,6 +61,7 @@ typedef struct ASEnvironmentHierarchyState {
   unsigned transitioningSupernodes:1; // = NO
   unsigned layoutPending:1; // = NO
 } ASEnvironmentHierarchyState;
+extern ASEnvironmentHierarchyState ASEnvironmentHierarchyStateMakeDefault();
 
 #pragma mark - ASEnvironmentDisplayTraits
 
@@ -72,6 +74,7 @@ typedef struct ASEnvironmentTraitCollection {
 
   CGSize containerSize;
 } ASEnvironmentTraitCollection;
+extern ASEnvironmentTraitCollection ASEnvironmentTraitCollectionMakeDefault();
 
 extern ASEnvironmentTraitCollection ASEnvironmentTraitCollectionFromUITraitCollection(UITraitCollection *traitCollection);
 extern BOOL ASEnvironmentTraitCollectionIsEqualToASEnvironmentTraitCollection(ASEnvironmentTraitCollection lhs, ASEnvironmentTraitCollection rhs);
@@ -153,7 +156,6 @@ ASDISPLAYNODE_EXTERN_C_END
       for (NSArray *sectionArray in completedNodes) {\
         for (ASCellNode *cellNode in sectionArray) {\
           ASEnvironmentStatePropagateDown(cellNode, currentTraits);\
-          [cellNode setNeedsLayout];\
         }\
       }\
     });\

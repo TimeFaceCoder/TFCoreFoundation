@@ -11,13 +11,10 @@
 #import "TFTableViewDataSourceConfig.h"
 #import "TFTableViewDataManager.h"
 #import "TFTableViewClassList.h"
-#import "TFTableViewItem.h"
-#import "TFTableViewItemCell.h"
+#import "TFLoadingTableViewItem.h"
+#import "TFLoadingTableViewItemCell.h"
 
-#import <MYTableViewManager/MYTableViewLoadingItem.h>
-#import <MYTableViewManager/MYTableViewLoadingItemCell.h>
-
-@interface TFTableViewDataSource()<MYTableViewManagerDelegate> {
+@interface TFTableViewDataSource()<TFTableViewManagerDelegate> {
     
 }
 
@@ -42,11 +39,12 @@
  */
 @property (nonatomic ,assign) CGFloat                  accumulatedY;
 
-@property (nonatomic ,strong) MYTableViewManager       *manager;
+@property (nonatomic ,strong) TFTableViewManager       *manager;
 /**
  *  网络数据加载工具
  */
 @property (nonatomic ,strong) TFTableViewDataRequest   *dataRequest;
+
 
 @property (nonatomic ,strong) TFTableViewDataManager   *tableViewDataManager;
 
@@ -58,7 +56,9 @@
 
 @implementation TFTableViewDataSource
 
-- (instancetype)initWithTableView:(ASTableView *)tableView
+#pragma mark - 初始化方法
+
+- (instancetype)initWithTableView:(UITableView *)tableView
                          listType:(NSInteger)listType
                            params:(NSDictionary *)params
                          delegate:(id /*<TFTableViewDataSourceDelegate>*/)delegate {
@@ -70,10 +70,31 @@
     _tableView = tableView;
     _listType  = listType;
     _requestArgument = [NSMutableDictionary dictionaryWithDictionary:params];
-    _manager = [[MYTableViewManager alloc] initWithTableView:tableView delegate:self];
+    _manager = [[TFTableViewManager alloc] initWithTableView:tableView];
+    _manager.delegate = self;
     [self initTableViewPullRefresh];
     [self setupDataSource];
     return self;
+}
+
+- (instancetype)initWithTableNode:(ASTableNode *)tableNode
+                         listType:(NSInteger)listType
+                           params:(NSDictionary *)params
+                         delegate:(id)delegate {
+    self = [super init];
+    if (!self) {
+        return nil;
+    }
+    _delegate  = delegate;
+    _tableNode = tableNode;
+    _listType  = listType;
+    _requestArgument = [NSMutableDictionary dictionaryWithDictionary:params];
+    _manager = [[TFTableViewManager alloc] initWithTableNode:tableNode];
+    _manager.delegate = self;
+    [self initTableViewPullRefresh];
+    [self setupDataSource];
+    return self;
+
 }
 
 #pragma mark - Public
@@ -120,10 +141,15 @@
         _tableViewDataManager = [[class alloc] initWithDataSource:self listType:_listType];
     }
     //registerClass
-    NSArray *itemClassList = [TFTableViewClassList subclassesOfClass:[MYTableViewItem class]];
+    NSArray *itemClassList = [TFTableViewClassList subclassesOfClass:[TFTableViewItem class]];
     for (Class itemClass in itemClassList) {
         NSString *itemName = NSStringFromClass(itemClass);
-        self.manager[itemName] = [itemName stringByAppendingString:@"Cell"];
+        if (self.tableNode) {
+            self.manager[itemName] = [itemName stringByAppendingString:@"CellNode"];
+        }
+        else {
+            self.manager[itemName] = [itemName stringByAppendingString:@"Cell"];
+        }
     }
 }
 
@@ -132,6 +158,7 @@
         [self load:TFDataLoadPolicyMore context:nil];
     }
 }
+
 #pragma mark - 重载以下方法可以自定义下拉刷新组件
 ////////////////////////////////////////////初始化下拉刷新////////////////////////////////////////////
 - (void)initTableViewPullRefresh {
@@ -216,10 +243,6 @@
     TFTableViewLogDebug(@"%s",__func__);
     NSError *hanldeError = nil;
     NSInteger lastSectionIndex = [[self.manager sections] count] - 1;
-    if (!result || [[result objectForKey:@"dataList"] count] <= 0) {
-        //数据为空
-        hanldeError = [NSError errorWithDomain:@"" code:1 userInfo:@{}];
-    }
     if (dataLoadPolicy == TFDataLoadPolicyMore) {
         //加载下一页，移除loading item
         [self.manager removeLastSection];
@@ -236,7 +259,7 @@
     }
     __weak __typeof(self)weakSelf = self;
     [self.tableViewDataManager reloadView:result
-                                    block:^(BOOL finished, id object, NSError *error, NSArray <MYTableViewSection *> *sections)
+                                    block:^(BOOL finished, id object, NSError *error, NSArray <TFTableViewSection *> *sections)
      {
          typeof(self) strongSelf = weakSelf;
          if (finished) {
@@ -250,9 +273,9 @@
              //需要在主线程执行
              if (_currentPage < _totalPage) {
                  //存在下一页数据，在列表尾部追加loading item
-                 MYTableViewSection *section = [MYTableViewSection section];
+                 TFTableViewSection *section = [TFTableViewSection section];
                  //loading item
-                 [section addItem:[MYTableViewLoadingItem itemWithTitle:NSLocalizedString(@"正在加载...", nil)]];
+                 [section addItem:[TFLoadingTableViewItem itemWithModel:NSLocalizedString(@"正在加载...", nil)]];
                  [strongSelf.manager addSection:section];
                  rangelength += sections.count;
              }
@@ -289,66 +312,42 @@
 
 #pragma mark - 刷新列表
 - (void)reloadTableView {
-    UIView *snapshot = [self.tableView snapshotViewAfterScreenUpdates:NO];
-    [self.tableView.superview insertSubview:snapshot aboveSubview:_tableView];
-    [self.tableView beginUpdates];
-    [self.tableView reloadDataImmediately];
-    [self.tableView endUpdatesAnimated:NO completion:^(BOOL completed) {
-        [UIView animateWithDuration:0.75 animations:^{
-            snapshot.alpha = 0;
-        } completion:^(BOOL finished) {
-            [snapshot removeFromSuperview];
-        }];
-    }];
+    if (self.tableNode) {
+        [self.tableNode.view reloadData];
+    }
+    else if (self.tableView) {
+        [self.tableView reloadData];
+    }
 
 }
 
-#pragma mark - MYTableViewManagerDelegate
-/**
- *  列表是否需要加载更多数据
- *
- *  @param tableView
- *
- *  @return
- */
-- (BOOL)shouldBatchFetchForTableView:(ASTableView *)tableView {
-    return _currentPage < _totalPage;
-}
-/**
- *  列表开始加载更多数据
- *
- *  @param tableView
- *  @param context
- */
-- (void)tableView:(ASTableView *)tableView willBeginBatchFetchWithContext:(ASBatchContext *)context {
-    TFTableViewLogDebug(@"Class %@ will fetch next page",NSStringFromClass(self.class));
-    [self load:TFDataLoadPolicyMore context:context];
-}
+#pragma mark - UITableViewDelegate & ASTableViewDelegate
 
-#pragma mark - UIScrollViewDelegate
-- (void)tableView:(UITableView *)tableView willLayoutCellSubviews:(UITableViewCell *)cell
-forRowAtIndexPath:(NSIndexPath *)indexPath; {
-    
-}
-- (void)tableView:(UITableView *)tableView willLoadCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath; {
-    
-}
+#pragma mark unique methods for UITableViewDelegate.
 
-- (void)tableView:(UITableView *)tableView didLoadCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath; {
-    
-}
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
 
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.delegate respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]) {
-        [self.delegate tableView:tableView didSelectRowAtIndexPath:indexPath];
+    if ([cell isKindOfClass:[TFLoadingTableViewItemCell class]]) {
+        [self performSelector:@selector(loadMore) withObject:nil afterDelay:0.3];
+    }
+    if ([self.delegate respondsToSelector:@selector(tableView:willDisplayCell:forRowAtIndexPath:)]) {
+        [self.delegate tableView:tableView willDisplayCell:cell forRowAtIndexPath:indexPath];
     }
 }
 
+- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(tableView:didEndDisplayingCell:forRowAtIndexPath:)]) {
+        [self.delegate tableView:tableView didEndDisplayingCell:cell forRowAtIndexPath:indexPath];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didLoadCellSubViews:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(tableView:didLoadCellSubViews:forRowAtIndexPath:)]) {
+        [self.delegate tableView:tableView didLoadCellSubViews:cell forRowAtIndexPath:indexPath];
+    }
+}
+
+#pragma mark unique methods for ASTableViewDelegate.
 - (void)tableView:(ASTableView *)tableView willDisplayNodeForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(tableView:willDisplayNodeForRowAtIndexPath:)]) {
         [self.delegate tableView:tableView willDisplayNodeForRowAtIndexPath:indexPath];
@@ -360,6 +359,58 @@ forRowAtIndexPath:(NSIndexPath *)indexPath; {
         [self.delegate tableView:tableView didEndDisplayingNode:node forRowAtIndexPath:indexPath];
     }
 }
+
+- (BOOL)shouldBatchFetchForTableView:(ASTableView *)tableView {
+    return _currentPage < _totalPage;
+}
+
+- (void)tableView:(ASTableView *)tableView willBeginBatchFetchWithContext:(ASBatchContext *)context {
+    TFTableViewLogDebug(@"Class %@ will fetch next page",NSStringFromClass(self.class));
+    [self load:TFDataLoadPolicyMore context:context];
+}
+
+#pragma mark same methods for UITableViewDelegate and ASTableViewDelegate.
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section {
+    if ([self.delegate respondsToSelector:@selector(tableView:willDisplayHeaderView:forSection:)]) {
+        [self.delegate tableView:tableView willDisplayHeaderView:view forSection:section];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section {
+    if ([self.delegate respondsToSelector:@selector(tableView:willDisplayFooterView:forSection:)]) {
+        [self.delegate tableView:tableView willDisplayFooterView:view forSection:section];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didEndDisplayingHeaderView:(UIView *)view forSection:(NSInteger)section {
+    if ([self.delegate respondsToSelector:@selector(tableView:didEndDisplayingHeaderView:forSection:)]) {
+        [self.delegate tableView:tableView didEndDisplayingHeaderView:view forSection:section];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didEndDisplayingFooterView:(UIView *)view forSection:(NSInteger)section {
+    if ([self.delegate respondsToSelector:@selector(tableView:didEndDisplayingFooterView:forSection:)]) {
+        [self.delegate tableView:tableView didEndDisplayingFooterView:view forSection:section];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(tableView:didSelectRowAtIndexPath:)]) {
+        [self.delegate tableView:tableView didSelectRowAtIndexPath:indexPath];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.delegate respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)]) {
+        [self.delegate tableView:tableView didDeselectRowAtIndexPath:indexPath];
+    }
+}
+
+
+
+
+#pragma mark - UIScrollViewDelegate
 
 /**
  *  滚动方向判断
@@ -373,25 +424,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath; {
     return currentOffsetY > previousOffsetY ? TFTableViewScrollDirectionUp   :
     currentOffsetY < previousOffsetY ? TFTableViewScrollDirectionDown :
     TFTableViewScrollDirectionNone;
-}
-
-- (NSString*)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NSLocalizedString(@"删除", nil);
-}
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [tableView beginUpdates];
-        [tableView deleteRowsAtIndexPaths:[NSArray
-                                           arrayWithObjects:indexPath,nil]
-                         withRowAnimation:UITableViewRowAnimationFade];
-        [tableView endUpdates];
-    }
-}
-
-- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.delegate respondsToSelector:@selector(tableView:didDeselectRowAtIndexPath:)]) {
-        [self.delegate tableView:tableView didSelectRowAtIndexPath:indexPath];
-    }
 }
 
 #pragma mark - UIScrollViewDelegate

@@ -11,41 +11,42 @@
 #import "ASEnvironmentInternal.h"
 #import "ASAvailability.h"
 
-ASEnvironmentLayoutOptionsState _ASEnvironmentLayoutOptionsStateMakeDefault()
+ASEnvironmentLayoutOptionsState ASEnvironmentLayoutOptionsStateMakeDefault()
 {
   return (ASEnvironmentLayoutOptionsState) {
     // Default values can be defined in here
   };
 }
 
-ASEnvironmentHierarchyState _ASEnvironmentHierarchyStateMakeDefault()
+ASEnvironmentHierarchyState ASEnvironmentHierarchyStateMakeDefault()
 {
   return (ASEnvironmentHierarchyState) {
     // Default values can be defined in here
   };
 }
 
-ASEnvironmentTraitCollection _ASEnvironmentTraitCollectionMakeDefault()
+ASEnvironmentTraitCollection ASEnvironmentTraitCollectionMakeDefault()
 {
   return (ASEnvironmentTraitCollection) {
     // Default values can be defined in here
+    .userInterfaceIdiom = UIUserInterfaceIdiomUnspecified,
     .containerSize = CGSizeZero,
   };
 }
 
 ASEnvironmentTraitCollection ASEnvironmentTraitCollectionFromUITraitCollection(UITraitCollection *traitCollection)
 {
-  ASEnvironmentTraitCollection asyncTraitCollection;
+  ASEnvironmentTraitCollection environmentTraitCollection = ASEnvironmentTraitCollectionMakeDefault();
   if (AS_AT_LEAST_IOS8) {
-    asyncTraitCollection.displayScale = traitCollection.displayScale;
-    asyncTraitCollection.horizontalSizeClass = traitCollection.horizontalSizeClass;
-    asyncTraitCollection.verticalSizeClass = traitCollection.verticalSizeClass;
-    asyncTraitCollection.userInterfaceIdiom = traitCollection.userInterfaceIdiom;
+    environmentTraitCollection.displayScale = traitCollection.displayScale;
+    environmentTraitCollection.horizontalSizeClass = traitCollection.horizontalSizeClass;
+    environmentTraitCollection.verticalSizeClass = traitCollection.verticalSizeClass;
+    environmentTraitCollection.userInterfaceIdiom = traitCollection.userInterfaceIdiom;
     if (AS_AT_LEAST_IOS9) {
-      asyncTraitCollection.forceTouchCapability = traitCollection.forceTouchCapability;
+      environmentTraitCollection.forceTouchCapability = traitCollection.forceTouchCapability;
     }
   }
-  return asyncTraitCollection;
+  return environmentTraitCollection;
 }
 
 BOOL ASEnvironmentTraitCollectionIsEqualToASEnvironmentTraitCollection(ASEnvironmentTraitCollection lhs, ASEnvironmentTraitCollection rhs)
@@ -62,9 +63,9 @@ BOOL ASEnvironmentTraitCollectionIsEqualToASEnvironmentTraitCollection(ASEnviron
 ASEnvironmentState ASEnvironmentStateMakeDefault()
 {
   return (ASEnvironmentState) {
-    .layoutOptionsState = _ASEnvironmentLayoutOptionsStateMakeDefault(),
-    .hierarchyState = _ASEnvironmentHierarchyStateMakeDefault(),
-    .environmentTraitCollection = _ASEnvironmentTraitCollectionMakeDefault()
+    .layoutOptionsState = ASEnvironmentLayoutOptionsStateMakeDefault(),
+    .hierarchyState = ASEnvironmentHierarchyStateMakeDefault(),
+    .environmentTraitCollection = ASEnvironmentTraitCollectionMakeDefault()
   };
 }
 

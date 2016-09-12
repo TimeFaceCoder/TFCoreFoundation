@@ -169,6 +169,18 @@ TFSYNTH_DUMMY_CLASS(UIView_YYCore)
     return rect;
 }
 
+- (NSLayoutConstraint *)equallyRelatedConstraintWithView:(UIView *)view attribute:(NSLayoutAttribute)attribute
+{
+    return [NSLayoutConstraint constraintWithItem:view
+                                        attribute:attribute
+                                        relatedBy:NSLayoutRelationEqual
+                                           toItem:self
+                                        attribute:attribute
+                                       multiplier:1.0
+                                         constant:0.0];
+}
+
+
 - (CGFloat)tf_left {
     return self.frame.origin.x;
 }

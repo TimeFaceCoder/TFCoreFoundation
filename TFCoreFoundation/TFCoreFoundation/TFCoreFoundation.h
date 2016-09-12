@@ -68,7 +68,6 @@
 
 #import <TFCoreFoundation/TFAlertView.h>
 #import <TFCoreFoundation/TFSplashView.h>
-#import <TFCoreFoundation/TFStateView.h>
 
 ///--------------------------------
 /// @name Utility
@@ -151,7 +150,6 @@
 
 #import "TFAlertView.h"
 #import "TFSplashView.h"
-#import "TFStateView.h"
 
 ///--------------------------------
 /// @name Utility

@@ -44,6 +44,7 @@
 
   // Use UITableViewCell defaults
   _selectionStyle = UITableViewCellSelectionStyleDefault;
+    _separatorSunk = YES;
   self.clipsToBounds = YES;
   return self;
 }
@@ -104,24 +105,6 @@
   _viewControllerNode.frame = self.bounds;
 }
 
-- (instancetype)initWithLayerBlock:(ASDisplayNodeLayerBlock)viewBlock didLoadBlock:(ASDisplayNodeDidLoadBlock)didLoadBlock
-{
-  ASDisplayNodeAssertNotSupported();
-  return nil;
-}
-
-- (instancetype)initWithViewBlock:(ASDisplayNodeViewBlock)viewBlock didLoadBlock:(ASDisplayNodeDidLoadBlock)didLoadBlock
-{
-  ASDisplayNodeAssertNotSupported();
-  return nil;
-}
-
-- (void)setLayerBacked:(BOOL)layerBacked
-{
-  // ASRangeController expects ASCellNodes to be view-backed.  (Layer-backing is supported on ASCellNode subnodes.)
-  ASDisplayNodeAssert(!layerBacked, @"ASCellNode does not support layer-backing.");
-}
-
 - (void)__setNeedsLayout
 {
   CGSize oldSize = self.calculatedSize;
@@ -129,13 +112,13 @@
   
   //Adding this lock because lock used to be held when this method was called. Not sure if it's necessary for
   //didRelayoutFromOldSize:toNewSize:
-  ASDN::MutexLocker l(_propertyLock);
+  ASDN::MutexLocker l(__instanceLock__);
   [self didRelayoutFromOldSize:oldSize toNewSize:self.calculatedSize];
 }
 
 - (void)transitionLayoutWithAnimation:(BOOL)animated
-                         shouldMeasureAsync:(BOOL)shouldMeasureAsync
-                      measurementCompletion:(void(^)())completion
+                   shouldMeasureAsync:(BOOL)shouldMeasureAsync
+                measurementCompletion:(void(^)())completion
 {
   CGSize oldSize = self.calculatedSize;
   [super transitionLayoutWithAnimation:animated
@@ -215,16 +198,6 @@
   }
 }
 
-- (BOOL)selected
-{
-  return self.isSelected;
-}
-
-- (BOOL)highlighted
-{
-  return self.isSelected;
-}
-
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 
@@ -268,17 +241,39 @@
   // To be overriden by subclasses
 }
 
-- (void)visibleStateDidChange:(BOOL)isVisible
+- (void)didEnterVisibleState
 {
-  [super visibleStateDidChange:isVisible];
-  
-  CGRect cellFrame = CGRectZero;
-  if (_scrollView) {
-    // It is not safe to message nil with a structure return value, so ensure our _scrollView has not died.
-    cellFrame = [self.view convertRect:self.bounds toView:_scrollView];
+  [super didEnterVisibleState];
+  if (self.neverShowPlaceholders) {
+    [self recursivelyEnsureDisplaySynchronously:YES];
   }
+  [self handleVisibilityChange:YES];
+}
+
+- (void)didExitVisibleState
+{
+  [super didExitVisibleState];
+  [self handleVisibilityChange:NO];
+}
+
+- (void)handleVisibilityChange:(BOOL)isVisible
+{
+  // NOTE: This assertion is failing in some apps and will be enabled soon.
+  // ASDisplayNodeAssert(self.isNodeLoaded, @"Node should be loaded in order for it to become visible or invisible.  If not in this situation, we shouldn't trigger creating the view.");
+  UIView *view = self.view;
+  CGRect cellFrame = CGRectZero;
+  
+  // Ensure our _scrollView is still valid before converting.  It's also possible that we have already been removed from the _scrollView,
+  // in which case it is not valid to perform a convertRect (this actually crashes on iOS 7 and 8).
+  UIScrollView *scrollView = (_scrollView != nil && view.superview != nil && [view isDescendantOfView:_scrollView]) ? _scrollView : nil;
+  if (scrollView) {
+    cellFrame = [view convertRect:view.bounds toView:_scrollView];
+  }
+  
+  // If we did not convert, we'll pass along CGRectZero and a nil scrollView.  The EventInvisible call is thus equivalent to
+  // didExitVisibileState, but is more convenient for the developer than implementing multiple methods.
   [self cellNodeVisibilityEvent:isVisible ? ASCellNodeVisibilityEventVisible : ASCellNodeVisibilityEventInvisible
-                   inScrollView:_scrollView
+                   inScrollView:scrollView
                   withCellFrame:cellFrame];
 }
 
@@ -303,7 +298,7 @@ static const CGFloat kASTextCellNodeDefaultVerticalPadding = 11.0f;
 
 - (instancetype)init
 {
-  return [self initWithAttributes:[self defaultTextAttributes] insets:[self defaultTextInsets]];
+  return [self initWithAttributes:[ASTextCellNode defaultTextAttributes] insets:[ASTextCellNode defaultTextInsets]];
 }
 
 - (instancetype)initWithAttributes:(NSDictionary *)textAttributes insets:(UIEdgeInsets)textInsets
@@ -312,8 +307,8 @@ static const CGFloat kASTextCellNodeDefaultVerticalPadding = 11.0f;
   if (self) {
     _textInsets = textInsets;
     _textAttributes = [textAttributes copy];
+    self.automaticallyManagesSubnodes = YES;
     _textNode = [[ASTextNode alloc] init];
-    [self addSubnode:_textNode];
   }
   return self;
 }
@@ -323,12 +318,12 @@ static const CGFloat kASTextCellNodeDefaultVerticalPadding = 11.0f;
   return [ASInsetLayoutSpec insetLayoutSpecWithInsets:self.textInsets child:self.textNode];
 }
 
-- (NSDictionary *)defaultTextAttributes
++ (NSDictionary *)defaultTextAttributes
 {
   return @{NSFontAttributeName : [UIFont systemFontOfSize:kASTextCellNodeDefaultFontSize]};
 }
 
-- (UIEdgeInsets)defaultTextInsets
++ (UIEdgeInsets)defaultTextInsets
 {
     return UIEdgeInsetsMake(kASTextCellNodeDefaultVerticalPadding, kASTextCellNodeDefaultHorizontalPadding, kASTextCellNodeDefaultVerticalPadding, kASTextCellNodeDefaultHorizontalPadding);
 }
@@ -339,14 +334,14 @@ static const CGFloat kASTextCellNodeDefaultVerticalPadding = 11.0f;
   
   _textAttributes = [textAttributes copy];
   
-  [self updateAttributedString];
+  [self updateAttributedText];
 }
 
 - (void)setTextInsets:(UIEdgeInsets)textInsets
 {
   _textInsets = textInsets;
 
-  [self updateAttributedString];
+  [self setNeedsLayout];
 }
 
 - (void)setText:(NSString *)text
@@ -355,17 +350,17 @@ static const CGFloat kASTextCellNodeDefaultVerticalPadding = 11.0f;
 
   _text = [text copy];
   
-  [self updateAttributedString];
+  [self updateAttributedText];
 }
 
-- (void)updateAttributedString
+- (void)updateAttributedText
 {
   if (_text == nil) {
-    _textNode.attributedString = nil;
+    _textNode.attributedText = nil;
     return;
   }
   
-  _textNode.attributedString = [[NSAttributedString alloc] initWithString:self.text attributes:self.textAttributes];
+  _textNode.attributedText = [[NSAttributedString alloc] initWithString:self.text attributes:self.textAttributes];
   [self setNeedsLayout];
 }
 

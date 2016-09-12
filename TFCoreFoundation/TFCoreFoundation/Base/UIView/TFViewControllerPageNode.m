@@ -35,7 +35,7 @@
         ASRangeTuningParameters fullRenderParams = { .leadingBufferScreenfuls = 0.0, .trailingBufferScreenfuls = 0.0 };
         ASRangeTuningParameters fullPreloadParams = { .leadingBufferScreenfuls = 0.0, .trailingBufferScreenfuls = 0.0 };
         [_pagerNode setTuningParameters:fullRenderParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypeDisplay];
-        [_pagerNode setTuningParameters:fullPreloadParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypeFetchData];
+        [_pagerNode setTuningParameters:fullPreloadParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypePreload];
     }
     return _pagerNode;
 }

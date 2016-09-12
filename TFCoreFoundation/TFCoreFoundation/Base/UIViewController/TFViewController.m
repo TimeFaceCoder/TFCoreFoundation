@@ -8,15 +8,13 @@
 
 #import "TFViewController.h"
 #import <CoreMotion/CoreMotion.h>
-#import <SVProgressHUD/SVProgressHUD.h>
 #import "TFCoreFoundationMacro.h"
 #import "TFCGUtilities.h"
 #import "TFDefaultStyle.h"
 #import "UIBarButtonItem+TFCore.h"
-#import <FLAnimatedImage/FLAnimatedImage.h>
-#import <FLAnimatedImage/FLAnimatedImageView.h>
+#import "UIViewController+EmptyState.h"
 
-@interface TFViewController ()<TFStateViewDelegate,TFStateViewDataSource> {
+@interface TFViewController () {
     
 }
 @property (nonatomic ,strong) CMMotionManager *manager;
@@ -33,28 +31,8 @@
     return self;
 }
 
-- (void)loadView {
-    if (nil != self.nibName) {
-        [super loadView];
-    } else {
-        self.view = [[UIView alloc] initWithFrame:TFScreenBounds()];
-        self.view.autoresizesSubviews = YES;
-        self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        self.view.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-
--(void) viewDidAppear:(BOOL)animated {
+-(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     //手机敲击左手返回
     __weak __typeof(self)weakSelf = self;
     if (_manager.deviceMotionAvailable) {
@@ -70,15 +48,12 @@
                                           }
                                       }];
     }
-//    [self checkGuide];
 }
+
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [_manager stopDeviceMotionUpdates];
-//    [self removeGuideView];
 }
-
-
 
 - (void)viewDidLoad
 {
@@ -86,173 +61,15 @@
     if (!_manager) {
         _manager = [[CMMotionManager alloc] init];
     }
-    if (!_requestParams) {
-        _requestParams = [NSMutableDictionary dictionary];
-    }
     self.navigationController.view.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
-    [self showStateView:kTFViewStateNone];
+    self.view.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
+    [self tf_showStateView:kTFViewStateNone];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)onLeftNavClick:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-#pragma mark - Public
-
-
-- (void)removeStateView {
-//    [self tf_showStateView:kTFViewStateNone];
-}
-
-- (void)showStateView:(NSInteger)state {
-//    [self tf_showStateView:state];
-}
-
-
-- (void)showBackButton {
-    self.navigationItem.leftBarButtonItem = [UIBarButtonItem barButtonItemWithImage:[UIImage imageNamed:@""]
-                                                                      selectedImage:[UIImage imageNamed:@""]
-                                                                             target:self
-                                                                             action:@selector(onLeftNavClick:)];
-}
-
-- (void)reloadData {
-    
-}
-
-- (void)showToastMessage:(NSString *)message messageType:(TFMessageType)messageType {
-    TFMainRun(^{
-        
-        NSDictionary *dic = @{
-                              @"message"     :   message ? message : @"",
-                              @"type"        :   @(messageType)
-                              };
-//        [self performSelector:@selector(showMessage:) withObject:dic afterDelay:.5f];
-        
-        [self showMessage:dic];
-    });
-}
-
-- (void)showMessage:(NSDictionary*)params {
-    NSString *message = [params objectForKey:@"message"];
-    TFMessageType messageType  = [[params objectForKey:@"type"] integerValue];
-    [SVProgressHUD setMinimumDismissTimeInterval:0.8];
-    switch (messageType) {
-        case TFMessageTypeDefault:
-            [SVProgressHUD showWithStatus:message];
-            break;
-        case TFMessageTypeSuccess:
-            [SVProgressHUD showSuccessWithStatus:message];
-            break;
-        case TFMessageTypeFaild:
-            [SVProgressHUD showErrorWithStatus:message];
-            break;
-        default:
-            [SVProgressHUD showInfoWithStatus:message];
-            break;
-    }
-}
-
-- (void)dismissToastView {
-    TFMainRun(^{
-        [SVProgressHUD dismiss];
-    });
-}
-
-- (NSString *)stateViewTitle:(NSInteger)viewState {
-    NSString *title = @"";
-    if (viewState == kTFViewStateDataError) {
-        title = TFSTYLEVAR(viewStateDataErrorTitle);
-    }
-    if (viewState == kTFViewStateLoading) {
-        title = TFSTYLEVAR(viewStateDataLoadingTitle);
-    }
-    if (viewState == kTFViewStateNetError) {
-        title = TFSTYLEVAR(viewStateDataNetErrorTitle);
-    }
-    if (viewState == kTFViewStateNoData) {
-        title = TFSTYLEVAR(viewStateDataNoDataTitle);
-    }
-    if (viewState == kTFViewStateTimeOut) {
-        title = TFSTYLEVAR(viewStateDataTimeOutTitle);
-    }
-    return title;
-}
-
-
-
-- (NSString *)stateViewButtonTitle:(NSInteger)viewState {
-    NSString *title = @"";
-    if (viewState == kTFViewStateDataError) {
-        title = TFSTYLEVAR(viewStateDataErrorButtonTitle);
-    }
-    if (viewState == kTFViewStateLoading) {
-        
-    }
-    if (viewState == kTFViewStateNetError) {
-        
-        title = TFSTYLEVAR(viewStateDataNetErrorButtonTitle);
-    }
-    if (viewState == kTFViewStateNoData) {
-        title = TFSTYLEVAR(viewStateDataNoDataButtonTitle);
-    }
-    if (viewState == kTFViewStateTimeOut) {
-        title = TFSTYLEVAR(viewStateDataErrorButtonTitle);
-    }
-    return title;
-}
-
-
-
-- (UIImage *)stateViewImage:(NSInteger)viewState {
-    UIImage *image = [UIImage new];
-    if (viewState == kTFViewStateDataError) {
-        image =[UIImage imageNamed:TFSTYLEVAR(viewStateDataErrorImage)];
-    }
-    if (viewState == kTFViewStateLoading) {
-    }
-    if (viewState == kTFViewStateNetError) {
-        image =[UIImage imageNamed:TFSTYLEVAR(viewStateDataNetErrorImage)];
-    }
-    if (viewState == kTFViewStateNoData) {
-        image =[UIImage imageNamed:TFSTYLEVAR(viewStateDataNoDataImage)];
-    }
-    if (viewState == kTFViewStateTimeOut) {
-        image =[UIImage imageNamed:TFSTYLEVAR(viewStateDataNetErrorImage)];
-    }    return image;
-}
-- (UIImage*)buttonBackgroundImageForStateView:(UIView *)view forState:(UIControlState)state {
-    return nil;
-}
-
-- (UIColor *)buttonBackgroundColorForStateView:(UIView *)view {
-    return TFSTYLEVAR(viewStateButtonBackgroundColor);
-}
-
-- (CGSize)buttonSizeForStateView:(UIView *)view {
-    return TFSTYLEVAR(viewStateButtonSize);
-}
-
-- (CGFloat)buttonCornerRadiusForStateView:(UIView *)view {
-    return TFSTYLEVAR(viewStateButtonCornerRadius);
-}
-
-- (UIColor *)buttonBorderColorForStateView:(UIView *)view {
-    return TFSTYLEVAR(viewStateButtonBorderColor);
-}
-
-- (CGRect)frameForStateView:(UIView *)view {
-    return self.view.bounds;
-}
-
-- (CGPoint)offsetForStateView:(UIView *)view {
-    return CGPointZero;
 }
 
 #pragma mark - Private

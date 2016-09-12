@@ -54,7 +54,7 @@ extern void ASDisplayNodePerformBlockOnEveryNode(CALayer *layer, ASDisplayNode *
     layer = node.layer;
   }
   
-  if (layer) {
+  if (layer && node.shouldRasterizeDescendants == NO) {
     /// NOTE: The docs say `sublayers` returns a copy, but it does not.
     /// See: http://stackoverflow.com/questions/14854480/collection-calayerarray-0x1ed8faa0-was-mutated-while-being-enumerated
     for (CALayer *sublayer in [[layer sublayers] copy]) {
@@ -80,8 +80,9 @@ extern void ASDisplayNodePerformBlockOnEveryNodeBFS(ASDisplayNode *node, void(^b
     block(node);
 
     // Add all subnodes to process in next step
-    for (int i = 0; i < node.subnodes.count; i++)
-      queue.push(node.subnodes[i]);
+    for (ASDisplayNode *subnode in node.subnodes) {
+      queue.push(subnode);
+    }
   }
 }
 

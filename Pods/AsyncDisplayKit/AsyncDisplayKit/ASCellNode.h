@@ -77,9 +77,15 @@ typedef NS_ENUM(NSUInteger, ASCellNodeVisibilityEvent) {
 /*
  * ASTableView uses these properties when configuring UITableViewCells that host ASCellNodes.
  */
-//@property (atomic, retain) UIColor *backgroundColor;
+//@property (nonatomic, retain) UIColor *backgroundColor;
 @property (nonatomic) UITableViewCellSelectionStyle selectionStyle;
 
+@property (nonatomic,assign) UITableViewCellAccessoryType accessoryType;
+
+@property (nonatomic, strong, nullable) UIView       *accessoryView;// if set, use custom view. ignore accessoryType. tracks if enabled can calls accessory action
+
+//the separator line is sunk, default is YES.
+@property (nonatomic, assign) BOOL separatorSunk;
 /**
  * A Boolean value that is synchronized with the underlying collection or tableView cell property.
  * Setting this value is equivalent to calling selectItem / deselectItem on the collection or table.
@@ -120,20 +126,20 @@ typedef NS_ENUM(NSUInteger, ASCellNodeVisibilityEvent) {
  */
 - (instancetype)initWithViewControllerBlock:(ASDisplayNodeViewControllerBlock)viewControllerBlock didLoadBlock:(nullable ASDisplayNodeDidLoadBlock)didLoadBlock;
 
-- (void)cellNodeVisibilityEvent:(ASCellNodeVisibilityEvent)event inScrollView:(UIScrollView *)scrollView withCellFrame:(CGRect)cellFrame;
+- (void)cellNodeVisibilityEvent:(ASCellNodeVisibilityEvent)event inScrollView:(nullable UIScrollView *)scrollView withCellFrame:(CGRect)cellFrame;
 
 @end
 
-@interface ASCellNode (Deprecated)
+@interface ASCellNode (Unavailable)
 
-/**
- * Previous versions of ASDK did not include "is" in the name of the getter for these properties.
- * These older accessor methods don't match UIKit naming, and will be removed in a future version.
- */
-- (BOOL)selected ASDISPLAYNODE_DEPRECATED;
-- (BOOL)highlighted ASDISPLAYNODE_DEPRECATED;
+- (instancetype)initWithLayerBlock:(ASDisplayNodeLayerBlock)viewBlock didLoadBlock:(nullable ASDisplayNodeDidLoadBlock)didLoadBlock __unavailable;
+
+- (instancetype)initWithViewBlock:(ASDisplayNodeViewBlock)viewBlock didLoadBlock:(nullable ASDisplayNodeDidLoadBlock)didLoadBlock __unavailable;
+
+- (void)setLayerBacked:(BOOL)layerBacked AS_UNAVAILABLE("ASCellNode does not support layer-backing");
 
 @end
+
 
 /**
  * Simple label-style cell node.  Read its source for an example of custom <ASCellNode>s.

@@ -20,7 +20,7 @@ NSInteger const ASDefaultTransactionPriority = 0;
 @interface ASDisplayNodeAsyncTransactionOperation : NSObject
 - (instancetype)initWithOperationCompletionBlock:(asyncdisplaykit_async_transaction_operation_completion_block_t)operationCompletionBlock;
 @property (nonatomic, copy) asyncdisplaykit_async_transaction_operation_completion_block_t operationCompletionBlock;
-@property (atomic, strong) id<NSObject> value; // set on bg queue by the operation block
+@property (nonatomic, strong) id<NSObject> value; // set on bg queue by the operation block
 @end
 
 @implementation ASDisplayNodeAsyncTransactionOperation
@@ -214,11 +214,15 @@ void ASAsyncTransactionQueue::GroupImpl::schedule(NSInteger priority, dispatch_q
   
   ++_pendingOperations; // enter group
   
+#if ASDISPLAYNODE_DELAY_DISPLAY
+  NSUInteger maxThreads = 1;
+#else 
   NSUInteger maxThreads = [NSProcessInfo processInfo].activeProcessorCount * 2;
 
   // Bit questionable maybe - we can give main thread more CPU time during tracking;
   if ([[NSRunLoop mainRunLoop].currentMode isEqualToString:UITrackingRunLoopMode])
     --maxThreads;
+#endif
   
   if (entry._threadCount < maxThreads) { // we need to spawn another thread
 

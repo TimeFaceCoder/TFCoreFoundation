@@ -13,12 +13,9 @@
 #import <TFNetwork/TFNetwork.h>
 
 @class TFTableViewItem;
-@class MYTableViewSection;
-typedef void (^Completion)(void);
-typedef void (^CellViewClickHandler)(__kindof TFTableViewItem *item ,NSInteger actionType);
-typedef void (^DeletionHandlerWithCompletion)(__kindof TFTableViewItem *item, void (^)(void));
-typedef void (^TableViewReloadCompletionBlock)(BOOL finished,id object,NSError *error, NSArray <MYTableViewSection *> *sections);
+@class TFTableViewSection;
 
+typedef void (^TableViewReloadCompletionBlock)(BOOL finished,id object,NSError *error, NSArray <TFTableViewSection *> *sections);
 
 @protocol TFTableViewDataManagerProtocol <NSObject>
 
@@ -48,12 +45,13 @@ typedef void (^TableViewReloadCompletionBlock)(BOOL finished,id object,NSError *
  *  @param actionType
  */
 - (void)cellViewClickHandler:(TFTableViewItem *)item actionType:(NSInteger)actionType;
+
 /**
  *  列表删除事件处理
  *
  *  @param item
  */
-- (void)deleteHanlder:(TFTableViewItem *)item completion:(void (^)(void))completion;
+- (void)deleteHanlder:(TFTableViewItem *)item;
 
 /**
  *  刷新指定Cell

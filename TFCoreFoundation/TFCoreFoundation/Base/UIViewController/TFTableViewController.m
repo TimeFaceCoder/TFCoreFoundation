@@ -13,58 +13,84 @@
 #import <JDStatusBarNotification/JDStatusBarNotification.h>
 #import "TFDefaultStyle.h"
 #import <TFTableViewDataSourceConfig.h>
+#import "UIViewController+EmptyState.h"
+
+NSString * const kTFTableViewTypeKey = @"TableViewTypeKey";
+NSString * const kTFTableViewStyleKey = @"TableViewStyleKey";
+NSString * const kTFTableViewListTypeKey = @"TableViewListType";
+NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
 
 @interface TFTableViewController() {
-    CGFloat lastPosition;
+    CGFloat _lastPosition;
     BOOL _loaded;
     BOOL _isAnimating;
 }
 
-@property (nonatomic ,strong ,readwrite) ASTableView           *tableView;
+@property (nonatomic ,strong ,readwrite) ASTableNode *tableNode;
+@property (nonatomic ,strong ,readwrite) UITableView *tableView;
 @property (nonatomic ,strong ,readwrite) TFTableViewDataSource *dataSource;
-
 
 @end
 
 @implementation TFTableViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+- (instancetype)init {
+    self = [super init];
     if (self) {
-        // Custom initialization
-        self.tableViewStyle = UITableViewStylePlain;
-        self.usePullReload = YES;
+        //设置属性默认值
+        [self _setDefaultPropertyValues];
     }
     return self;
 }
 
-- (void)loadView {
-    [super loadView];
-    _tableView = [[ASTableView alloc] initWithFrame:CGRectZero style:self.tableViewStyle];
-    _tableView.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.view addSubview:_tableView];
-    
-}
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    _tableView.frame = self.view.bounds;
-}
-- (void)createDataSource {
-    if (self.params && [self.params objectForKey:@"listType"]) {
-        [self setListType:[[self.params objectForKey:@"listType"] intValue]];
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        //设置属性默认值
+        [self _setDefaultPropertyValues];
     }
-    self.dataSource = [[[[TFTableViewDataSourceConfig sharedInstance] dataSourceByListType:self.listType] alloc] initWithTableView:_tableView
-                                                                                                       listType:self.listType
-                                                                                                         params:self.requestParams
-                                                                                                       delegate:self];
+    return self;
+}
+
+- (void)_setDefaultPropertyValues {
+    // Custom initialization
+    if ([self.params objectForKey:kTFTableViewTypeKey]) {
+        self.tableViewType = [[self.params objectForKey:kTFTableViewTypeKey]integerValue];
+    }
+    else {
+        self.tableViewType = TFTableViewTypeASTableNode;
+    }
+    if ([self.params objectForKey:kTFTableViewStyleKey]) {
+        self.tableViewStyle =  [[self.params objectForKey:kTFTableViewStyleKey]integerValue];
+    }
+    else {
+        self.tableViewStyle = UITableViewStylePlain;
+    }
+    
+    if ([self.params objectForKey:kTFTableViewUsePullReloadKey]) {
+        self.usePullReload = [[self.params objectForKey:kTFTableViewUsePullReloadKey] boolValue];
+    }
+    else {
+        self.usePullReload = YES;
+    }
+    
+    if ([self.params objectForKey:kTFTableViewListTypeKey]) {
+        self.listType = [[self.params objectForKey:kTFTableViewListTypeKey]integerValue];
+    }
+    _requestParams = [NSMutableDictionary dictionary];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = YES;
-    [self createDataSource];
+
+    //添加默认tableview
+    if (self.tableViewType==TFTableViewTypeASTableNode) {
+        [self.view addSubnode:self.tableNode];
+    }
+    else {
+        [self.view addSubview:self.tableView];
+    }
+    //设置状态栏样式
     [JDStatusBarNotification addStyleNamed:@"scrollNotice"
                                    prepare:^JDStatusBarStyle*(JDStatusBarStyle *style)
      {
@@ -73,62 +99,36 @@
          style.animationType = JDStatusBarAnimationTypeMove;
          return style;
      }];
+    //设置滚动是否隐藏
     _hiddenTabBarWhenScrolling = YES;
     if (self.tabBarController.tabBar.hidden==YES | self.hidesBottomBarWhenPushed == YES) {
         self.hiddenTabBarWhenScrolling = NO;
     }
-    [self showStateView:kTFViewStateLoading];
-}
-
-
-- (void)dealloc {
-    [self.dataSource stopLoading];
-    if (self.tableView) {
-        self.tableView.asyncDataSource = nil;
-        self.tableView.asyncDelegate = nil;
-    }
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    if (self.listType) {
-        if (!_loaded) {
-            [self startLoadData];
-            _loaded = YES;
-        }
-    }
     
-}
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-
-- (void)autoReload:(NSNotification *)notification {
-    [self startLoadData];
-}
-
-- (void)scrollTableViewToSearchBarAnimated:(BOOL)animated {
-    NSAssert(YES, @"This method should be handled by a subclass!");
+    // 显示state view
+    [self tf_showStateView:kTFViewStateLoading];
+    
+    if (!self.listType) {
+        NSAssert(self.listType, @"not set the value of list type.");
+    }
+    else {
+        //开始第一次加载数据
+        [self startLoadData];
+    }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    if (_tableNode) {
+        _tableNode.frame = self.view.bounds;
+    }
+    else {
+        _tableView.frame = self.view.bounds;
+    }
 }
 
 - (void)startLoadData {
     [self.dataSource startLoadingWithParams:self.requestParams];
-}
-
-
-- (void)reloadData {
-    self.tableView.tableFooterView = [[UIView alloc]init];
-    [self removeStateView];
-    [self startLoadData];
 }
 
 - (void)reloadCell:(NSNotification *)notification {
@@ -139,20 +139,51 @@
         [self.dataSource refreshCell:actionType identifier:identifier];
     }
 }
-#pragma mark - Privare
-- (void)onLeftNavClick:(id)sender {
-    
+
+
+#pragma mark - lazy load.
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:self.tableViewStyle];
+        _tableView.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
+        _tableView.tableFooterView = [[UIView alloc] init];
+    }
+    return _tableView;
 }
-- (void)onRightNavClick:(id)sender {
-    
+
+- (ASTableNode *)tableNode {
+    if (!_tableNode) {
+        _tableNode = [[ASTableNode alloc] initWithStyle:self.tableViewStyle];
+        _tableNode.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
+        _tableNode.view.tableFooterView = [[UIView alloc] init];
+    }
+    return _tableNode;
 }
+
+- (TFTableViewDataSource *)dataSource {
+    if (!_dataSource) {
+        Class dataSourceClass = [[TFTableViewDataSourceConfig sharedInstance] dataSourceByListType:self.listType];
+        switch (_tableViewType) {
+            case TFTableViewTypeUITableView:
+            {
+                _dataSource = [[dataSourceClass alloc] initWithTableView:self.tableView listType:self.listType params:self.requestParams delegate:self];
+            }
+                break;
+            case TFTableViewTypeASTableNode: {
+                _dataSource = [[dataSourceClass alloc] initWithTableNode:self.tableNode listType:self.listType params:self.requestParams delegate:self];
+            }
+                break;
+            default:
+                break;
+        }
+        
+    }
+    return _dataSource;
+}
+
 
 #pragma mark - TFTableViewDataSourceDelegate
-
-- (void)didStartLoad {
-    [self showStateView:kTFViewStateLoading];
-}
-
 
 - (void)actionOnView:(TFTableViewItem *)item actionType:(NSInteger)actionType {
     
@@ -160,7 +191,7 @@
 
 - (void)didFinishLoad:(TFDataLoadPolicy)loadPolicy object:(id)object error:(NSError *)error {
     if (!error) {
-        [self removeStateView];
+        [self tf_removeStateView];
         self.tableView.tableFooterView = [[UIView alloc] init];
     }
     else {
@@ -192,27 +223,23 @@
             if (error.code == kTFErrorCodeContactsError) {
                 state = kTFViewStateContactsError;
             }
-            [self showStateView:state];
+            [self tf_showStateView:state];
         }
         else {
-            [self showStateView:kTFViewStateDataError];
+            [self tf_showStateView:kTFViewStateDataError];
         }
     }
 }
 
 - (BOOL)showPullRefresh {
-    return _usePullReload;
-}
-
-- (CGPoint)offsetForStateView:(UIView *)view {
-    return CGPointMake(0, 0);
+    return self.usePullReload;
 }
 
 - (void)scrollViewDidScroll:(UITableView *)tableView {
     
     CGFloat currentPostion = tableView.contentOffset.y;
-    if (currentPostion - lastPosition > 30) {
-        lastPosition = currentPostion;
+    if (currentPostion - _lastPosition > 30) {
+        _lastPosition = currentPostion;
         //向上滚动
         if (currentPostion > 3000) {
             BOOL noticed = [[NSUserDefaults standardUserDefaults] boolForKey:@"STORE_KEY_SCROLLNOTICE"];
@@ -224,8 +251,8 @@
             }
         }
     }
-    else if (lastPosition - currentPostion > 30) {
-        lastPosition = currentPostion;
+    else if (_lastPosition - currentPostion > 30) {
+        _lastPosition = currentPostion;
     }
 }
 - (void)scrollViewDidScrollUp:(CGFloat)deltaY {
@@ -267,5 +294,16 @@
         }
     }
 }
+
+- (void)dealloc {
+    [self.dataSource stopLoading];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 
 @end
