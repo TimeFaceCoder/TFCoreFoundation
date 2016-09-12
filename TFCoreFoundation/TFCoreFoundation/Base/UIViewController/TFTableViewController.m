@@ -127,19 +127,10 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
     }
 }
 
+#pragma mark - public methods.
 - (void)startLoadData {
     [self.dataSource startLoadingWithParams:self.requestParams];
 }
-
-- (void)reloadCell:(NSNotification *)notification {
-    NSDictionary *userInfo = [notification userInfo];
-    if (userInfo) {
-        NSInteger actionType = [[userInfo objectForKey:@"type"] integerValue];
-        NSString *identifier = [userInfo objectForKey:@"identifier"];
-        [self.dataSource refreshCell:actionType identifier:identifier];
-    }
-}
-
 
 #pragma mark - lazy load.
 
