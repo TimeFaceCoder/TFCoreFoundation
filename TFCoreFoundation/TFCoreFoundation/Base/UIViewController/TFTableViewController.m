@@ -43,46 +43,16 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
     return self;
 }
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        //设置属性默认值
-        [self _setDefaultPropertyValues];
-    }
-    return self;
-}
-
 - (void)_setDefaultPropertyValues {
-    // Custom initialization
-    if ([self.params objectForKey:kTFTableViewTypeKey]) {
-        self.tableViewType = [[self.params objectForKey:kTFTableViewTypeKey]integerValue];
-    }
-    else {
-        self.tableViewType = TFTableViewTypeASTableNode;
-    }
-    if ([self.params objectForKey:kTFTableViewStyleKey]) {
-        self.tableViewStyle =  [[self.params objectForKey:kTFTableViewStyleKey]integerValue];
-    }
-    else {
-        self.tableViewStyle = UITableViewStylePlain;
-    }
-    
-    if ([self.params objectForKey:kTFTableViewUsePullReloadKey]) {
-        self.usePullReload = [[self.params objectForKey:kTFTableViewUsePullReloadKey] boolValue];
-    }
-    else {
-        self.usePullReload = YES;
-    }
-    
-    if ([self.params objectForKey:kTFTableViewListTypeKey]) {
-        self.listType = [[self.params objectForKey:kTFTableViewListTypeKey]integerValue];
-    }
+    self.tableViewType = TFTableViewTypeASTableNode;
+    self.tableViewStyle = UITableViewStylePlain;
+    self.usePullReload = YES;
     _requestParams = [NSMutableDictionary dictionary];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    [self _loadDefaultPropertyValuesFromParams];
     //添加默认tableview
     if (self.tableViewType==TFTableViewTypeASTableNode) {
         [self.view addSubnode:self.tableNode];
@@ -115,6 +85,26 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
         //开始第一次加载数据
         [self startLoadData];
     }
+}
+
+- (void)_loadDefaultPropertyValuesFromParams {
+    // Custom initialization
+    if ([self.params objectForKey:kTFTableViewTypeKey]) {
+        self.tableViewType = [[self.params objectForKey:kTFTableViewTypeKey]integerValue];
+    }
+    
+    if ([self.params objectForKey:kTFTableViewStyleKey]) {
+        self.tableViewStyle =  [[self.params objectForKey:kTFTableViewStyleKey]integerValue];
+    }
+    
+    if ([self.params objectForKey:kTFTableViewUsePullReloadKey]) {
+        self.usePullReload = [[self.params objectForKey:kTFTableViewUsePullReloadKey] boolValue];
+    }
+    
+    if ([self.params objectForKey:kTFTableViewListTypeKey]) {
+        self.listType = [[self.params objectForKey:kTFTableViewListTypeKey]integerValue];
+    }
+
 }
 
 - (void)viewWillLayoutSubviews {
