@@ -28,6 +28,8 @@
 ///--------------------------------
 /// @name UIKit Category
 ///--------------------------------
+#import <TFCoreFoundation/UIViewController+EmptyState.h>
+#import <TFCoreFoundation/UIView+EmptyDataSet.h>
 #import <TFCoreFoundation/UIDevice+TFCore.h>
 #import <TFCoreFoundation/UIAlertController+TFCore.h>
 #import <TFCoreFoundation/UIApplication+TFCore.h>
@@ -68,6 +70,9 @@
 
 #import <TFCoreFoundation/TFAlertView.h>
 #import <TFCoreFoundation/TFSplashView.h>
+#import <TFCoreFoundation/TFEmptyDataSetView.h>
+#import <TFCoreFoundation/TFSegmentView.h>
+#import <TFCoreFoundation/TFViewControllerPageNode.h>
 
 ///--------------------------------
 /// @name Utility
@@ -82,7 +87,7 @@
 #import <TFCoreFoundation/TFTableViewController.h>
 #import <TFCoreFoundation/TFNavigationController.h>
 #import <TFCoreFoundation/TFWebViewController.h>
-
+#import <TFCoreFoundation/TFPageViewController.h>
 
 ///--------------------------------
 /// @name Model
@@ -110,6 +115,9 @@
 ///--------------------------------
 /// @name UIKit Category
 ///--------------------------------
+#import "UIViewController+EmptyState.h"
+#import "UIView+EmptyDataSet.h"
+#import "UIView+TFCore.h"
 #import "UIDevice+TFCore.h"
 #import "UIAlertController+TFCore.h"
 #import "UIApplication+TFCore.h"
@@ -150,6 +158,10 @@
 
 #import "TFAlertView.h"
 #import "TFSplashView.h"
+#import "TFEmptyDataSetView.h"
+#import "TFSegmentView.h"
+#import "TFViewControllerPageNode.h"
+
 
 ///--------------------------------
 /// @name Utility
@@ -164,6 +176,7 @@
 #import "TFTableViewController.h"
 #import "TFNavigationController.h"
 #import "TFWebViewController.h"
+#import "TFPageViewController.h"
 
 ///--------------------------------
 /// @name Model
