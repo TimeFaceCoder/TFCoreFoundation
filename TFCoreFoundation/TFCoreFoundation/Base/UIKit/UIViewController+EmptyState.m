@@ -110,7 +110,7 @@
         title = TFSTYLEVAR(viewStateDataErrorButtonTitle);
     }
     if (self.tf_viewState == kTFViewStateLoading) {
-        
+        return nil;
     }
     if (self.tf_viewState == kTFViewStateNetError) {
         
