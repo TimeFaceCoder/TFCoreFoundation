@@ -129,6 +129,7 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:self.tableViewStyle];
         _tableView.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
         _tableView.tableFooterView = [[UIView alloc] init];
+        _tableView.estimatedRowHeight = 44.0f;
     }
     return _tableView;
 }
