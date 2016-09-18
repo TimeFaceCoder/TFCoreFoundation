@@ -73,6 +73,8 @@ PODS:
     - SDWebImage
     - SVProgressHUD
   - TFTableViewDataSource (1.0.0)
+  - TFTableViewManager (1.0.0):
+    - AsyncDisplayKit
   - TFUploadAssistant (0.0.1):
     - EGOCache
     - YYDispatchQueuePool
@@ -100,6 +102,7 @@ DEPENDENCIES:
   - TFPhotoBrowser (from `https://github.com/TimeFaceCoder/TFPhotoBrowser.git`)
   - TFTableViewDataSource (from `https://github.com/TimeFaceCoder/TFTableViewDataSource.git`,
     branch `v_1.0.0`)
+  - TFTableViewManager (from `https://github.com/TimeFaceCoder/TFTableViewManager.git`)
   - TFUploadAssistant (from `https://github.com/TimeFaceCoder/TFUploadAssistant.git`)
   - WebViewJavascriptBridge
   - YYImage
@@ -125,6 +128,8 @@ EXTERNAL SOURCES:
   TFTableViewDataSource:
     :branch: v_1.0.0
     :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
+  TFTableViewManager:
+    :git: https://github.com/TimeFaceCoder/TFTableViewManager.git
   TFUploadAssistant:
     :git: https://github.com/TimeFaceCoder/TFUploadAssistant.git
 
@@ -154,8 +159,11 @@ CHECKOUT OPTIONS:
     :commit: 7b4e44bfea93c7954624ab689a96ae22243ab292
     :git: https://github.com/TimeFaceCoder/TFPhotoBrowser.git
   TFTableViewDataSource:
-    :commit: 529f47b176e64349f1ee3f4209aa0c789659b926
+    :commit: d4174c003f69eb0e7d05200d6caa97f504e7fe39
     :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
+  TFTableViewManager:
+    :commit: b63448bbc974f6a1bd7e409b8cfe33b9dd1f1f54
+    :git: https://github.com/TimeFaceCoder/TFTableViewManager.git
   TFUploadAssistant:
     :commit: 2ef2e33c7fda68ffb831344b6c1e2ee2c0a8feca
     :git: https://github.com/TimeFaceCoder/TFUploadAssistant.git
@@ -186,6 +194,7 @@ SPEC CHECKSUMS:
   TFNetwork: 2c70cbf58bb7be5293fd10b837224280b15bf223
   TFPhotoBrowser: 26c404fd27c12e2e07af2955ba18f7657ce5c4f4
   TFTableViewDataSource: 910bee4e758395b00da7edae702c09fff877c54d
+  TFTableViewManager: f206be524ad73c10498b1402025d6b04e6efb12a
   TFUploadAssistant: 5889b8e26713c6552317bc199faffa2f1af3d30d
   WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
   YYDispatchQueuePool: 3dfb2274bcc74207688dde8ac6f7bdd46871dd7b

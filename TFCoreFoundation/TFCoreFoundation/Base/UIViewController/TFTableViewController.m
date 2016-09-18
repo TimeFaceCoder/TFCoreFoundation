@@ -89,20 +89,20 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
 
 - (void)_loadDefaultPropertyValuesFromParams {
     // Custom initialization
-    if ([self.params objectForKey:kTFTableViewTypeKey]) {
-        self.tableViewType = [[self.params objectForKey:kTFTableViewTypeKey]integerValue];
+    if ([self.params[kTFNavigatorParameterUserInfo] objectForKey:kTFTableViewTypeKey]) {
+        self.tableViewType = [[self.params[kTFNavigatorParameterUserInfo] objectForKey:kTFTableViewTypeKey]integerValue];
     }
     
-    if ([self.params objectForKey:kTFTableViewStyleKey]) {
-        self.tableViewStyle =  [[self.params objectForKey:kTFTableViewStyleKey]integerValue];
+    if ([self.params[kTFNavigatorParameterUserInfo] objectForKey:kTFTableViewStyleKey]) {
+        self.tableViewStyle =  [[self.params[kTFNavigatorParameterUserInfo] objectForKey:kTFTableViewStyleKey]integerValue];
     }
     
-    if ([self.params objectForKey:kTFTableViewUsePullReloadKey]) {
-        self.usePullReload = [[self.params objectForKey:kTFTableViewUsePullReloadKey] boolValue];
+    if ([self.params[kTFNavigatorParameterUserInfo] objectForKey:kTFTableViewUsePullReloadKey]) {
+        self.usePullReload = [[self.params[kTFNavigatorParameterUserInfo] objectForKey:kTFTableViewUsePullReloadKey] boolValue];
     }
     
-    if ([self.params objectForKey:kTFTableViewListTypeKey]) {
-        self.listType = [[self.params objectForKey:kTFTableViewListTypeKey]integerValue];
+    if ([self.params[kTFNavigatorParameterUserInfo] objectForKey:kTFTableViewListTypeKey]) {
+        self.listType = [[self.params[kTFNavigatorParameterUserInfo] objectForKey:kTFTableViewListTypeKey]integerValue];
     }
 
 }
