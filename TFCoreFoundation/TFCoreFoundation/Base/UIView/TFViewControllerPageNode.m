@@ -37,13 +37,8 @@
         _pagerNode.dataSource = self;
         ASRangeTuningParameters fullRenderParams = { .leadingBufferScreenfuls = 0.0, .trailingBufferScreenfuls = 0.0 };
         ASRangeTuningParameters fullPreloadParams = { .leadingBufferScreenfuls = 0.0, .trailingBufferScreenfuls = 0.0 };
-        //        [_pagerNode setTuningParameters:fullRenderParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypeDisplay];
-        //        [_pagerNode setTuningParameters:fullPreloadParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypePreload];
         [_pagerNode setTuningParameters:fullRenderParams forRangeType:ASLayoutRangeTypeDisplay];
         [_pagerNode setTuningParameters:fullPreloadParams forRangeType:ASLayoutRangeTypePreload];
-        //        [_pagerNode setTuningParameters:fullPreloadParams forRangeType:ASLayoutRangeTypeCount];
-        //         [_pagerNode setTuningParameters:fullPreloadParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypeCount];
-        //         [_pagerNode setTuningParameters:fullPreloadParams forRangeMode:ASLayoutRangeModeVisibleOnly rangeType:ASLayoutRangeTypePreload];
     }
     return _pagerNode;
 }
