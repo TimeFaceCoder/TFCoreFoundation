@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "TFAsset.h"
 
+extern NSString * const FLibraryViewControllerImageTypeJPEG;
+extern NSString * const FLibraryViewControllerImageTypePNG;
+
 @protocol TFLibraryViewControllerDelegate;
 
 @interface TFLibraryViewController : UIViewController
@@ -35,7 +38,10 @@
  *  最多可选图片数量
  */
 @property (nonatomic, assign) NSInteger                         maxSelectedCount;
-
+/**
+ *  存放不需要被筛掉的图片类型. 默认为nil时，不对图片进行筛选
+ */
+@property (strong, nonatomic) NSArray                           *filterImageTypes;
 @end
 
 

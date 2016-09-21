@@ -233,7 +233,7 @@
 {
     float imageWidth = image.size.width;
     float imageHeight = image.size.height;
-    float width = [[UIApplication sharedApplication] keyWindow].frame.size.width ;
+    float width = [[UIApplication sharedApplication] keyWindow].frame.size.width * [UIScreen mainScreen].scale;
     float height = image.size.height/(image.size.width/width);
     
     float widthScale = imageWidth /width;

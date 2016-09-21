@@ -52,9 +52,9 @@ PODS:
     - PINRemoteImage/Core
   - pop (1.0.9)
   - SAMKeychain (1.5.0)
-  - SDWebImage (3.7.6):
-    - SDWebImage/Core (= 3.7.6)
-  - SDWebImage/Core (3.7.6)
+  - SDWebImage (3.8.2):
+    - SDWebImage/Core (= 3.8.2)
+  - SDWebImage/Core (3.8.2)
   - SVProgressHUD (2.0.3)
   - TFCamera (0.0.4):
     - Masonry
@@ -154,13 +154,13 @@ CHECKOUT OPTIONS:
     :commit: 31ed7c012f1fba833dbd3dc29510f73ad262a1d3
     :git: https://github.com/TimeFaceCoder/TFNetwork.git
   TFPhotoBrowser:
-    :commit: 7b4e44bfea93c7954624ab689a96ae22243ab292
+    :commit: 315dcac4fecc7117f7599cede2d0cc5f086f8ca7
     :git: https://github.com/TimeFaceCoder/TFPhotoBrowser.git
   TFTableViewDataSource:
     :commit: 03abdfed384b66a7cc2ae77eb5aaf7b56b107aed
     :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
   TFTableViewManager:
-    :commit: 4cd93c1de73ae2ec1c36f17af0fe411632cbc27a
+    :commit: 0ba54c0d0274e36ba99306b95441ff5c4fec7634
     :git: https://github.com/TimeFaceCoder/TFTableViewManager.git
   TFUploadAssistant:
     :commit: 2ef2e33c7fda68ffb831344b6c1e2ee2c0a8feca
@@ -184,7 +184,7 @@ SPEC CHECKSUMS:
   PINRemoteImage: 308731aa6534500e58fc211b9cc2bb7252df25ba
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SAMKeychain: 1fc9ae02f576365395758b12888c84704eebc423
-  SDWebImage: c325cf02c30337336b95beff20a13df489ec0ec9
+  SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   TFCamera: e2db7e6d153a05f4afc43434336952a2d0f0fbb1
   TFHotfix: 95f44939b542220e7de12d7c15d50d8327cbd4a5

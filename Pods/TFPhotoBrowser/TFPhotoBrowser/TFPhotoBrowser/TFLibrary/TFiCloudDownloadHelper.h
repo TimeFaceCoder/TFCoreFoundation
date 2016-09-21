@@ -15,6 +15,10 @@ typedef void (^DownloadImageFinined)();
 
 + (instancetype)sharedHelper;
 
+@property (assign, nonatomic, readonly) BOOL loading;
+
+@property (strong, nonatomic, readonly) PHAsset *asset;
+
 - (void)cancelImageRequest:(NSString *)localIdentifier;
 
 

@@ -21,6 +21,8 @@
 #import "TFiCloudDownloadHelper.h"
 #import "TFPhotoBrowserBundle.h"
 
+NSString * const FLibraryViewControllerImageTypeJPEG = @"JPEG";
+NSString * const FLibraryViewControllerImageTypePNG = @"PNG";
 
 static NSString * const kTFLCollectionIdentifier        = @"kTFLCollectionIdentifier";
 static NSString * const kTFLCollectionCameraIdentifier  = @"kTFLCollectionCameraIdentifier";
@@ -144,7 +146,9 @@ static CGSize AssetGridThumbnailSize;
         for (PHAsset *asset in weakSelf.assetsFetchResults) {
             if (asset.mediaType == PHAssetMediaTypeImage) {
                 TFAsset *tfAsset = [TFAsset assetFromPH:asset];
-                [_items addObject:tfAsset];
+                if ([self fliterWithAsset:tfAsset]) {
+                    [_items addObject:tfAsset];
+                }
             }
         }
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -156,6 +160,18 @@ static CGSize AssetGridThumbnailSize;
     
     
 }
+
+- (BOOL)fliterWithAsset:(TFAsset *)asset {
+    for (NSString *imageType in self.filterImageTypes) {
+        NSString *propertyName = [@"is" stringByAppendingString:imageType];
+        if ([asset valueForKey:propertyName]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -297,10 +313,10 @@ static CGSize AssetGridThumbnailSize;
 - (void)updateViewState {
     NSInteger count = [self.selectedAssets count];
     _selectedButton.selected = count > 0;
-
-        BOOL isM = count && _maximumNumberOfSelection;
-        [_selectedButton setTitle:isM ? [NSString stringWithFormat:@"%@(%ld/%ld)",TFPhotoBrowserLocalizedStrings(@"Done"),[self.selectedAssets count],_maximumNumberOfSelection]:TFPhotoBrowserLocalizedStrings(@"Done")
-                         forState:UIControlStateNormal];
+    
+    BOOL isM = count && _maximumNumberOfSelection;
+    [_selectedButton setTitle:isM ? [NSString stringWithFormat:@"%@(%ld/%ld)",TFPhotoBrowserLocalizedStrings(@"Done"),[self.selectedAssets count],_maximumNumberOfSelection]:TFPhotoBrowserLocalizedStrings(@"Done")
+                     forState:UIControlStateNormal];
 }
 
 - (void)updateCollectionViewCell:(NSIndexPath *)indexPath progress:(double)progress {
@@ -403,7 +419,7 @@ static CGSize AssetGridThumbnailSize;
             UIImage *badge = [PHLivePhotoView livePhotoBadgeImageWithOptions:PHLivePhotoBadgeOptionsOverContent];
             cell.livePhotoBadgeImage = badge;
         }
-        // Request an image for the asset from the PHCachingImageManager.        
+        // Request an image for the asset from the PHCachingImageManager.
         [self.imageManager requestImageForAsset:asset.phAsset
                                      targetSize:AssetGridThumbnailSize
                                     contentMode:PHImageContentModeAspectFill
@@ -728,7 +744,9 @@ static CGSize AssetGridThumbnailSize;
                 
             }
             
-            [self updateViewState];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self updateViewState];
+            });
             
             
         } else {

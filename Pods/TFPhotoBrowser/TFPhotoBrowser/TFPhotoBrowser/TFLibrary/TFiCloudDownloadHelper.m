@@ -14,7 +14,8 @@
 
 @property (nonatomic ,strong) NSMutableDictionary   *downloadOperations;
 @property (nonatomic ,strong) PHImageRequestOptions *imageOptions;
-
+@property (assign, nonatomic) BOOL loading;
+@property (strong, nonatomic) PHAsset *asset;
 @end
 
 @implementation TFiCloudDownloadHelper
@@ -63,6 +64,8 @@
 - (void)startDownLoadWithAsset:(PHAsset *)asset
                progressHandler:(PHAssetImageProgressHandler)progressHandler
                        finined:(DownloadImageFinined)finined {
+    self.loading = YES;
+    self.asset = asset;
     _imageOptions.progressHandler = progressHandler;
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -75,6 +78,7 @@
                                            BOOL downloadFinined = ![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey] && ![[info objectForKey:PHImageResultIsDegradedKey] boolValue];
                                            if (downloadFinined) {
                                                //图片下载完成
+                                               weakSelf.loading = NO;
                                                [weakSelf.downloadOperations removeObjectForKey:asset.localIdentifier];
                                                finined();
                                            }

@@ -22,6 +22,7 @@
 #import "NSDate+TFFormattedDay.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "TFPhotoBrowser.h"
+#import "TFiCloudDownloadHelper.h"
 
 #define TFObjectSpacing 2.0
 
@@ -44,6 +45,8 @@
     NSArray *_headerModelsArr;
     UIColor *_headerBackColor;
     UIColor *_headerTitleColor;
+    
+    __block BOOL _loadingQualityImage;
 }
 
 @end
@@ -520,6 +523,7 @@
     imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     imagePicker.delegate = self;
     imagePicker.mediaTypes = self.mediaTypes;
+    imagePicker.videoMaximumDuration = self.videoMaximumDuration ? : 60 * 10.f;
     
     UIViewController *viewController = imagePicker;
     if ([self.delegate respondsToSelector:@selector(imagePickerController:willDisplayCameraViewController:)]) {
@@ -527,7 +531,7 @@
     }
     
     if (viewController != nil) {
-        [self presentViewController:imagePicker animated:YES completion:nil];
+        [self presentViewController:viewController animated:YES completion:nil];
     }
 }
 
@@ -562,7 +566,7 @@
         // create an asset and add it to the library
         NSArray *images = [[UIPasteboard generalPasteboard] images];
         
-        [self _addImages:images];
+        [self addImages:images];
     }
     
     [self _updateToolbarItems:YES];
@@ -654,7 +658,7 @@
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
-- (void)_addImages:(NSArray<UIImage *> *)images {
+- (void)addImages:(NSArray<UIImage *> *)images {
     NSMutableArray *localIdentifiers = [NSMutableArray new];
     
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
@@ -684,7 +688,7 @@
     }];
 }
 
-- (void)_addVideos:(NSArray<NSURL *> *)videos {
+- (void)addVideos:(NSArray<NSURL *> *)videos {
     NSMutableArray *localIdentifiers = [NSMutableArray new];
     
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
@@ -749,28 +753,31 @@
     NSIndexPath *path = (NSIndexPath*)[userInfo objectForKey:@"indexPath"];
     UIButton *selectedAllBtn = (UIButton *)[userInfo objectForKey:@"button"];
     BOOL state = selectedAllBtn.selected;
+    selectedAllBtn.selected = !selectedAllBtn.selected;
     PHAssetCollection *collection = _moments[path.section];
     PHFetchResult *fetchResult = [self _assetsForMoment:collection];
     NSMutableArray *array = [NSMutableArray array];
+    NSInteger addAssetCount = 0;
+    NSInteger orginalCount = _selectedAssets.count;
     for (PHAsset *asset in fetchResult) {
         if (state) {
-            selectedAllBtn.selected = !selectedAllBtn.selected;
             if ([_selectedAssets containsObject:asset]) {
                 [self deselectAsset:asset];
             }
         }else {
             [array addObject:asset];
             if (![_selectedAssets containsObject:asset]) {
-                if ([_selectedAssets count] < _maxSelectedCount) {
-                    selectedAllBtn.selected = !selectedAllBtn.selected;
-                }
                 [self selectAsset:asset];
-
+                addAssetCount ++;
             }
            
         }
         
     }
+    if (addAssetCount + orginalCount > _maxSelectedCount && state==NO) {
+        selectedAllBtn.selected = NO;
+    }
+   
     if (self.delegate && [self.delegate respondsToSelector:@selector(imagePickerController:didSelectedPickingAssets:)]) {
         [self.delegate imagePickerController:self didSelectedPickingAssets:array];
     }
@@ -953,6 +960,12 @@
 //    if (_showAllSelectButton) {
 //        [self updateHeaderView:indexPath];
 //    }
+    TFAssetCell *cell = (TFAssetCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    if (!cell.assetIsInLocalAblum) {
+        // 进行下载
+        [self assetCellView:cell didDownloadAtIndexPath:indexPath];
+        return;
+    }
     
     if (indexPath != nil) {
         TFPhotoBrowser *photoBrowser = [[TFPhotoBrowser alloc] initWithDelegate:self];
@@ -984,9 +997,30 @@
 
 #pragma mark - TFAssetCellDelegate
 
+- (void)assetCellView:(TFAssetCell *)cell didDownloadAtIndexPath:(NSIndexPath *)indexPath {
+    TFiCloudDownloadHelper *helper = [TFiCloudDownloadHelper sharedHelper];
+    
+    if (helper.loading) {
+        [SVProgressHUD showInfoWithStatus:@"图片正在从iCloud下载，请稍候!"];
+        return;
+    }
+    
+    [helper startDownLoadWithAsset:cell.asset
+                   progressHandler:^(double progress, NSError * _Nullable error, BOOL * _Nonnull stop, NSDictionary * _Nullable info) {
+                       dispatch_async(dispatch_get_main_queue(), ^{
+                           NSLog(@"%lf", progress);
+                           NSNumber *progressNumber = @(progress);
+                           [[NSNotificationCenter defaultCenter] postNotificationName:TFImagePickeriCloudDownLoading object:progressNumber];
+                       });
+                   } finined:^{
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [[NSNotificationCenter defaultCenter] postNotificationName:TFImagePickeriCloudDownLoadFinish object:nil];
+                        });
+                   }];
+}
+
 - (void)assetCellViewClick:(TFAssetCellClickType)type indexPath:(NSIndexPath *)indexPath {
     PHAsset *asset = [self _assetAtIndexPath:indexPath];
-    
     if ([_selectedAssets containsObject:asset]) {
         [self deselectAsset:asset];
     } else {
@@ -1163,9 +1197,9 @@
     NSURL *videoURL = info[UIImagePickerControllerMediaURL];
     
     if (image != nil) {
-        [self _addImages:@[image]];
+        [self addImages:@[image]];
     } else if (videoURL != nil) {
-        [self _addVideos:@[videoURL]];
+        [self addVideos:@[videoURL]];
     }
     
     
