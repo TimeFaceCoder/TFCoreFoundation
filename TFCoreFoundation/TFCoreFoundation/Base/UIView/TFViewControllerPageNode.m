@@ -15,6 +15,9 @@
 @property (nonatomic, strong) ASPagerNode* pagerNode;
 @property (nonatomic, assign) CGRect savedFrame;
 @property (nonatomic, assign, readwrite) NSInteger currentPageIndex;
+@property (nonatomic, strong) ASDisplayNode* finishedNode;
+@property (nonatomic, strong) NSIndexPath* finishedIndexPath;
+@property (nonatomic, strong) UIView* finishedSuperView;
 @end
 
 
@@ -34,8 +37,13 @@
         _pagerNode.dataSource = self;
         ASRangeTuningParameters fullRenderParams = { .leadingBufferScreenfuls = 0.0, .trailingBufferScreenfuls = 0.0 };
         ASRangeTuningParameters fullPreloadParams = { .leadingBufferScreenfuls = 0.0, .trailingBufferScreenfuls = 0.0 };
-        [_pagerNode setTuningParameters:fullRenderParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypeDisplay];
-        [_pagerNode setTuningParameters:fullPreloadParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypePreload];
+        //        [_pagerNode setTuningParameters:fullRenderParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypeDisplay];
+        //        [_pagerNode setTuningParameters:fullPreloadParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypePreload];
+        [_pagerNode setTuningParameters:fullRenderParams forRangeType:ASLayoutRangeTypeDisplay];
+        [_pagerNode setTuningParameters:fullPreloadParams forRangeType:ASLayoutRangeTypePreload];
+        //        [_pagerNode setTuningParameters:fullPreloadParams forRangeType:ASLayoutRangeTypeCount];
+        //         [_pagerNode setTuningParameters:fullPreloadParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypeCount];
+        //         [_pagerNode setTuningParameters:fullPreloadParams forRangeMode:ASLayoutRangeModeVisibleOnly rangeType:ASLayoutRangeTypePreload];
     }
     return _pagerNode;
 }
@@ -63,7 +71,7 @@
 
 -(void)scrollToViewControllerAtIndex:(NSInteger)index animated:(BOOL)aniamted
 {
-
+    
     NSAssert([self numberOfPagesInPagerNode:self.pagerNode] >= index, @"out of range");
     [self.pagerNode scrollToPageAtIndex:index animated:aniamted];
 }
@@ -113,7 +121,7 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-
+    
     CGSize contentSize = scrollView.contentSize;
     CGSize viewSize = scrollView.frame.size;
     
@@ -126,9 +134,13 @@
 }
 
 - (void)collectionView:(ASCollectionView *)collectionView willDisplayNodeForItemAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:willDisplayViewControllerAtIndex:)]) {
         [self.delegate viewControllerPageNode:self willDisplayViewControllerAtIndex:indexPath.item];
+    }
+    if (self.finishedNode && [indexPath compare:self.finishedIndexPath] == NSOrderedSame) {
+        //        UICollectionViewCell* cell = [collectionView cellForItemAtIndexPath:indexPath];
+        [self.finishedSuperView addSubnode:self.finishedNode];
     }
 }
 
@@ -137,6 +149,9 @@
     if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:willDisplayViewControllerAtIndex:)]) {
         [self.delegate viewControllerPageNode:self didEndDisplayingViewControllerAtIndex:indexPath.item];
     }
+    self.finishedNode = node;
+    self.finishedIndexPath = indexPath;
+    self.finishedSuperView = node.view.superview;
     [node removeFromSupernode];
 }
 
