@@ -100,8 +100,7 @@ DEPENDENCIES:
   - TFNavigator (from `https://github.com/TimeFaceCoder/TFNavigator.git`)
   - TFNetwork (from `https://github.com/TimeFaceCoder/TFNetwork.git`)
   - TFPhotoBrowser (from `https://github.com/TimeFaceCoder/TFPhotoBrowser.git`)
-  - TFTableViewDataSource (from `https://github.com/TimeFaceCoder/TFTableViewDataSource.git`,
-    branch `v_1.0.0`)
+  - TFTableViewDataSource (from `https://github.com/TimeFaceCoder/TFTableViewDataSource.git`)
   - TFTableViewManager (from `https://github.com/TimeFaceCoder/TFTableViewManager.git`)
   - TFUploadAssistant (from `https://github.com/TimeFaceCoder/TFUploadAssistant.git`)
   - WebViewJavascriptBridge
@@ -126,7 +125,6 @@ EXTERNAL SOURCES:
   TFPhotoBrowser:
     :git: https://github.com/TimeFaceCoder/TFPhotoBrowser.git
   TFTableViewDataSource:
-    :branch: v_1.0.0
     :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
   TFTableViewManager:
     :git: https://github.com/TimeFaceCoder/TFTableViewManager.git
@@ -159,10 +157,10 @@ CHECKOUT OPTIONS:
     :commit: 7b4e44bfea93c7954624ab689a96ae22243ab292
     :git: https://github.com/TimeFaceCoder/TFPhotoBrowser.git
   TFTableViewDataSource:
-    :commit: d4174c003f69eb0e7d05200d6caa97f504e7fe39
+    :commit: 03abdfed384b66a7cc2ae77eb5aaf7b56b107aed
     :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
   TFTableViewManager:
-    :commit: b63448bbc974f6a1bd7e409b8cfe33b9dd1f1f54
+    :commit: 4cd93c1de73ae2ec1c36f17af0fe411632cbc27a
     :git: https://github.com/TimeFaceCoder/TFTableViewManager.git
   TFUploadAssistant:
     :commit: 2ef2e33c7fda68ffb831344b6c1e2ee2c0a8feca
@@ -201,4 +199,6 @@ SPEC CHECKSUMS:
   YYImage: 2cc79ed49b9549b71c6715cefe7b0f5ab3d33abf
   YYText: ac09660c9ccd9b817f409a20caa6f5587444d2ae
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 497cc6d2f77e00da679590a9865153a099a5f44e
+
+COCOAPODS: 1.0.1
