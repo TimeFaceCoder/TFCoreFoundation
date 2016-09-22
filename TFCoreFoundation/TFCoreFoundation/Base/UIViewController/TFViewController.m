@@ -63,7 +63,6 @@
     }
     self.navigationController.view.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
     self.view.backgroundColor = TFSTYLEVAR(viewBackgroundColor);
-    [self tf_showStateView:kTFViewStateNone];
 }
 
 - (void)didReceiveMemoryWarning

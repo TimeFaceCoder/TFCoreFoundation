@@ -25,10 +25,6 @@
 
 @implementation TFViewControllerPageNode
 
-//- (NSInteger)currentPageIndex {
-//    return self.pagerNode.currentPageIndex;
-//}
-
 -(ASPagerNode *)pagerNode
 {
     if (!_pagerNode) {
