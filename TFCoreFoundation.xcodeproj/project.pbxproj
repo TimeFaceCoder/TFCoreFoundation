@@ -66,6 +66,7 @@
 		C46D84B61D5334AB009F65AF /* TFSegmentViewTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B21D5334AB009F65AF /* TFSegmentViewTitleCell.m */; };
 		C46D84B71D5334AB009F65AF /* TFViewControllerPageNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B41D5334AB009F65AF /* TFViewControllerPageNode.m */; };
 		C46D84BA1D5334B2009F65AF /* TFPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B91D5334B2009F65AF /* TFPageViewController.m */; };
+		C4DC134F1D9382490080392D /* ASDisplayNode+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DC134E1D9382490080392D /* ASDisplayNode+TFCore.m */; };
 		C4EA330E1D86929000A18336 /* TFEmptyDataSetView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EA330D1D86929000A18336 /* TFEmptyDataSetView.m */; };
 		C4EA33111D8697CC00A18336 /* UIView+EmptyDataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EA33101D8697CC00A18336 /* UIView+EmptyDataSet.m */; };
 		C4EA33141D8697F800A18336 /* UIViewController+EmptyState.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EA33131D8697F800A18336 /* UIViewController+EmptyState.m */; };
@@ -206,6 +207,8 @@
 		C46D84B41D5334AB009F65AF /* TFViewControllerPageNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFViewControllerPageNode.m; sourceTree = "<group>"; };
 		C46D84B81D5334B2009F65AF /* TFPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFPageViewController.h; sourceTree = "<group>"; };
 		C46D84B91D5334B2009F65AF /* TFPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFPageViewController.m; sourceTree = "<group>"; };
+		C4DC134D1D9382490080392D /* ASDisplayNode+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASDisplayNode+TFCore.h"; sourceTree = "<group>"; };
+		C4DC134E1D9382490080392D /* ASDisplayNode+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ASDisplayNode+TFCore.m"; sourceTree = "<group>"; };
 		C4EA330C1D86929000A18336 /* TFEmptyDataSetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFEmptyDataSetView.h; sourceTree = "<group>"; };
 		C4EA330D1D86929000A18336 /* TFEmptyDataSetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFEmptyDataSetView.m; sourceTree = "<group>"; };
 		C4EA330F1D8697CC00A18336 /* UIView+EmptyDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+EmptyDataSet.h"; sourceTree = "<group>"; };
@@ -342,6 +345,7 @@
 		B043354E1CAB81AE00960551 /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				C4DC134C1D93822D0080392D /* AsyncDisplayKit */,
 				B04860401CBB3E2B00DE6770 /* Utility */,
 				B0E82FA71CB9F17300655B66 /* UIView */,
 				B0E82FA01CB9F14000655B66 /* UIViewController */,
@@ -515,6 +519,15 @@
 				B0E82FCE1CBA1D6500655B66 /* TFDefaultStyle.m */,
 			);
 			path = Style;
+			sourceTree = "<group>";
+		};
+		C4DC134C1D93822D0080392D /* AsyncDisplayKit */ = {
+			isa = PBXGroup;
+			children = (
+				C4DC134D1D9382490080392D /* ASDisplayNode+TFCore.h */,
+				C4DC134E1D9382490080392D /* ASDisplayNode+TFCore.m */,
+			);
+			path = AsyncDisplayKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -725,6 +738,7 @@
 				B0E82FAA1CB9F1AD00655B66 /* UIBarButtonItem+TFCore.m in Sources */,
 				B0E82F991CB9EE9A00655B66 /* TFCGUtilities.m in Sources */,
 				B0E82FE11CBA23D700655B66 /* UIViewController+TFCore.m in Sources */,
+				C4DC134F1D9382490080392D /* ASDisplayNode+TFCore.m in Sources */,
 				B048604C1CBB471B00DE6770 /* TFAlertView.m in Sources */,
 				B03ABEE71CAB5AC4004067CA /* AppDelegate.m in Sources */,
 				B04335751CABB70000960551 /* NSNotificationCenter+TFCore.m in Sources */,
