@@ -83,4 +83,15 @@ typedef NS_ENUM(NSInteger, TFTableViewType) {
  */
 - (void)startLoadData;
 
+
+/**
+ reload data source by new list type and params.
+
+ @param listType new list type.
+ @param params   new params.
+ */
+- (void)reloadDataSourceWith:(NSInteger)listType params:(NSDictionary *)params;
+
+
+
 @end

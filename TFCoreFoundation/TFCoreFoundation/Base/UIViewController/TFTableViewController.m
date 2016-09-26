@@ -122,6 +122,18 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
     [self.dataSource startLoadingWithParams:self.requestParams];
 }
 
+- (void)reloadDataSourceWith:(NSInteger)listType params:(NSDictionary *)params {
+    _requestParams = [NSMutableDictionary dictionaryWithDictionary:params];
+    Class dataSourceClass = [[TFTableViewDataSourceConfig sharedInstance] dataSourceByListType:self.listType];
+    if (_tableNode) {
+        _dataSource = [[dataSourceClass alloc] initWithTableNode:_tableNode listType:listType params:self.requestParams delegate:self];
+    }
+    else {
+        _dataSource = [[dataSourceClass alloc] initWithTableView:_tableView listType:listType params:self.requestParams delegate:self];
+    }
+    [_dataSource startLoading];
+}
+
 #pragma mark - lazy load.
 
 - (UITableView *)tableView {
