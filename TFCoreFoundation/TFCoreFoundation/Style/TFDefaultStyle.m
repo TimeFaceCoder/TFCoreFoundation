@@ -155,6 +155,10 @@
     return NSLocalizedString(@"正在加载数据", nil);;
 }
 
+- (UIImage *)viewStateDataLoadingImage {
+    return nil;
+}
+
 - (NSString *)viewStateDataNetErrorTitle {
     return NSLocalizedString(@"网络连接错误", nil);
 }

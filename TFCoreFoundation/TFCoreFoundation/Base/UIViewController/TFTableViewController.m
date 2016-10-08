@@ -131,6 +131,8 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
     else {
         _dataSource = [[dataSourceClass alloc] initWithTableView:_tableView listType:listType params:self.requestParams delegate:self];
     }
+    // 显示state view
+    [self tf_showStateView:kTFViewStateLoading];
     [_dataSource startLoading];
 }
 

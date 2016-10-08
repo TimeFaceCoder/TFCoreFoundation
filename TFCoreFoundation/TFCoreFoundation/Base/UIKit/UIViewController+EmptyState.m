@@ -40,10 +40,12 @@
 }
 
 - (void)tf_removeStateViewInView:(UIView *)view {
+    self.tf_viewState = kTFViewStateNone;
     [view.emptyDataSetView removeFromSuperview];
 }
 
 - (void)tf_removeStateView {
+    self.tf_viewState = kTFViewStateNone;
     [self.view.emptyDataSetView removeFromSuperview];
 }
 
@@ -63,6 +65,7 @@
         image =[UIImage imageNamed:TFSTYLEVAR(viewStateDataErrorImage)];
     }
     if (self.tf_viewState == kTFViewStateLoading) {
+        image = TFSTYLEVAR(viewStateDataLoadingImage);
     }
     if (self.tf_viewState == kTFViewStateNetError) {
         image =[UIImage imageNamed:TFSTYLEVAR(viewStateDataNetErrorImage)];

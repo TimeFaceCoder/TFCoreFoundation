@@ -75,6 +75,7 @@
 @property (nonatomic ,readonly) NSString *viewStateDataErrorImage;///<数据错误图片
 
 @property (nonatomic ,readonly) NSString *viewStateDataLoadingTitle;///<数据正在加载提示文本
+@property (nonatomic, readonly) UIImage *viewStateDataLoadingImage;///<数据正在加载中图片
 
 @property (nonatomic ,readonly) NSString *viewStateDataNetErrorTitle;///<网络错误提示文本
 
