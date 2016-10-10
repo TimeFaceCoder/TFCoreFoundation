@@ -25,6 +25,7 @@
     if (!_headerView) {
         _headerView = [[TFSegmentView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, [self heightForSegment]) itemArray:[self titlesForViewControllers]];
         __weak TFPageViewController* wself = self;
+        _headerView.updateLinePosBySelf = NO;
         _headerView.changeBlock = ^(NSInteger currentIndex,NSString *currentItem) {
             [wself.pageNode scrollToViewControllerAtIndex:currentIndex animated:YES];
         };
@@ -42,15 +43,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+//    self.edgesForExtendedLayout = UIRectEdgeNone;
     //当在UINavigationController里使用SegmentView时，上面两行必须使用一行，否则SegmentView会不显示，因为SegmentView包含一个CollectionView
     [self.view addSubview:self.headerSegmentView];
-    __weak TFPageViewController* wself = self;
-    self.headerSegmentView.changeBlock = ^(NSInteger currentIndex,NSString *currentItem) {
-        [wself scrollToViewControllerAtIndex:currentIndex animated:YES];
-    };
-    
     [self.view addSubnode:self.pageNode];
 }
 

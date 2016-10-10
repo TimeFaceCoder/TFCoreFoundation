@@ -172,7 +172,7 @@ static CGFloat kMinSegementItemWidth = 75.0;
         if (!cell.selected) {
             [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
             _lineView.tf_width = cell.tf_width - _lineSpace *2;
-            _lineView.tf_left = cell.tf_left + _lineSpace;
+            _lineView.tf_centerX = cell.tf_centerX;
         }
     }
     else {
@@ -196,6 +196,12 @@ static CGFloat kMinSegementItemWidth = 75.0;
         //调用变化
         if (_changeBlock) {
             _changeBlock (_currentItemIndex,_itemArr[_currentItemIndex]);
+        }
+        if (self.updateLinePosBySelf) {
+            [UIView animateWithDuration:0.3f delay:0.0f usingSpringWithDamping:0.3 initialSpringVelocity:0.7 options:UIViewAnimationOptionTransitionNone animations:^{
+                _lineView.tf_centerX = cell.tf_centerX;
+                _lineView.tf_width = cell.tf_width - _lineSpace*2;
+            } completion:nil];
         }
     }
 }
@@ -236,6 +242,7 @@ static CGFloat kMinSegementItemWidth = 75.0;
         
         [UIView animateWithDuration:0.1f delay:0.0f usingSpringWithDamping:0.3 initialSpringVelocity:0.7 options:UIViewAnimationOptionTransitionNone animations:^{
             _lineView.tf_centerX = targetCenterX;
+            _lineView.tf_width = cell.tf_width - _lineSpace*2;
         } completion:nil];
     }
 }

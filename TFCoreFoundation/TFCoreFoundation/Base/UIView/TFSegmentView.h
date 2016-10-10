@@ -29,6 +29,9 @@ typedef void(^SegmentViewChangeBlock)(NSInteger currentIndex,NSString *currentIt
 @property (nonatomic, assign) NSInteger currentItemIndex;///<当前选的项目
 
 @property (nonatomic, copy) SegmentViewChangeBlock changeBlock;///<变化块
+
+@property (nonatomic, assign) BOOL updateLinePosBySelf;///<line是否由segmentView自己更新位置，默认是YES
+
 /**
  *  初始化方法
  *
@@ -53,8 +56,8 @@ typedef void(^SegmentViewChangeBlock)(NSInteger currentIndex,NSString *currentIt
  *
  *  @param contentOffset
  *  @param contentWidth
- *  @param viewWidth     
+ *  @param viewWidth
+ *  @warning 使用该方法时，需将updateLinePosBySelf熟悉设置为NO
  */
-//- (void)updateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth;
 - (void)segmentViewUpdateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWith;
 @end
