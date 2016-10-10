@@ -97,6 +97,7 @@ static CGFloat kMinSegementItemWidth = 75.0;
 }
 
 - (void)initialize {
+    self.updateLinePosBySelf = YES;
     self.backgroundColor = [UIColor whiteColor];
     [self addSubview:self.collectionView];
     [self.collectionView addSubview:self.lineView];
