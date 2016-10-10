@@ -16,13 +16,17 @@ typedef void(^SegmentViewChangeBlock)(NSInteger currentIndex,NSString *currentIt
 
 @property (nonatomic, assign) CGFloat lineSpace;///<线的边距,默认15pt
 
-@property (nonatomic, strong) UIColor *lineColor;///<线的颜色
+@property (nonatomic, strong) UIColor *lineColor;///<线的颜色，默认2f83eb
 
-@property (nonatomic, strong) UIFont *font;///<字体
+@property (nonatomic, strong) UIFont *font;///<字体 默认14 默认16.0
 
-@property (nonatomic, strong) UIColor *textColor;///<字体颜色
+@property (nonatomic, strong) UIColor *textColor;///<字体颜色 默认333333
 
-@property (nonatomic, strong) UIColor *selectedTextColor;///<选中字体颜色
+@property (nonatomic, strong) UIColor *selectedTextColor;///<选中字体颜色 默认2f83eb
+
+@property (nonatomic, assign) CGFloat itemSpace;///<Item之间的间距 默认10.0
+
+@property (nonatomic, assign) CGFloat itemMinWidth;///<固定的最小间距 默认75.0
 
 @property (nonatomic, strong) NSArray *itemArr;///<数据数组
 

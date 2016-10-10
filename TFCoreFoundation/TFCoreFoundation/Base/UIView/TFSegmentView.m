@@ -10,7 +10,6 @@
 #import "TFSegmentViewTitleCell.h"
 #import "UIView+TFCore.h"
 #import "UIColor+TFCore.h"
-static CGFloat kMinSegementItemWidth = 75.0;
 
 @interface TFSegmentView ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -29,7 +28,7 @@ static CGFloat kMinSegementItemWidth = 75.0;
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.minimumLineSpacing = 0.0;
-        layout.minimumInteritemSpacing = 0.0;
+        layout.minimumInteritemSpacing = self.itemSpace;
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
         _collectionView.delegate = self;
@@ -97,10 +96,7 @@ static CGFloat kMinSegementItemWidth = 75.0;
 }
 
 - (void)initialize {
-    self.updateLinePosBySelf = YES;
-    self.backgroundColor = [UIColor whiteColor];
-    [self addSubview:self.collectionView];
-    [self.collectionView addSubview:self.lineView];
+    //默认常量
     self.lineHeight = 4.0;
     self.lineColor = UIColorHex(0x2f83eb);
     self.lineSpace = 15.0;
@@ -108,6 +104,13 @@ static CGFloat kMinSegementItemWidth = 75.0;
     self.textColor = UIColorHex(0x333333);
     self.selectedTextColor = UIColorHex(0x2f83eb);
     self.font = [UIFont systemFontOfSize:16];
+    self.itemMinWidth = 75.0;
+    self.itemSpace = 20.0;
+    self.updateLinePosBySelf = YES;
+    self.backgroundColor = [UIColor whiteColor];
+    
+    [self addSubview:self.collectionView];
+    [self.collectionView addSubview:self.lineView];
     self.collectionView.frame = CGRectMake(0, 0, self.tf_width, self.tf_height);
 }
 
@@ -132,7 +135,7 @@ static CGFloat kMinSegementItemWidth = 75.0;
         CGFloat currentWidth = 0.0;
         NSMutableArray *tempArr = [NSMutableArray array];
         for (NSString *item in _itemArr) {
-            CGFloat width = MAX([item sizeWithAttributes:@{NSFontAttributeName:_font}].width+20.0, kMinSegementItemWidth);
+            CGFloat width = MAX([item sizeWithAttributes:@{NSFontAttributeName:_font}].width , self.itemMinWidth);
             [tempArr addObject:@(width)];
             currentWidth += width;
         }
@@ -151,9 +154,8 @@ static CGFloat kMinSegementItemWidth = 75.0;
 - (CGFloat)currentWidth {
     if (_itemArr.count!=0) {
         CGFloat currentWidth = 0.0;
-        for (NSString *item in _itemArr) {
-            CGFloat width = MAX([item sizeWithAttributes:@{NSFontAttributeName:_font}].width+20.0, kMinSegementItemWidth);
-            currentWidth += width;
+        for (NSNumber *itemWidth in _itemWidthArr) {
+            currentWidth += [itemWidth floatValue];
         }
         return currentWidth;
     }
