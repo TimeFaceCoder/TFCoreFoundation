@@ -28,7 +28,7 @@
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.minimumLineSpacing = 0.0;
-        layout.minimumInteritemSpacing = self.itemSpace;
+        layout.minimumInteritemSpacing = 0.0;
         layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
         _collectionView.delegate = self;
@@ -77,6 +77,18 @@
     _lineView.backgroundColor = lineColor;
 }
 
+- (void)setItemSpace:(CGFloat)itemSpace {
+    _itemSpace = itemSpace;
+    [self calculateWidth];
+    [self.collectionView reloadData];
+}
+
+- (void)setItemMinWidth:(CGFloat)itemMinWidth {
+    _itemMinWidth = itemMinWidth;
+    [self calculateWidth];
+    [self.collectionView reloadData];
+}
+
 #pragma mark 初始化方法
 - (instancetype)initWithFrame:(CGRect)frame itemArray:(NSArray<NSString *> *)itemArray {
     self = [super initWithFrame:frame];
@@ -96,6 +108,11 @@
 }
 
 - (void)initialize {
+    
+    [self addSubview:self.collectionView];
+    [self.collectionView addSubview:self.lineView];
+    self.collectionView.frame = CGRectMake(0, 0, self.tf_width, self.tf_height);
+    
     //默认常量
     self.lineHeight = 4.0;
     self.lineColor = UIColorHex(0x2f83eb);
@@ -108,10 +125,8 @@
     self.itemSpace = 20.0;
     self.updateLinePosBySelf = YES;
     self.backgroundColor = [UIColor whiteColor];
-    
-    [self addSubview:self.collectionView];
-    [self.collectionView addSubview:self.lineView];
-    self.collectionView.frame = CGRectMake(0, 0, self.tf_width, self.tf_height);
+    self.currentItemIndex = 0;
+
 }
 
 -(void)setCurrentItemIndex:(NSInteger)currentItemIndex
@@ -135,7 +150,7 @@
         CGFloat currentWidth = 0.0;
         NSMutableArray *tempArr = [NSMutableArray array];
         for (NSString *item in _itemArr) {
-            CGFloat width = MAX([item sizeWithAttributes:@{NSFontAttributeName:_font}].width , self.itemMinWidth);
+            CGFloat width = MAX([item sizeWithAttributes:@{NSFontAttributeName:_font}].width + self.itemSpace, self.itemMinWidth);
             [tempArr addObject:@(width)];
             currentWidth += width;
         }
@@ -170,13 +185,11 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     TFSegmentViewTitleCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:SegmentViewTitleCellIdentifier forIndexPath:indexPath];
     cell.titleLabel.text = _itemArr[indexPath.row];
+    cell.titleLabel.font = self.font;
     if (indexPath.row==_currentItemIndex) {
         cell.titleLabel.textColor = _selectedTextColor;
-        if (!cell.selected) {
-            [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-            _lineView.tf_width = cell.tf_width - _lineSpace *2;
-            _lineView.tf_centerX = cell.tf_centerX;
-        }
+        [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        [self moveLineWithCenterX:cell.tf_centerX currentCell:cell];
     }
     else {
         cell.titleLabel.textColor = _textColor;
@@ -201,12 +214,20 @@
             _changeBlock (_currentItemIndex,_itemArr[_currentItemIndex]);
         }
         if (self.updateLinePosBySelf) {
-            [UIView animateWithDuration:0.3f delay:0.0f usingSpringWithDamping:0.3 initialSpringVelocity:0.7 options:UIViewAnimationOptionTransitionNone animations:^{
-                _lineView.tf_centerX = cell.tf_centerX;
-                _lineView.tf_width = cell.tf_width - _lineSpace*2;
-            } completion:nil];
+            [self moveLineWithCenterX:cell.tf_centerX currentCell:cell];
         }
     }
+}
+
+- (void)moveLineWithCenterX:(CGFloat)centerX currentCell:(TFSegmentViewTitleCell *)cell {
+    [UIView animateWithDuration:0.3f delay:0.0f usingSpringWithDamping:0.3 initialSpringVelocity:0.7 options:UIViewAnimationOptionTransitionNone animations:^{
+        _lineView.tf_width = cell.tf_width - _lineSpace*2;
+        if (cell.tf_width > _itemMinWidth) {
+            _lineView.tf_width -= _itemSpace;
+        }
+        _lineView.tf_centerX = centerX;
+ 
+    } completion:nil];
 }
 
 
@@ -242,11 +263,7 @@
     _lineView.tf_centerX = leading;
     
     if (fabs(targetCenterX - _lineView.tf_centerX) < 10) {
-        
-        [UIView animateWithDuration:0.1f delay:0.0f usingSpringWithDamping:0.3 initialSpringVelocity:0.7 options:UIViewAnimationOptionTransitionNone animations:^{
-            _lineView.tf_centerX = targetCenterX;
-            _lineView.tf_width = cell.tf_width - _lineSpace*2;
-        } completion:nil];
+        [self moveLineWithCenterX:targetCenterX currentCell:cell];
     }
 }
 
