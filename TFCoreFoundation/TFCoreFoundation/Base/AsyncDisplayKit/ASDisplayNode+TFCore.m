@@ -106,6 +106,18 @@
     self.frame = frame;
 }
 
+- (CGPoint)tf_center {
+    CGRect frame = self.frame;
+    return CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
+}
+
+- (void)setTf_center:(CGPoint)tf_center {
+    CGRect frame = self.frame;
+    frame.origin.x = tf_center.x - CGRectGetWidth(frame)/2.0;
+    frame.origin.y = tf_center.y - CGRectGetHeight(frame)/2.0;
+    self.frame = frame;
+}
+
 #pragma mark get tf_rightTop
 - (CGPoint)tf_rightTop {
     CGRect frame = self.frame;

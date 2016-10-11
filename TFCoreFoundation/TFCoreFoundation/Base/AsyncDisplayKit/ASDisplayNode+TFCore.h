@@ -66,6 +66,12 @@
  */
 @property (nonatomic,assign) CGPoint tf_origin;
 
+
+/**
+ Shortcut for 
+ */
+@property (nonatomic, assign) CGPoint tf_center;
+
 /**
  * Shortcut for CGPointMake(CGRectGetMaxX(frame), CGRectGetMinY(frame))
  *
