@@ -69,6 +69,8 @@
 
 @property (nonatomic ,readonly) UIColor *viewStateButtonBorderColor;
 
+@property (nonatomic ,readonly) CGFloat viewStateButtonBorderWidth;
+
 @property (nonatomic ,readonly) NSString *viewStateDataErrorTitle;///<数据错误提示文本
 
 @property (nonatomic ,readonly) NSString *viewStateDataErrorButtonTitle;///<数据错误底部按钮提示文本

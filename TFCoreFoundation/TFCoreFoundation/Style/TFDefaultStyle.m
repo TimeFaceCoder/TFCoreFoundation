@@ -127,17 +127,20 @@
 }
 
 - (CGSize)viewStateButtonSize {
-    return CGSizeMake(200.0, 40.0);
+    return CGSizeMake(118.0, 30.0);
 }
 
 - (CGFloat)viewStateButtonCornerRadius {
-    return 5.0;
+    return 15.0;
 }
 
 - (UIColor *)viewStateButtonBorderColor {
     return [self getColorByHex:@"dfdfdf"];
 }
 
+- (CGFloat)viewStateButtonBorderWidth {
+    return 0.5;
+}
 
 - (NSString *)viewStateDataErrorTitle {
     return NSLocalizedString(@"网络数据异常", nil);

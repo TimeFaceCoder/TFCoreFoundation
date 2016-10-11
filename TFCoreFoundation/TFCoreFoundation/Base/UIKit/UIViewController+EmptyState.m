@@ -130,6 +130,26 @@
     return attributedTitle;
 }
 
+- (CGSize)buttonSizeForEmptyDataSet:(UIView *)view {
+    return TFSTYLEVAR(viewStateButtonSize);
+}
+
+- (UIColor *)buttonBackgroundColorForEmptyDataSet:(UIView *)view {
+    return TFSTYLEVAR(viewStateButtonBackgroundColor);
+}
+
+- (CGFloat)buttonCornerRadiusForEmptyDataSet:(UIView *)view {
+    return TFSTYLEVAR(viewStateButtonCornerRadius);
+}
+
+- (UIColor *)buttonBorderColorForEmptyDataSet:(UIView *)view {
+    return TFSTYLEVAR(viewStateButtonBorderColor);
+}
+
+- (CGFloat)buttonBorderWidthForEmptyDataSet:(UIView *)view {
+    return TFSTYLEVAR(viewStateButtonBorderWidth);
+}
+
 - (NSString *)titleForEmptyDataSet:(UIView *)view {
     return nil;
 }
