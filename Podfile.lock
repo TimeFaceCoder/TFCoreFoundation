@@ -157,10 +157,10 @@ CHECKOUT OPTIONS:
     :commit: 315dcac4fecc7117f7599cede2d0cc5f086f8ca7
     :git: https://github.com/TimeFaceCoder/TFPhotoBrowser.git
   TFTableViewDataSource:
-    :commit: 03abdfed384b66a7cc2ae77eb5aaf7b56b107aed
+    :commit: a10f14778e4e4d6038d9e97ec7ff186c9ce4ad55
     :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
   TFTableViewManager:
-    :commit: 0ba54c0d0274e36ba99306b95441ff5c4fec7634
+    :commit: 34c42101d0d9ebbac3c9adffe45e2360e82b5c6e
     :git: https://github.com/TimeFaceCoder/TFTableViewManager.git
   TFUploadAssistant:
     :commit: 2ef2e33c7fda68ffb831344b6c1e2ee2c0a8feca

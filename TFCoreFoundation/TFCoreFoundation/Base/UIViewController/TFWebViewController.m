@@ -67,10 +67,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSURL *url = self.params[kTFNavigatorParameterUserInfo][@"url"];
-    _url = url.absoluteString;
+    if (_url.length==0) {
+            NSURL *url = self.params[kTFNavigatorParameterUserInfo][@"url"];
+            _url = url.absoluteString;
+
+    }
     // Do any additional setup after loading the view.
-    [self tf_showStateView:kTFViewStateLoading];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

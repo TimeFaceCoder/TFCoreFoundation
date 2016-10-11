@@ -8,8 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TFCoreFoundation/TFCoreFoundation.h"
-#import "TFPageViewController.h"
-@interface ViewController : TFPageViewController
+@interface ViewController : TFViewController
 
 
 @end

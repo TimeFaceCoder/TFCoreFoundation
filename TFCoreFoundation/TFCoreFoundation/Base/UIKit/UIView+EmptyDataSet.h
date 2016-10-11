@@ -118,6 +118,52 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable UIImage *)buttonBackgroundImageForEmptyDataSet:(UIView *)view forState:(UIControlState)state;
 
 /**
+ Asks the data source for a background color to be used for the specified button.
+ There is no default style for this call.
+ 
+ @param view A view subclass informing the data source.
+ @return A color to be applied to the dataset button background.
+ */
+- (nullable UIColor *)buttonBackgroundColorForEmptyDataSet:(UIView *)view;
+
+/**
+ Asks the data source for a size value to be used for the specified button.
+
+ @param view A view subclass informing the data source.
+
+ @return A CGSize value of size to be applied to the dataset button.
+ */
+- (CGSize)buttonSizeForEmptyDataSet:(UIView *)view;
+
+/**
+ Asks the data source for a corner radius value to be used for the specified button.
+
+ @param view A view subclass informing the data source.
+
+ @return A CGFloat value of corner radius to be applied to the dataset button.
+ */
+- (CGFloat)buttonCornerRadiusForEmptyDataSet:(UIView *)view;
+
+/**
+ Asks the data source for a border width value to be used for the specified button.
+
+ @param view A view subclass informing the data source.
+
+ @return A CGFloat value of border width to be applied to the dataset button.
+ */
+- (CGFloat)buttonBorderWidthForEmptyDataSet:(UIView *)view;
+
+/**
+ Asks the data source for a border color to be used for the specified button.
+ There is no default style for this call.
+
+ @param view A view subclass informing the data source.
+
+ @return A color to be applied to the dataset button border.
+ */
+- (nullable UIColor *)buttonBorderColorForEmptyDataSet:(UIView *)view;
+
+/**
  Asks the data source for the background color of the dataset. Default is clear color.
  
  @param view A view subclass object informing the data source.
@@ -246,7 +292,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param view A view subclass informing the delegate.
  @param view the view tapped by the user
  */
-- (void)emptyDataSet:(UIView *)view didTapView:(UIView *)view;
+- (void)emptyDataSet:(UIView *)view didTapView:(UIView *)sender;
 
 /**
  Tells the delegate that the action button was tapped.

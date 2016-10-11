@@ -281,8 +281,15 @@
             [subviewStrings addObject:@"button"];
             views[[subviewStrings lastObject]] = _button;
             
-            [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(padding@750)-[button(>=0)]-(padding@750)-|"
-                                                                                     options:0 metrics:metrics views:views]];
+            if (_button.tf_size.width) {
+                CGFloat padding = (self.tf_width - _button.tf_width)/2.0;
+                [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:|-(%.f@750)-[button(%.f)]-(%.f@750)-|",padding,_button.tf_size.width,padding]
+                                                                                         options:0 metrics:metrics views:views]];
+            }
+            else {
+                [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(padding@750)-[button(>=0)]-(padding@750)-|"
+                                                                                         options:0 metrics:metrics views:views]];
+            }
         }
         // or removes from its superview
         else {
@@ -297,7 +304,12 @@
         for (int i = 0; i < subviewStrings.count; i++) {
             
             NSString *string = subviewStrings[i];
-            [verticalFormat appendFormat:@"[%@]", string];
+            if ([string isEqualToString:@"button"] && _button.tf_size.height) {
+                [verticalFormat appendFormat:@"[%@(%.f@750)]", string,_button.tf_size.height];
+            }
+            else {
+                [verticalFormat appendFormat:@"[%@]", string];
+            }
             
             if (i < subviewStrings.count-1) {
                 [verticalFormat appendFormat:@"-(%.f@750)-", verticalSpace];

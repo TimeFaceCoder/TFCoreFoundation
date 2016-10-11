@@ -3,6 +3,7 @@
 #import "UIView+EmptyDataSet.h"
 #import <objc/runtime.h>
 #import <FLAnimatedImage.h>
+#import "UIView+TFCore.h"
 
 @interface TFWeakObjectContainer : NSObject
 
@@ -203,6 +204,42 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
         return image;
     }
     return nil;
+}
+
+- (UIColor *)TF_buttonBackgroundColor {
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonBackgroundColorForEmptyDataSet:)]) {
+        UIColor *color = [self.emptyDataSetSource buttonBackgroundColorForEmptyDataSet:self];
+        return color;
+    }
+    return [UIColor clearColor];
+}
+
+- (CGSize)TF_buttonSize {
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonSizeForEmptyDataSet:)]) {
+        return [self.emptyDataSetSource buttonSizeForEmptyDataSet:self];
+    }
+    return CGSizeZero;
+}
+
+- (CGFloat)TF_buttonCornerRadius {
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonCornerRadiusForEmptyDataSet:)]) {
+        return [self.emptyDataSetSource buttonCornerRadiusForEmptyDataSet:self];
+    }
+    return 0.0;
+}
+
+- (CGFloat)TF_buttonBorderWidth {
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonBorderWidthForEmptyDataSet:)]) {
+        return [self.emptyDataSetSource buttonBorderWidthForEmptyDataSet:self];
+    }
+    return 0.0;
+}
+
+- (UIColor *)TF_buttonBorderColor {
+    if (self.emptyDataSetSource && [self.emptyDataSetSource respondsToSelector:@selector(buttonBorderColorForEmptyDataSet:)]) {
+        return [self.emptyDataSetSource buttonBorderColorForEmptyDataSet:self];
+    }
+    return [UIColor clearColor];
 }
 
 - (UIColor *)TF_dataSetBackgroundColor
@@ -495,6 +532,12 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
                 [view.button setAttributedTitle:[self TF_buttonTitleForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
                 [view.button setBackgroundImage:[self TF_buttonBackgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
                 [view.button setBackgroundImage:[self TF_buttonBackgroundImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
+                [view.button setBackgroundColor:[self TF_buttonBackgroundColor]];
+                view.button.layer.cornerRadius = [self TF_buttonCornerRadius];
+                view.button.layer.masksToBounds = YES;
+                view.button.layer.borderWidth = [self TF_buttonBorderWidth];
+                view.button.layer.borderColor = [self TF_buttonBorderColor].CGColor;
+                view.button.tf_size = [self TF_buttonSize];
             }
         }
         

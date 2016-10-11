@@ -75,11 +75,8 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
         self.hiddenTabBarWhenScrolling = NO;
     }
     
-    // 显示state view
-    [self tf_showStateView:kTFViewStateLoading];
-    
     if (!self.listType) {
-        NSAssert(self.listType, @"not set the value of list type.");
+        NSAssert(!self.listType, @"not set the value of list type.");
     }
     else {
         //开始第一次加载数据
@@ -119,6 +116,8 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
 
 #pragma mark - public methods.
 - (void)startLoadData {
+    // 显示state view
+    [self tf_showStateView:kTFViewStateLoading];
     [self.dataSource startLoadingWithParams:self.requestParams];
 }
 
@@ -131,9 +130,8 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
     else {
         _dataSource = [[dataSourceClass alloc] initWithTableView:_tableView listType:listType params:self.requestParams delegate:self];
     }
-    // 显示state view
-    [self tf_showStateView:kTFViewStateLoading];
-    [_dataSource startLoading];
+    //重新加载数据
+    [self startLoadData];
 }
 
 #pragma mark - lazy load.
@@ -290,6 +288,12 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
             }];
         }
     }
+}
+
+#pragma mark - TFEmptyDataSetDataSource and Delegate.
+
+- (void)emptyDataSet:(UIView *)view didTapButton:(UIButton *)button {
+    [self startLoadData];
 }
 
 - (void)dealloc {

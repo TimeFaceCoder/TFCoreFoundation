@@ -106,7 +106,7 @@
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     self.currentPageIndex = self.pagerNode.currentPageIndex;
-    if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:viewControllerAtIndex:)]) {
+    if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:didSelectViewControllerAtIndex:)]) {
         [self.delegate viewControllerPageNode:self didSelectViewControllerAtIndex:self.currentPageIndex];
     }
 }
