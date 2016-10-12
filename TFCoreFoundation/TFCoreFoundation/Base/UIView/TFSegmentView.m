@@ -8,7 +8,6 @@
 
 #import "TFSegmentView.h"
 #import "TFSegmentViewTitleCell.h"
-#import "UIView+TFCore.h"
 
 @interface TFSegmentView ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -33,9 +32,8 @@
         }
         else {
             _configModel = [[TFSegmentConfigModel alloc] init];
-
+            _configModel.lineInsets = UIEdgeInsetsMake(CGRectGetHeight(self.frame)-4.0, 5.0, 0.0, 5.0);
         }
-        _configModel.lineInsets = UIEdgeInsetsMake(self.tf_height-4.0, 5.0, 0.0, 5.0);
         [self initialize];
         self.itemArr = itemArray;
     }
@@ -45,13 +43,12 @@
 - (void)initialize {
     [self addSubview:self.collectionView];
     [self.collectionView addSubview:self.lineView];
-    [self.collectionView sendSubviewToBack:self.lineView];
     self.currentItemIndex = 0;
     self.updateLinePosBySelf = YES;
     self.backgroundColor = [UIColor whiteColor];
     self.lineView.backgroundColor = _configModel.lineColor;
     self.lineView.layer.cornerRadius = _configModel.lineCornerRadius;
-    
+
 }
 
 + (instancetype)itemWithFrame:(CGRect)frame configModel:(TFSegmentConfigModel *)configModel itemArray:(NSArray<NSString *> *)itemArray {
@@ -72,8 +69,9 @@
         _itemWidthArr = [NSArray arrayWithArray:tempArr];
         //注：为了防止item过少，用边距让collectioncell居中
         CGFloat sectionInset = 0.0;
-        if (currentWidth<self.tf_width) {
-            sectionInset = (self.tf_width - currentWidth)/2.0;
+        CGFloat viewWidth = CGRectGetWidth(self.frame);
+        if (currentWidth<CGRectGetWidth(self.frame)) {
+            sectionInset = (viewWidth - currentWidth)/2.0;
         }
         UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)_collectionView.collectionViewLayout;
         layout.sectionInset = UIEdgeInsetsMake(0, sectionInset, 0, sectionInset);
@@ -104,7 +102,7 @@
     if (indexPath.row==_currentItemIndex) {
         cell.titleLabel.textColor = _configModel.selectedTextColor;
         [collectionView selectItemAtIndexPath:indexPath animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-        [self moveLineWithCenterX:cell.tf_centerX currentCell:cell];
+        [self moveLineWithCenterX:CGRectGetMidX(cell.frame) currentCell:cell];
     }
     else {
         cell.titleLabel.textColor = _configModel.textColor;
@@ -114,7 +112,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake([_itemWidthArr[indexPath.row] floatValue], self.collectionView.tf_height);
+    return CGSizeMake([_itemWidthArr[indexPath.row] floatValue], CGRectGetHeight(self.collectionView.frame));
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -129,22 +127,29 @@
             _changeBlock (_currentItemIndex,_itemArr[_currentItemIndex]);
         }
         if (self.updateLinePosBySelf) {
-            [self moveLineWithCenterX:cell.tf_centerX currentCell:cell];
+            [self moveLineWithCenterX:CGRectGetMidX(cell.frame) currentCell:cell];
         }
     }
 }
 
+- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row==self.currentItemIndex) {
+        [self.collectionView sendSubviewToBack:self.lineView];
+    }
+}
+
 - (void)moveLineWithCenterX:(CGFloat)centerX currentCell:(TFSegmentViewTitleCell *)cell {
-    
     [UIView animateWithDuration:0.3f delay:0.0f usingSpringWithDamping:0.3 initialSpringVelocity:0.7 options:UIViewAnimationOptionTransitionNone animations:^{
         UIEdgeInsets lineInsets = _configModel.lineInsets;
-        if (cell.tf_width > _configModel.itemMinWidth) {
+        if (CGRectGetWidth(cell.frame) > _configModel.itemMinWidth) {
             CGFloat itemInsets = _configModel.itemSpace/2.0;
             lineInsets.left += itemInsets;
             lineInsets.right += itemInsets;
         }
         _lineView.frame = UIEdgeInsetsInsetRect(cell.frame, lineInsets);
-        _lineView.tf_centerX = centerX;
+        CGPoint lineCenter = _lineView.center;
+        lineCenter.x = centerX;
+        _lineView.center = lineCenter;
  
     } completion:nil];
 }
@@ -167,17 +172,20 @@
         [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
     }
     TFSegmentViewTitleCell *cell = (TFSegmentViewTitleCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
-    targetCenterX = cell.tf_centerX;
+    targetCenterX = CGRectGetMidX(cell.frame);
     
     CGFloat sectionInset = 0.0;
-    if ([self currentWidth]<self.tf_width) {
-        sectionInset = (self.tf_width - [self currentWidth])/2.0;
+    CGFloat viewWidth = CGRectGetWidth(self.frame);
+    if ([self currentWidth]<viewWidth) {
+        sectionInset = (viewWidth - [self currentWidth])/2.0;
     }
     CGFloat firstCellWidth = [self.itemWidthArr[0] floatValue];
     CGFloat leading = sectionInset + firstCellWidth/2.0f + [self currentWidth] * (contentOffset / contentWidth);
-    _lineView.tf_centerX = leading;
+    CGPoint lineCenter = _lineView.center;
+    lineCenter.x = leading;
+    _lineView.center = lineCenter;
     
-    if (fabs(targetCenterX - _lineView.tf_centerX) < 10) {
+    if (fabs(targetCenterX - leading) < 10) {
         [self moveLineWithCenterX:targetCenterX currentCell:cell];
     }
 }

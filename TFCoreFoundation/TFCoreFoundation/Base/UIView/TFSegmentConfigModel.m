@@ -7,7 +7,6 @@
 //
 
 #import "TFSegmentConfigModel.h"
-#import "UIColor+TFCore.h"
 
 @implementation TFSegmentConfigModel
 
@@ -16,13 +15,13 @@
     if (self) {
         //默认常量
         self.font = [UIFont systemFontOfSize:16];
-        self.textColor = UIColorHex(0x333333);
-        self.selectedTextColor = UIColorHex(0x2f83eb);
+        self.textColor = [UIColor blackColor];
+        self.selectedTextColor = [UIColor blueColor];
         self.itemSpace = 10.0;
         self.itemMinWidth = 75.0;
         self.lineInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0);
         self.lineCornerRadius = 0.0;
-        self.lineColor = UIColorHex(0x2f83eb);
+        self.lineColor = [UIColor cyanColor];
     }
     return self;
 }
