@@ -23,71 +23,7 @@
 
 @implementation TFSegmentView
 
-#pragma mark collectionView
-- (UICollectionView *)collectionView {
-    if (!_collectionView) {
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        layout.minimumLineSpacing = 0.0;
-        layout.minimumInteritemSpacing = 0.0;
-        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
-        _collectionView.delegate = self;
-        _collectionView.dataSource = self;
-        _collectionView.backgroundColor = [UIColor clearColor];
-        _collectionView.showsHorizontalScrollIndicator = NO;
-        _collectionView.bounces = NO;
-        _collectionView.contentInset = UIEdgeInsetsZero;
-        [_collectionView registerClass:[TFSegmentViewTitleCell class] forCellWithReuseIdentifier:SegmentViewTitleCellIdentifier];
-    }
-    return _collectionView;
-}
 
-#pragma mark lineView
-- (UIView *)lineView {
-    if (!_lineView) {
-        _lineView = [[UIView alloc] init];
-    }
-    return _lineView;
-}
-
-#pragma mark lineHeight
-- (void)setLineHeight:(CGFloat)lineHeight {
-    _lineHeight = lineHeight;
-    _lineView.tf_height = _lineHeight;
-    _lineView.tf_bottom = self.tf_height;
-}
-
-#pragma mark itemArray
-- (void)setItemArr:(NSArray *)itemArr {
-    _itemArr = itemArr;
-    [self calculateWidth];
-    [self.collectionView reloadData];
-}
-
-#pragma mark font
-- (void)setFont:(UIFont *)font {
-    _font = font;
-    [self calculateWidth];
-    [self.collectionView reloadData];
-}
-
-#pragma mark lineColor
-- (void)setLineColor:(UIColor *)lineColor {
-    _lineColor = lineColor;
-    _lineView.backgroundColor = lineColor;
-}
-
-- (void)setItemSpace:(CGFloat)itemSpace {
-    _itemSpace = itemSpace;
-    [self calculateWidth];
-    [self.collectionView reloadData];
-}
-
-- (void)setItemMinWidth:(CGFloat)itemMinWidth {
-    _itemMinWidth = itemMinWidth;
-    [self calculateWidth];
-    [self.collectionView reloadData];
-}
 
 #pragma mark 初始化方法
 - (instancetype)initWithFrame:(CGRect)frame itemArray:(NSArray<NSString *> *)itemArray {
@@ -108,25 +44,25 @@
 }
 
 - (void)initialize {
-    
     [self addSubview:self.collectionView];
     [self.collectionView addSubview:self.lineView];
-    self.collectionView.frame = CGRectMake(0, 0, self.tf_width, self.tf_height);
-    
     //默认常量
-    self.lineHeight = 4.0;
-    self.lineColor = UIColorHex(0x2f83eb);
-    self.lineSpace = 15.0;
-    self.currentItemIndex = 0;
+    self.font = [UIFont systemFontOfSize:16];
     self.textColor = UIColorHex(0x333333);
     self.selectedTextColor = UIColorHex(0x2f83eb);
-    self.font = [UIFont systemFontOfSize:16];
-    self.itemMinWidth = 75.0;
-    self.itemSpace = 20.0;
+    self.itemSpace = 10.0;
+    self.itemMinWidth = 0.0;
+    self.currentItemIndex = 0;
+    self.lineInsets = UIEdgeInsetsMake(self.tf_height-4.0, 0.0, 0.0, 0.0);
+    self.lineCornerRadius = 0.0;
+    self.lineColor = UIColorHex(0x2f83eb);
     self.updateLinePosBySelf = YES;
     self.backgroundColor = [UIColor whiteColor];
-    self.currentItemIndex = 0;
+}
 
++ (instancetype)itemWithFrame:(CGRect)frame itemArray:(NSArray<NSString *> *)itemArray {
+    TFSegmentView *segementView = [[TFSegmentView alloc] initWithFrame:frame itemArray:itemArray];
+    return segementView;
 }
 
 -(void)setCurrentItemIndex:(NSInteger)currentItemIndex
@@ -139,10 +75,7 @@
     _currentItemIndex = currentItemIndex;
 }
 
-+ (instancetype)itemWithFrame:(CGRect)frame itemArray:(NSArray<NSString *> *)itemArray {
-    TFSegmentView *segementView = [[TFSegmentView alloc] initWithFrame:frame itemArray:itemArray];
-    return segementView;
-}
+
 
 #pragma mark 宽度数组
 - (void)calculateWidth {
@@ -220,11 +153,15 @@
 }
 
 - (void)moveLineWithCenterX:(CGFloat)centerX currentCell:(TFSegmentViewTitleCell *)cell {
+    
     [UIView animateWithDuration:0.3f delay:0.0f usingSpringWithDamping:0.3 initialSpringVelocity:0.7 options:UIViewAnimationOptionTransitionNone animations:^{
-        _lineView.tf_width = cell.tf_width - _lineSpace*2;
+        UIEdgeInsets lineInsets = self.lineInsets;
         if (cell.tf_width > _itemMinWidth) {
-            _lineView.tf_width -= _itemSpace;
+            CGFloat itemInsets = _itemSpace/2.0;
+            lineInsets.left += itemInsets;
+            lineInsets.right += itemInsets;
         }
+        _lineView.frame = UIEdgeInsetsInsetRect(cell.frame, lineInsets);
         _lineView.tf_centerX = centerX;
  
     } completion:nil];
@@ -266,5 +203,53 @@
         [self moveLineWithCenterX:targetCenterX currentCell:cell];
     }
 }
+
+#pragma mark - lazy load.
+
+- (UICollectionView *)collectionView {
+    if (!_collectionView) {
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.minimumLineSpacing = 0.0;
+        layout.minimumInteritemSpacing = 0.0;
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
+        _collectionView.delegate = self;
+        _collectionView.dataSource = self;
+        _collectionView.backgroundColor = [UIColor clearColor];
+        _collectionView.showsHorizontalScrollIndicator = NO;
+        _collectionView.bounces = NO;
+        _collectionView.contentInset = UIEdgeInsetsZero;
+        [_collectionView registerClass:[TFSegmentViewTitleCell class] forCellWithReuseIdentifier:SegmentViewTitleCellIdentifier];
+    }
+    return _collectionView;
+}
+
+- (UIView *)lineView {
+    if (!_lineView) {
+        _lineView = [[UIView alloc] init];
+        
+    }
+    return _lineView;
+}
+
+- (void)setItemArr:(NSArray *)itemArr {
+    _itemArr = itemArr;
+    //计算宽度
+    [self calculateWidth];
+    [self.collectionView reloadData];
+}
+
+- (void)setLineCornerRadius:(CGFloat)lineCornerRadius {
+    _lineCornerRadius = lineCornerRadius;
+    _lineView.layer.cornerRadius = lineCornerRadius;
+    _lineView.layer.masksToBounds = YES;
+}
+
+- (void)setLineColor:(UIColor *)lineColor {
+    _lineColor = lineColor;
+    _lineView.backgroundColor = lineColor;
+}
+
+
 
 @end
