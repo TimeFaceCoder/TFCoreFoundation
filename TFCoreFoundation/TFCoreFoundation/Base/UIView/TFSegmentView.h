@@ -20,8 +20,6 @@ typedef void(^SegmentViewChangeBlock)(NSInteger currentIndex,NSString *currentIt
 
 @property (nonatomic, copy) SegmentViewChangeBlock changeBlock;///<变化块
 
-@property (nonatomic, assign) BOOL updateLinePosBySelf;///<line是否由segmentView自己更新位置，默认是YES
-
 /**
  默认配置，当再次赋值时，会重新布局segmentView.
  */

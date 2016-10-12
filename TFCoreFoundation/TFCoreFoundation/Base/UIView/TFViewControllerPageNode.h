@@ -31,7 +31,7 @@
 
 - (void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didEndDisplayingViewControllerAtIndex:(NSUInteger)index;
 
--(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didScrollContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth;
+-(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didScrollContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth isDragging:(BOOL)isDragging;
 @end
 
 

@@ -24,11 +24,17 @@
 }
 
 - (NSArray*)titlesForViewControllers {
-    return @[@"A",@"B",@"C",];
+    return @[@"VCA",@"VCB",@"VCC",];
 }
 
 - (UIViewController *)viewControllerAtIndex:(NSUInteger)index {
     UIViewController* vc = [[UIViewController alloc]init];
+    if (index==0) {
+        vc.view.backgroundColor = [UIColor redColor];
+    }
+    else {
+        vc.view.backgroundColor = [UIColor cyanColor];
+    }
     return vc;
 }
 

@@ -25,7 +25,6 @@
     if (!_headerView) {
         _headerView = [[TFSegmentView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, [self heightForSegment]) configModel:nil itemArray:[self titlesForViewControllers]];
         __weak TFPageViewController* wself = self;
-        _headerView.updateLinePosBySelf = NO;
         _headerView.changeBlock = ^(NSInteger currentIndex,NSString *currentItem) {
             [wself.pageNode scrollToViewControllerAtIndex:currentIndex animated:YES];
         };
@@ -114,9 +113,11 @@
     
 }
 
--(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didScrollContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth{
-    if (self.headerSegmentView && [self.headerSegmentView respondsToSelector:@selector(segmentViewUpdateCurrentSelectedIndexByContentOffset:inContentWidth:viewWidth:)]) {
-        [self.headerSegmentView segmentViewUpdateCurrentSelectedIndexByContentOffset:contentOffset inContentWidth:contentWidth viewWidth:viewWidth];
+-(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didScrollContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth isDragging:(BOOL)isDragging{
+    if (isDragging) {
+        if (self.headerSegmentView && [self.headerSegmentView respondsToSelector:@selector(segmentViewUpdateCurrentSelectedIndexByContentOffset:inContentWidth:viewWidth:)]) {
+            [self.headerSegmentView segmentViewUpdateCurrentSelectedIndexByContentOffset:contentOffset inContentWidth:contentWidth viewWidth:viewWidth];
+        }
     }
 }
 

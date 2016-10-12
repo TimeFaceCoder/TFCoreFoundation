@@ -44,7 +44,6 @@
     [self addSubview:self.collectionView];
     [self.collectionView addSubview:self.lineView];
     self.currentItemIndex = 0;
-    self.updateLinePosBySelf = YES;
     self.backgroundColor = [UIColor whiteColor];
     self.lineView.backgroundColor = _configModel.lineColor;
     self.lineView.layer.cornerRadius = _configModel.lineCornerRadius;
@@ -126,9 +125,7 @@
         if (_changeBlock) {
             _changeBlock (_currentItemIndex,_itemArr[_currentItemIndex]);
         }
-        if (self.updateLinePosBySelf) {
-            [self moveLineWithCenterX:CGRectGetMidX(cell.frame) currentCell:cell];
-        }
+        [self moveLineWithCenterX:CGRectGetMidX(cell.frame) currentCell:cell];
     }
 }
 
