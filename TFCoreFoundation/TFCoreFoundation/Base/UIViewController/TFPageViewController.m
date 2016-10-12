@@ -23,7 +23,7 @@
 
 - (UIView<SegmentViewDelegate> *)headerSegmentView {
     if (!_headerView) {
-        _headerView = [[TFSegmentView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, [self heightForSegment]) itemArray:[self titlesForViewControllers]];
+        _headerView = [[TFSegmentView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, [self heightForSegment]) configModel:nil itemArray:[self titlesForViewControllers]];
         __weak TFPageViewController* wself = self;
         _headerView.updateLinePosBySelf = NO;
         _headerView.changeBlock = ^(NSInteger currentIndex,NSString *currentItem) {

@@ -67,6 +67,7 @@
 		C46D84B71D5334AB009F65AF /* TFViewControllerPageNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B41D5334AB009F65AF /* TFViewControllerPageNode.m */; };
 		C46D84BA1D5334B2009F65AF /* TFPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B91D5334B2009F65AF /* TFPageViewController.m */; };
 		C4DC134F1D9382490080392D /* ASDisplayNode+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DC134E1D9382490080392D /* ASDisplayNode+TFCore.m */; };
+		C4DE3CBB1DADDBAB00B45C61 /* TFSegmentConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DE3CBA1DADDBAB00B45C61 /* TFSegmentConfigModel.m */; };
 		C4EA330E1D86929000A18336 /* TFEmptyDataSetView.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EA330D1D86929000A18336 /* TFEmptyDataSetView.m */; };
 		C4EA33111D8697CC00A18336 /* UIView+EmptyDataSet.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EA33101D8697CC00A18336 /* UIView+EmptyDataSet.m */; };
 		C4EA33141D8697F800A18336 /* UIViewController+EmptyState.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EA33131D8697F800A18336 /* UIViewController+EmptyState.m */; };
@@ -209,6 +210,8 @@
 		C46D84B91D5334B2009F65AF /* TFPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFPageViewController.m; sourceTree = "<group>"; };
 		C4DC134D1D9382490080392D /* ASDisplayNode+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ASDisplayNode+TFCore.h"; sourceTree = "<group>"; };
 		C4DC134E1D9382490080392D /* ASDisplayNode+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ASDisplayNode+TFCore.m"; sourceTree = "<group>"; };
+		C4DE3CB91DADDBAB00B45C61 /* TFSegmentConfigModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFSegmentConfigModel.h; sourceTree = "<group>"; };
+		C4DE3CBA1DADDBAB00B45C61 /* TFSegmentConfigModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFSegmentConfigModel.m; sourceTree = "<group>"; };
 		C4EA330C1D86929000A18336 /* TFEmptyDataSetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFEmptyDataSetView.h; sourceTree = "<group>"; };
 		C4EA330D1D86929000A18336 /* TFEmptyDataSetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFEmptyDataSetView.m; sourceTree = "<group>"; };
 		C4EA330F1D8697CC00A18336 /* UIView+EmptyDataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+EmptyDataSet.h"; sourceTree = "<group>"; };
@@ -498,6 +501,8 @@
 				C46D84B01D5334AB009F65AF /* TFSegmentView.m */,
 				C46D84B11D5334AB009F65AF /* TFSegmentViewTitleCell.h */,
 				C46D84B21D5334AB009F65AF /* TFSegmentViewTitleCell.m */,
+				C4DE3CB91DADDBAB00B45C61 /* TFSegmentConfigModel.h */,
+				C4DE3CBA1DADDBAB00B45C61 /* TFSegmentConfigModel.m */,
 				C46D84B31D5334AB009F65AF /* TFViewControllerPageNode.h */,
 				C46D84B41D5334AB009F65AF /* TFViewControllerPageNode.m */,
 				B048604A1CBB471B00DE6770 /* TFAlertView.h */,
@@ -749,6 +754,7 @@
 				B04335671CABAC2D00960551 /* UIDevice+TFCore.m in Sources */,
 				B0D5EA2B1CBE368A00ED42F1 /* TFSwizzleMethod.m in Sources */,
 				B0E82FA61CB9F16500655B66 /* TFTableViewController.m in Sources */,
+				C4DE3CBB1DADDBAB00B45C61 /* TFSegmentConfigModel.m in Sources */,
 				B0E82FA31CB9F15300655B66 /* TFViewController.m in Sources */,
 				B04860581CBB820C00DE6770 /* TFSplashView.m in Sources */,
 				B04860431CBB3E3F00DE6770 /* TFDirectionalPanGestureRecognizer.m in Sources */,
