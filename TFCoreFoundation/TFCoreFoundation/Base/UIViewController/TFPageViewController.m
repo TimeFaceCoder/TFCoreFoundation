@@ -43,8 +43,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.automaticallyAdjustsScrollViewInsets = NO;
-//    self.edgesForExtendedLayout = UIRectEdgeNone;
+//    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     //当在UINavigationController里使用SegmentView时，上面两行必须使用一行，否则SegmentView会不显示，因为SegmentView包含一个CollectionView
     [self.view addSubview:self.headerSegmentView];
     [self.view addSubnode:self.pageNode];
