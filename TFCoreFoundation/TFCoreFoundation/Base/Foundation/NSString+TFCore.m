@@ -391,6 +391,22 @@ TFSYNTH_DUMMY_CLASS(NSString_TFCore)
     return [[self tf_dataValue] tf_jsonValueDecoded];
 }
 
++ (NSString *)tf_prettyJsonStringWithObject:(id)object {
+    #ifdef DEBUG
+    NSString *jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+    NSMutableString *responseString = [NSMutableString stringWithString:jsonString];
+    NSString *character = nil;
+    for (int i = 0; i < responseString.length; i ++) {
+        character = [responseString substringWithRange:NSMakeRange(i, 1)];
+        if ([character isEqualToString:@"\\"]) {
+            [responseString deleteCharactersInRange:NSMakeRange(i, 1)];
+        }
+    }
+    return responseString;
+    #endif
+    return @"";
+}
+
 + (NSString *)tf_stringNamed:(NSString *)name {
     NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:@""];
     NSString *str = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:NULL];

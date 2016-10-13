@@ -194,6 +194,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable id)tf_jsonValueDecoded;
 
++ (nullable NSString *)tf_prettyJsonStringWithObject:(id)object;
+
 + (nullable NSString *)tf_stringNamed:(NSString *)name;
 
 @end
