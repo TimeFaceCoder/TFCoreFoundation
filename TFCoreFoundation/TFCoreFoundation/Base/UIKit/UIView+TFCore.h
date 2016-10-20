@@ -10,7 +10,7 @@
 
 typedef void(^TFViewActionHandlerBlock)(_Nullable id sender);
 
-typedef void(^TFViewActionHandlerWithParamsBlock)(_Nullable id sender, _Nullable id params);
+typedef void(^TFViewActionWithParamsHandlerBlock)(_Nullable id sender, _Nullable id params);
 
 NS_ASSUME_NONNULL_BEGIN
 @interface UIView (TFCore)
@@ -110,6 +110,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) CGPoint tf_origin;      ///< Shortcut for frame.origin.
 @property (nonatomic) CGSize  tf_size;        ///< Shortcut for frame.size.
 
+@property (nonatomic, copy) TFViewActionHandlerBlock viewActionHander;
+
+@property (nonatomic, copy) TFViewActionWithParamsHandlerBlock viewActionWithParamsHander;
 
 @end
 NS_ASSUME_NONNULL_END

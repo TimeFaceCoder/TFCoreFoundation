@@ -9,6 +9,11 @@
 #import "UIView+TFCore.h"
 #import <QuartzCore/QuartzCore.h>
 #import "TFCoreFoundationMacro.h"
+#import <objc/runtime.h>
+
+static char *kTFViewActionHanderKey = "TFViewActionHander";
+static char *kTFViewActionWithParamsHandlerKey = "TFViewActionWithParamsHandler";
+
 
 TFSYNTH_DUMMY_CLASS(UIView_YYCore)
 
@@ -273,6 +278,22 @@ TFSYNTH_DUMMY_CLASS(UIView_YYCore)
     CGRect frame = self.frame;
     frame.size = tf_size;
     self.frame = frame;
+}
+
+- (void)setViewActionHander:(TFViewActionHandlerBlock)viewActionHander {
+    objc_setAssociatedObject(self, kTFViewActionHanderKey, viewActionHander, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (TFViewActionHandlerBlock)viewActionHander {
+    return objc_getAssociatedObject(self, kTFViewActionHanderKey);
+}
+
+- (void)setViewActionWithParamsHander:(TFViewActionWithParamsHandlerBlock)viewActionWithParamsHander {
+    objc_setAssociatedObject(self, kTFViewActionWithParamsHandlerKey, viewActionWithParamsHander, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (TFViewActionWithParamsHandlerBlock)viewActionWithParamsHander {
+    return objc_getAssociatedObject(self, kTFViewActionWithParamsHandlerKey);
 }
 
 @end
