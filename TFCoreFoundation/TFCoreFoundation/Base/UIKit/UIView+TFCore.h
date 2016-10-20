@@ -7,6 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+
+typedef void(^TFViewActionHandlerBlock)(_Nullable id sender);
+
+typedef void(^TFViewActionHandlerWithParamsBlock)(_Nullable id sender, _Nullable id params);
+
 NS_ASSUME_NONNULL_BEGIN
 @interface UIView (TFCore)
 
