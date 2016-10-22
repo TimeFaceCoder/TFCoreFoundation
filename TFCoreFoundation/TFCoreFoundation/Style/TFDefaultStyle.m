@@ -72,6 +72,10 @@
     return [UIColor whiteColor];
 }
 
+- (NSString *)navBarDefaultBackTitle {
+    return @"";
+}
+
 - (UIStatusBarStyle)defalutStatusBarStyle {
     return UIStatusBarStyleDefault;
 }

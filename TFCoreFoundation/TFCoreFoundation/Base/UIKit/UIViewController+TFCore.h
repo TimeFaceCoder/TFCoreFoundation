@@ -8,24 +8,14 @@
 
 #import <UIKit/UIKit.h>
 @interface UIViewController (TFCore)
-- (void)showNavigationBar:(BOOL)animated;
-- (void)hideNavigationBar:(BOOL)animated;
-- (void)moveNavigationBar:(CGFloat)deltaY animated:(BOOL)animated;
-- (void)setNavigationBarOriginY:(CGFloat)y animated:(BOOL)animated;
-
-- (void)showToolbar:(BOOL)animated;
-- (void)hideToolbar:(BOOL)animated;
-- (void)moveToolbar:(CGFloat)deltaY animated:(BOOL)animated;
-- (void)setToolbarOriginY:(CGFloat)y animated:(BOOL)animated;
-
-- (void)showTabBar:(BOOL)animated;
-- (void)hideTabBar:(BOOL)animated;
-- (void)moveTabBar:(CGFloat)deltaY animated:(BOOL)animated;
-- (void)setTabBarOriginY:(CGFloat)y animated:(BOOL)animated;
 
 @property (nonatomic, strong) UINavigationBar *tf_transitionNavigationBar;
 @property (nonatomic, assign) BOOL tf_prefersNavigationBarBackgroundViewHidden;
+@property (nonatomic, assign) BOOL tf_hiddenNavigationBarWhenScrollViewDidScroll;//when set this property to YES, must set scrollView delegate to ViewController and implement scrollViewDidScroll and 
+@property (nonatomic, assign) BOOL tf_hiddenTabBarWhenScrollViewDidScroll;//when set this property to YES, must set scrollView delegate to ViewController.
 
 - (void)tf_addTransitionNavigationBarIfNeeded;
+
+
 
 @end

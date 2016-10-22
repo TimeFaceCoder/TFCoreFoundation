@@ -37,6 +37,8 @@
 
 @property (nonatomic ,readonly) UIColor *navBarTitleColor;
 
+@property (nonatomic ,readonly) NSString *navBarDefaultBackTitle;//默认空字符串，若传入nil，则跟随系统变化.
+
 @property (nonatomic ,readonly) UIStatusBarStyle defalutStatusBarStyle;
 
 /////////////////////////////////////////////HUD提示-START//////////////////////////////////////////

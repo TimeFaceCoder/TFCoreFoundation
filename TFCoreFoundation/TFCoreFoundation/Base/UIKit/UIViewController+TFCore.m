@@ -9,204 +9,22 @@
 #import "UIViewController+TFCore.h"
 #import "TFCoreFoundationMacro.h"
 #import "UIDevice+TFCore.h"
+#import "TFDefaultStyle.h"
 #import <objc/runtime.h>
 #import "TFSwizzleMethod.h"
 #import "UINavigationController+TFCore.h"
+
+@interface UIViewController ()
+
+@property (nonatomic, assign) BOOL scrollUp;
+
+@end
 
 TFSYNTH_DUMMY_CLASS(UIViewController_TFCore)
 
 #define kNearZero 0.000001f
 
 @implementation UIViewController (TFCore)
-
-- (void)showNavigationBar:(BOOL)animated
-{
-    CGFloat statusBarHeight = [self statusBarHeight];
-    
-    UIWindow *appKeyWindow = [UIApplication sharedApplication].keyWindow;
-    UIView *appBaseView = appKeyWindow.rootViewController.view;
-    CGRect viewControllerFrame =  [appBaseView convertRect:appBaseView.bounds toView:appKeyWindow];
-    
-    CGFloat overwrapStatusBarHeight = statusBarHeight - viewControllerFrame.origin.y;
-    
-    [self setNavigationBarOriginY:overwrapStatusBarHeight animated:animated];
-}
-
-- (void)hideNavigationBar:(BOOL)animated
-{
-    CGFloat statusBarHeight = [self statusBarHeight];
-    
-    UIWindow *appKeyWindow = [UIApplication sharedApplication].keyWindow;
-    UIView *appBaseView = appKeyWindow.rootViewController.view;
-    CGRect viewControllerFrame =  [appBaseView convertRect:appBaseView.bounds toView:appKeyWindow];
-    
-    CGFloat overwrapStatusBarHeight = statusBarHeight - viewControllerFrame.origin.y;
-    
-    CGFloat navigationBarHeight = self.navigationController.navigationBar.frame.size.height;
-    CGFloat top = kiOS7Later ? -navigationBarHeight + overwrapStatusBarHeight : -navigationBarHeight;
-    
-    [self setNavigationBarOriginY:top animated:animated];
-}
-
-- (void)moveNavigationBar:(CGFloat)deltaY animated:(BOOL)animated
-{
-    CGRect frame = self.navigationController.navigationBar.frame;
-    CGFloat nextY = frame.origin.y + deltaY;
-    [self setNavigationBarOriginY:nextY animated:animated];
-}
-
-- (void)setNavigationBarOriginY:(CGFloat)y animated:(BOOL)animated
-{
-    CGFloat statusBarHeight = [self statusBarHeight];
-    
-    UIWindow *appKeyWindow = [UIApplication sharedApplication].keyWindow;
-    UIView *appBaseView = appKeyWindow.rootViewController.view;
-    CGRect viewControllerFrame =  [appBaseView convertRect:appBaseView.bounds toView:appKeyWindow];
-    
-    CGFloat overwrapStatusBarHeight = statusBarHeight - viewControllerFrame.origin.y;
-    
-    CGRect frame = self.navigationController.navigationBar.frame;
-    CGFloat navigationBarHeight = frame.size.height;
-    
-    CGFloat topLimit = kiOS7Later ? -navigationBarHeight + overwrapStatusBarHeight : -navigationBarHeight;
-    CGFloat bottomLimit = overwrapStatusBarHeight;
-    
-    frame.origin.y = fmin(fmax(y, topLimit), bottomLimit);
-    
-    CGFloat navBarHiddenRatio = overwrapStatusBarHeight > 0 ? (overwrapStatusBarHeight - frame.origin.y) / overwrapStatusBarHeight : 0;
-    CGFloat alpha = MAX(1.f - navBarHiddenRatio, kNearZero);
-    [UIView animateWithDuration:animated ? 0.1 : 0 animations:^{
-        self.navigationController.navigationBar.frame = frame;
-        NSUInteger index = 0;
-        for (UIView *view in self.navigationController.navigationBar.subviews) {
-            index++;
-            if (index == 1 || view.hidden || view.alpha <= 0.0f) continue;
-            view.alpha = alpha;
-        }
-        if (kiOS7Later) {
-            // fade bar buttons
-            UIColor *tintColor = self.navigationController.navigationBar.tintColor;
-            if (tintColor) {
-                self.navigationController.navigationBar.tintColor = [tintColor colorWithAlphaComponent:alpha];
-            }
-        }
-    }];
-}
-
-- (CGFloat)statusBarHeight {
-    CGSize statuBarFrameSize = [UIApplication sharedApplication].statusBarFrame.size;
-    if (kiOS8Later) {
-        return statuBarFrameSize.height;
-    }
-    return UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation) ? statuBarFrameSize.height : statuBarFrameSize.width;
-}
-
-#pragma mark -
-#pragma mark manage ToolBar
-
-- (void)showToolbar:(BOOL)animated
-{
-    CGSize viewSize = self.navigationController.view.frame.size;
-    CGFloat viewHeight = [self bottomBarViewControlleViewHeightFromViewSize:viewSize];
-    CGFloat toolbarHeight = self.navigationController.toolbar.frame.size.height;
-    [self setToolbarOriginY:viewHeight - toolbarHeight animated:animated];
-}
-
-- (void)hideToolbar:(BOOL)animated
-{
-    CGSize viewSize = self.navigationController.view.frame.size;
-    CGFloat viewHeight = [self bottomBarViewControlleViewHeightFromViewSize:viewSize];
-    [self setToolbarOriginY:viewHeight animated:animated];
-}
-
-- (void)moveToolbar:(CGFloat)deltaY animated:(BOOL)animated
-{
-    CGRect frame = self.navigationController.toolbar.frame;
-    CGFloat nextY = frame.origin.y + deltaY;
-    [self setToolbarOriginY:nextY animated:animated];
-}
-
-- (void)setToolbarOriginY:(CGFloat)y animated:(BOOL)animated
-{
-    CGRect frame = self.navigationController.toolbar.frame;
-    CGFloat toolBarHeight = frame.size.height;
-    CGSize viewSize = self.navigationController.view.frame.size;
-    CGFloat viewHeight = [self bottomBarViewControlleViewHeightFromViewSize:viewSize];
-    
-    CGFloat topLimit = viewHeight - toolBarHeight;
-    CGFloat bottomLimit = viewHeight;
-    
-    frame.origin.y = fmin(fmax(y, topLimit), bottomLimit); // limit over moving
-    
-    [UIView animateWithDuration:animated ? 0.1 : 0 animations:^{
-        self.navigationController.toolbar.frame = frame;
-    }];
-}
-
-#pragma mark -
-#pragma mark manage TabBar
-
-- (void)showTabBar:(BOOL)animated
-{
-    CGSize viewSize = self.tabBarController.view.frame.size;
-    CGFloat viewHeight = [self bottomBarViewControlleViewHeightFromViewSize:viewSize];
-    CGFloat toolbarHeight = self.tabBarController.tabBar.frame.size.height;
-    [self setTabBarOriginY:viewHeight - toolbarHeight animated:animated];
-}
-
-- (void)hideTabBar:(BOOL)animated
-{
-    CGSize viewSize = self.tabBarController.view.frame.size;
-    CGFloat viewHeight = [self bottomBarViewControlleViewHeightFromViewSize:viewSize];
-    [self setTabBarOriginY:viewHeight animated:animated];
-}
-
-- (void)moveTabBar:(CGFloat)deltaY animated:(BOOL)animated
-{
-    CGRect frame =  self.tabBarController.tabBar.frame;
-    CGFloat nextY = frame.origin.y + deltaY;
-    [self setTabBarOriginY:nextY animated:animated];
-}
-
-- (void)setTabBarOriginY:(CGFloat)y animated:(BOOL)animated
-{
-    CGRect frame = self.tabBarController.tabBar.frame;
-    CGRect viewFrame = self.view.frame;
-    
-    CGFloat toolBarHeight = frame.size.height;
-    CGSize viewSize = self.tabBarController.view.frame.size;
-    
-    CGFloat viewHeight = [self bottomBarViewControlleViewHeightFromViewSize:viewSize];
-    
-    CGFloat topLimit = viewHeight - toolBarHeight;
-    CGFloat bottomLimit = viewHeight;
-    
-    frame.origin.y = fmin(fmax(y, topLimit), bottomLimit); // limit over moving
-    
-    viewFrame.size.height = frame.origin.y;
-    
-    [UIView animateWithDuration:animated ? 0.1 : 0
-                     animations:^{
-                         self.tabBarController.tabBar.frame = frame;
-                         if (self.tabBarController.tabBar) {
-                             self.view.frame = viewFrame;
-                         }
-                     }];
-}
-
-- (CGFloat)bottomBarViewControlleViewHeightFromViewSize:(CGSize)viewSize
-{
-    CGFloat viewHeight = 0.f;
-    if (kiOS8Later) {
-        // starting from iOS8, tabBarViewController.view.frame respects interface orientation
-        viewHeight = viewSize.height;
-    } else {
-        viewHeight = UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation) ? viewSize.height : viewSize.width;
-    }
-    
-    return viewHeight;
-}
-
 
 + (void)load {
     static dispatch_once_t onceToken;
@@ -218,7 +36,71 @@ TFSYNTH_DUMMY_CLASS(UIViewController_TFCore)
         TFSwizzleMethod([self class],
                         @selector(viewDidAppear:),
                         @selector(tf_viewDidAppear:));
+        
+        TFSwizzleMethod([self class], @selector(viewDidLoad), @selector(tf_viewDidLoad));
+        
     });
+}
+
+- (void)tf_scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (self.tf_hiddenTabBarWhenScrollViewDidScroll | self.tf_hiddenNavigationBarWhenScrollViewDidScroll) {
+        CGFloat currentOffset = scrollView.contentOffset.y;
+        static CGFloat _lastOffset = 0.0;
+        CGFloat diff = (currentOffset -_lastOffset);
+        if (scrollView.tracking) {
+            self.scrollUp = (diff>=0);
+            if (self.tf_hiddenTabBarWhenScrollViewDidScroll) {
+                CGFloat tabBarY = self.tabBarController.tabBar.transform.ty;
+                CGFloat newTabBarY = tabBarY += diff;
+                tabBarY = MAX(MIN(CGRectGetHeight(self.tabBarController.tabBar.frame), newTabBarY), 0.0);
+                self.tabBarController.tabBar.transform = CGAffineTransformMakeTranslation(0.0,tabBarY);
+            }
+            
+            if (self.tf_hiddenNavigationBarWhenScrollViewDidScroll) {
+                CGFloat navigationBarY = self.navigationController.navigationBar.transform.ty;
+                CGFloat newNavigationBarY = navigationBarY -= diff;
+                navigationBarY = MAX(MIN(0.0, newNavigationBarY), -CGRectGetHeight(self.navigationController.navigationBar.frame)-20.0);
+                self.navigationController.navigationBar.transform = CGAffineTransformMakeTranslation(0.0,navigationBarY);
+            }
+           
+        }
+        _lastOffset = scrollView.contentOffset.y;
+    }
+    [self tf_scrollViewDidScroll:scrollView];
+}
+
+- (void)tf_scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    if (self.tf_hiddenTabBarWhenScrollViewDidScroll | self.tf_hiddenNavigationBarWhenScrollViewDidScroll) {
+        [UIView beginAnimations:@"BarHidden" context:nil];
+        if (self.tf_hiddenNavigationBarWhenScrollViewDidScroll) {
+            if (self.scrollUp) {
+                self.navigationController.navigationBar.transform = CGAffineTransformMakeTranslation(0.0, -CGRectGetHeight(self.navigationController.navigationBar.frame)-20.0);
+            }
+            else {
+                self.navigationController.navigationBar.transform = CGAffineTransformIdentity;
+            }
+        }
+        if (self.tf_hiddenTabBarWhenScrollViewDidScroll) {
+            if (self.scrollUp) {
+                self.tabBarController.tabBar.transform = CGAffineTransformMakeTranslation(0, CGRectGetHeight(self.tabBarController.tabBar.frame));
+            }
+            else {
+                self.tabBarController.tabBar.transform = CGAffineTransformIdentity;
+            }
+        }
+        [UIView setAnimationDuration:0.3];
+        [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+        [UIView commitAnimations];
+    }
+    [self tf_scrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    
 }
 
 - (void)tf_viewDidAppear:(BOOL)animated {
@@ -254,6 +136,20 @@ TFSYNTH_DUMMY_CLASS(UIViewController_TFCore)
         [self tf_resizeTransitionNavigationBarFrame];
     }
     [self tf_viewWillLayoutSubviews];
+}
+
+- (void)tf_viewDidLoad {
+    NSString *backTitle = TFSTYLEVAR(navBarDefaultBackTitle);
+    if ([self respondsToSelector:@selector(scrollViewDidScroll:)]) {
+        TFSwizzleMethod([self class], @selector(scrollViewDidScroll:), @selector(tf_scrollViewDidScroll:));
+    };
+    if ([self respondsToSelector:@selector(scrollViewWillEndDragging:withVelocity:targetContentOffset:)]) {
+        TFSwizzleMethod([self class], @selector(scrollViewWillEndDragging:withVelocity:targetContentOffset:), @selector(tf_scrollViewWillEndDragging:withVelocity:targetContentOffset:));
+    }
+    if (backTitle) {
+        self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:backTitle style:UIBarButtonItemStylePlain target:nil action:nil];
+    }
+    [self tf_viewDidLoad];
 }
 
 - (void)tf_resizeTransitionNavigationBarFrame {
@@ -304,6 +200,30 @@ TFSYNTH_DUMMY_CLASS(UIViewController_TFCore)
     [[self.navigationController.navigationBar valueForKey:@"_backgroundView"]
      setHidden:hidden];
     objc_setAssociatedObject(self, @selector(tf_prefersNavigationBarBackgroundViewHidden), @(hidden), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (BOOL)tf_hiddenNavigationBarWhenScrollViewDidScroll {
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+
+- (void)setTf_hiddenNavigationBarWhenScrollViewDidScroll:(BOOL)tf_hiddenNavigationBarWhenScrollViewDidScroll {
+    objc_setAssociatedObject(self, @selector(tf_hiddenNavigationBarWhenScrollViewDidScroll), @(tf_hiddenNavigationBarWhenScrollViewDidScroll), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (BOOL)tf_hiddenTabBarWhenScrollViewDidScroll {
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+
+- (void)setTf_hiddenTabBarWhenScrollViewDidScroll:(BOOL)tf_hiddenTabBarWhenScrollViewDidScroll {
+    objc_setAssociatedObject(self, @selector(tf_hiddenTabBarWhenScrollViewDidScroll), @(tf_hiddenTabBarWhenScrollViewDidScroll), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (BOOL)scrollUp {
+    return [objc_getAssociatedObject(self, _cmd) boolValue];
+}
+
+- (void)setScrollUp:(BOOL)scrollUp {
+    objc_setAssociatedObject(self, @selector(scrollUp), @(scrollUp), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end

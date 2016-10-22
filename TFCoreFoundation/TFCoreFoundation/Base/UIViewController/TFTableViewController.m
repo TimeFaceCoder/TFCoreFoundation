@@ -22,8 +22,6 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
 
 @interface TFTableViewController() {
     CGFloat _lastPosition;
-    BOOL _loaded;
-    BOOL _isAnimating;
 }
 
 @property (nonatomic ,strong ,readwrite) ASTableNode *tableNode;
@@ -69,11 +67,6 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
          style.animationType = JDStatusBarAnimationTypeMove;
          return style;
      }];
-    //设置滚动是否隐藏
-    _hiddenTabBarWhenScrolling = YES;
-    if (self.tabBarController.tabBar.hidden==YES | self.hidesBottomBarWhenPushed == YES) {
-        self.hiddenTabBarWhenScrolling = NO;
-    }
     
     if (!self.listType) {
         NSAssert(!self.listType, @"not set the value of list type.");
@@ -248,45 +241,6 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
     }
     else if (_lastPosition - currentPostion > 30) {
         _lastPosition = currentPostion;
-    }
-}
-- (void)scrollViewDidScrollUp:(CGFloat)deltaY {
-    [self setTabBarHidden:YES];
-}
-
-- (void)scrollViewDidScrollDown:(CGFloat)deltaY {
-    [self setTabBarHidden:NO];
-}
-
-- (void)scrollFullScreenScrollViewDidEndDraggingScrollUp {
-    [self setTabBarHidden:YES];
-    
-}
-
-- (void)scrollFullScreenScrollViewDidEndDraggingScrollDown {
-    [self setTabBarHidden:NO];
-}
-
-- (void)setTabBarHidden:(BOOL)hidden {
-    if (self.tabBarController.tabBar && _hiddenTabBarWhenScrolling==YES) {
-        if (self.tabBarController.tabBar.hidden!=hidden && self.tableView.contentSize.height>=(CGRectGetHeight(self.view.frame) - (self.tableView.contentInset.top + self.tableView.frame.origin.y + self.tableView.contentInset.bottom))) {
-            _isAnimating = YES;
-            
-            CGRect frame = self.view.frame;
-            if (hidden) {
-                frame.size.height += 49;
-            }
-            else {
-                frame.size.height -= 49;
-            }
-            self.view.frame = frame;
-            
-            [UIView animateWithDuration:0.5 delay:0.1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                [self.tabBarController.tabBar setHidden:hidden];
-            } completion:^(BOOL finished) {
-                _isAnimating = NO;
-            }];
-        }
     }
 }
 

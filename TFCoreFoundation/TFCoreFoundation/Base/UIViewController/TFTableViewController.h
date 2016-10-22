@@ -74,11 +74,6 @@ typedef NS_ENUM(NSInteger, TFTableViewType) {
 @property (nonatomic ,assign) BOOL usePullReload;
 
 /**
- *  @brief hidden tabBar when table view did scroll. default value is YES, but when self.tabBarController.tabBar.hidden==YES or self.hidesBottomBarWhenPushed,the default value is NO.
- */
-@property (nonatomic ,assign) BOOL hiddenTabBarWhenScrolling;
-
-/**
  *  start load data, set the requestParams firstly.
  */
 - (void)startLoadData;

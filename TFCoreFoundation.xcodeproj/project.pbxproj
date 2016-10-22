@@ -62,6 +62,7 @@
 		B0E82FDE1CBA238400655B66 /* UIWebView+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FDD1CBA238400655B66 /* UIWebView+TFCore.m */; };
 		B0E82FE11CBA23D700655B66 /* UIViewController+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FE01CBA23D700655B66 /* UIViewController+TFCore.m */; };
 		BD920A0521E333D2D9AC3C83 /* libPods-TFCoreFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED6DEB6CAD388647E3A2145C /* libPods-TFCoreFoundation.a */; };
+		C438D09F1DBB52C1009C511A /* AutoHiddenBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C438D09E1DBB52C1009C511A /* AutoHiddenBarViewController.m */; };
 		C46D84B51D5334AB009F65AF /* TFSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B01D5334AB009F65AF /* TFSegmentView.m */; };
 		C46D84B61D5334AB009F65AF /* TFSegmentViewTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B21D5334AB009F65AF /* TFSegmentViewTitleCell.m */; };
 		C46D84B71D5334AB009F65AF /* TFViewControllerPageNode.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B41D5334AB009F65AF /* TFViewControllerPageNode.m */; };
@@ -200,6 +201,8 @@
 		B0E82FDD1CBA238400655B66 /* UIWebView+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+TFCore.m"; sourceTree = "<group>"; };
 		B0E82FDF1CBA23D700655B66 /* UIViewController+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TFCore.h"; sourceTree = "<group>"; };
 		B0E82FE01CBA23D700655B66 /* UIViewController+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TFCore.m"; sourceTree = "<group>"; };
+		C438D09D1DBB52C1009C511A /* AutoHiddenBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHiddenBarViewController.h; sourceTree = "<group>"; };
+		C438D09E1DBB52C1009C511A /* AutoHiddenBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHiddenBarViewController.m; sourceTree = "<group>"; };
 		C46D84AF1D5334AB009F65AF /* TFSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFSegmentView.h; sourceTree = "<group>"; };
 		C46D84B01D5334AB009F65AF /* TFSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFSegmentView.m; sourceTree = "<group>"; };
 		C46D84B11D5334AB009F65AF /* TFSegmentViewTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFSegmentViewTitleCell.h; sourceTree = "<group>"; };
@@ -303,6 +306,8 @@
 				B03ABEF01CAB5AC4004067CA /* LaunchScreen.storyboard */,
 				B03ABEF31CAB5AC4004067CA /* Info.plist */,
 				B03ABEE21CAB5AC4004067CA /* Supporting Files */,
+				C438D09D1DBB52C1009C511A /* AutoHiddenBarViewController.h */,
+				C438D09E1DBB52C1009C511A /* AutoHiddenBarViewController.m */,
 			);
 			path = TFCoreFoundation;
 			sourceTree = "<group>";
@@ -749,6 +754,7 @@
 				B04335751CABB70000960551 /* NSNotificationCenter+TFCore.m in Sources */,
 				C4EA33111D8697CC00A18336 /* UIView+EmptyDataSet.m in Sources */,
 				B0E82FB01CB9F27E00655B66 /* UIColor+TFCore.m in Sources */,
+				C438D09F1DBB52C1009C511A /* AutoHiddenBarViewController.m in Sources */,
 				B0E82FBC1CB9F59B00655B66 /* UIImage+TFCore.m in Sources */,
 				B04335581CABA1CD00960551 /* NSObject+TFCore.m in Sources */,
 				B04335671CABAC2D00960551 /* UIDevice+TFCore.m in Sources */,
