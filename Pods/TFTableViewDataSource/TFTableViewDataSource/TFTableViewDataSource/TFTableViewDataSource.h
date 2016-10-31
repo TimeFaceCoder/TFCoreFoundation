@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <TFTableViewManager/TFTableViewManager.h>
+#import "TFTableViewDataRequest.h"
 
 @class TFTableViewItem;
 @class ASTableView;
@@ -172,6 +173,11 @@ typedef NS_ENUM(NSInteger, TFTableViewScrollDirection) {
  *  @brief 当前的tablenode
  */
 @property (nonatomic ,weak) ASTableNode *tableNode;
+
+/**
+ *  网络数据加载工具
+ */
+@property (nonatomic , strong, readonly) TFTableViewDataRequest *dataRequest;
 
 /**
  *  @brief 加载状态

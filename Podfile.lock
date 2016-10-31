@@ -92,7 +92,7 @@ DEPENDENCIES:
   - JDStatusBarNotification (from `https://github.com/TimeFaceCoder/JDStatusBarNotification.git`)
   - JSONModel
   - NJKWebViewProgress
-  - PINRemoteImage (~> 3.0.0-beta.3)
+  - PINRemoteImage (= 3.0.0-beta.3)
   - SAMKeychain
   - SVProgressHUD
   - TFCamera (from `https://github.com/TimeFaceCoder/TFCamera.git`)
@@ -157,10 +157,10 @@ CHECKOUT OPTIONS:
     :commit: 315dcac4fecc7117f7599cede2d0cc5f086f8ca7
     :git: https://github.com/TimeFaceCoder/TFPhotoBrowser.git
   TFTableViewDataSource:
-    :commit: e4db059735268a2457f81238f57b3126bbe727cc
+    :commit: 484568063c93ac50e2753ec3e546c5cd7b389623
     :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
   TFTableViewManager:
-    :commit: 34c42101d0d9ebbac3c9adffe45e2360e82b5c6e
+    :commit: dc79887453f5e875a8729b6915e3f7a3408e39e4
     :git: https://github.com/TimeFaceCoder/TFTableViewManager.git
   TFUploadAssistant:
     :commit: 2ef2e33c7fda68ffb831344b6c1e2ee2c0a8feca
@@ -199,6 +199,6 @@ SPEC CHECKSUMS:
   YYImage: 2cc79ed49b9549b71c6715cefe7b0f5ab3d33abf
   YYText: ac09660c9ccd9b817f409a20caa6f5587444d2ae
 
-PODFILE CHECKSUM: 497cc6d2f77e00da679590a9865153a099a5f44e
+PODFILE CHECKSUM: dcfa7c26982d3f28f775cedf0f1ec1a4df013d68
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1
