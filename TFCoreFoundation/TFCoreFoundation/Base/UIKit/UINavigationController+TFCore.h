@@ -12,5 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (UIColor *)tf_containerViewBackgroundColor;
 
+/**
+ 根据class跳转制定的ViewController.
+
+ @param class viewController对应的class.
+ @param animated 是否动画
+ */
+- (void)popToViewControllerWithClass:(Class)class animated:(BOOL)animated;
+
 @end
 NS_ASSUME_NONNULL_END
