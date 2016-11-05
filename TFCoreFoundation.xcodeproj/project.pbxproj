@@ -62,6 +62,9 @@
 		B0E82FDE1CBA238400655B66 /* UIWebView+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FDD1CBA238400655B66 /* UIWebView+TFCore.m */; };
 		B0E82FE11CBA23D700655B66 /* UIViewController+TFCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E82FE01CBA23D700655B66 /* UIViewController+TFCore.m */; };
 		BD920A0521E333D2D9AC3C83 /* libPods-TFCoreFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED6DEB6CAD388647E3A2145C /* libPods-TFCoreFoundation.a */; };
+		C40EE6E91DCDAC9B00DE8EC6 /* TFInsetsLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C40EE6E31DCDAC9B00DE8EC6 /* TFInsetsLabel.m */; };
+		C40EE6EA1DCDAC9B00DE8EC6 /* TFUnReadCountLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = C40EE6E51DCDAC9B00DE8EC6 /* TFUnReadCountLabel.m */; };
+		C40EE6ED1DCDACA900DE8EC6 /* UIScrollView+ParallaxHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = C40EE6EC1DCDACA900DE8EC6 /* UIScrollView+ParallaxHeaderView.m */; };
 		C438D09F1DBB52C1009C511A /* AutoHiddenBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C438D09E1DBB52C1009C511A /* AutoHiddenBarViewController.m */; };
 		C46D84B51D5334AB009F65AF /* TFSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B01D5334AB009F65AF /* TFSegmentView.m */; };
 		C46D84B61D5334AB009F65AF /* TFSegmentViewTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C46D84B21D5334AB009F65AF /* TFSegmentViewTitleCell.m */; };
@@ -201,6 +204,12 @@
 		B0E82FDD1CBA238400655B66 /* UIWebView+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+TFCore.m"; sourceTree = "<group>"; };
 		B0E82FDF1CBA23D700655B66 /* UIViewController+TFCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TFCore.h"; sourceTree = "<group>"; };
 		B0E82FE01CBA23D700655B66 /* UIViewController+TFCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TFCore.m"; sourceTree = "<group>"; };
+		C40EE6E21DCDAC9B00DE8EC6 /* TFInsetsLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFInsetsLabel.h; sourceTree = "<group>"; };
+		C40EE6E31DCDAC9B00DE8EC6 /* TFInsetsLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFInsetsLabel.m; sourceTree = "<group>"; };
+		C40EE6E41DCDAC9B00DE8EC6 /* TFUnReadCountLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFUnReadCountLabel.h; sourceTree = "<group>"; };
+		C40EE6E51DCDAC9B00DE8EC6 /* TFUnReadCountLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFUnReadCountLabel.m; sourceTree = "<group>"; };
+		C40EE6EB1DCDACA900DE8EC6 /* UIScrollView+ParallaxHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+ParallaxHeaderView.h"; sourceTree = "<group>"; };
+		C40EE6EC1DCDACA900DE8EC6 /* UIScrollView+ParallaxHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+ParallaxHeaderView.m"; sourceTree = "<group>"; };
 		C438D09D1DBB52C1009C511A /* AutoHiddenBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoHiddenBarViewController.h; sourceTree = "<group>"; };
 		C438D09E1DBB52C1009C511A /* AutoHiddenBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoHiddenBarViewController.m; sourceTree = "<group>"; };
 		C46D84AF1D5334AB009F65AF /* TFSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFSegmentView.h; sourceTree = "<group>"; };
@@ -403,6 +412,8 @@
 		B04335511CAB81AE00960551 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				C40EE6EB1DCDACA900DE8EC6 /* UIScrollView+ParallaxHeaderView.h */,
+				C40EE6EC1DCDACA900DE8EC6 /* UIScrollView+ParallaxHeaderView.m */,
 				C4EA33121D8697F800A18336 /* UIViewController+EmptyState.h */,
 				C4EA33131D8697F800A18336 /* UIViewController+EmptyState.m */,
 				C4EA330F1D8697CC00A18336 /* UIView+EmptyDataSet.h */,
@@ -502,6 +513,10 @@
 		B0E82FA71CB9F17300655B66 /* UIView */ = {
 			isa = PBXGroup;
 			children = (
+				C40EE6E21DCDAC9B00DE8EC6 /* TFInsetsLabel.h */,
+				C40EE6E31DCDAC9B00DE8EC6 /* TFInsetsLabel.m */,
+				C40EE6E41DCDAC9B00DE8EC6 /* TFUnReadCountLabel.h */,
+				C40EE6E51DCDAC9B00DE8EC6 /* TFUnReadCountLabel.m */,
 				C46D84AF1D5334AB009F65AF /* TFSegmentView.h */,
 				C46D84B01D5334AB009F65AF /* TFSegmentView.m */,
 				C46D84B11D5334AB009F65AF /* TFSegmentViewTitleCell.h */,
@@ -738,6 +753,8 @@
 				B0D5EA2E1CBE36F100ED42F1 /* UINavigationController+TFCore.m in Sources */,
 				B04335721CABB5B500960551 /* NSDate+TFCore.m in Sources */,
 				B043355E1CABA51A00960551 /* NSString+TFCore.m in Sources */,
+				C40EE6EA1DCDAC9B00DE8EC6 /* TFUnReadCountLabel.m in Sources */,
+				C40EE6ED1DCDACA900DE8EC6 /* UIScrollView+ParallaxHeaderView.m in Sources */,
 				B0E82FAD1CB9F22000655B66 /* UIBezierPath+TFCore.m in Sources */,
 				B0E82FC81CB9F84100655B66 /* UITextField+TFCore.m in Sources */,
 				B0E82FD41CBA1DC600655B66 /* TFCoreFoundationMacro.m in Sources */,
@@ -762,6 +779,7 @@
 				B0E82FA61CB9F16500655B66 /* TFTableViewController.m in Sources */,
 				C4DE3CBB1DADDBAB00B45C61 /* TFSegmentConfigModel.m in Sources */,
 				B0E82FA31CB9F15300655B66 /* TFViewController.m in Sources */,
+				C40EE6E91DCDAC9B00DE8EC6 /* TFInsetsLabel.m in Sources */,
 				B04860581CBB820C00DE6770 /* TFSplashView.m in Sources */,
 				B04860431CBB3E3F00DE6770 /* TFDirectionalPanGestureRecognizer.m in Sources */,
 				B0DA37201CC5C38A000F6683 /* TFValidateUtility.m in Sources */,

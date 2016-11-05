@@ -64,6 +64,15 @@ typedef NS_ENUM(NSInteger, TFTableViewType) {
 @property (nonatomic ,strong) NSMutableDictionary *requestParams;
 
 /**
+ *  @brief other request want to be load when load the data.
+ */
+@property (nonatomic, strong) NSArray *batchRequestArr;
+/**
+ *  @brief other request should be load when data request is load the data of first page, default is YES.
+ */
+@property (nonatomic, assign) BOOL batchShouldLoadInFirstPage;
+
+/**
  *  @brief list type which is associated with TFTableViewDataManager,TFTableViewDataSource,RequestUrl.
  */
 @property (nonatomic ,assign) NSInteger listType;

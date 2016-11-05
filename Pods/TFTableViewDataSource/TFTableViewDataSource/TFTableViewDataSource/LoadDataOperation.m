@@ -7,14 +7,16 @@
 //
 
 #import "LoadDataOperation.h"
+#import <TFNetwork/TFBatchRequest.h>
 #import "TFTableViewDataRequest.h"
+
 @interface LoadDataOperation ()
 
 @end
 
 @implementation LoadDataOperation
 @dynamic finished;
-- (id)initWithRequest:(TFTableViewDataRequest *)request dataLoadPolocy:(TFDataLoadPolicy)policy firstLoadOver:(BOOL)firstLoadOver{
+- (id)initWithRequest:(TFBatchRequest *)request dataLoadPolocy:(TFDataLoadPolicy)policy firstLoadOver:(BOOL)firstLoadOver{
     self = [super init];
     if (self) {
         executing = NO;
@@ -56,21 +58,25 @@
     @try {
         
         // Do the main work of the operation here.
-        if ([self.request cacheResponseObject] && !_firstLoadOver) {
-            self.result = self.request.responseObject;
+        TFTableViewDataRequest *dataRequest = [self.request.requestArray firstObject];
+        
+        if ([dataRequest cacheResponseObject] && !_firstLoadOver) {
+            self.result = dataRequest.responseObject;
             [self completeOperation];
         }
         else {
-            [self.request startWithCompletionBlockWithSuccess:^(__kindof TFBaseRequest *request) {
-                self.result = self.request.responseObject;
+            [self.request startWithCompletionBlockWithSuccess:^(TFBatchRequest *batchRequest) {
+                self.result = dataRequest.responseObject;
                 [self completeOperation];
-            } failure:^(__kindof TFBaseRequest *request) {
-                if ([self.request cacheResponseObject]) {
-                    self.result = self.request.responseObject;
+                
+            } failure:^(TFBatchRequest *batchRequest) {
+                if ([dataRequest cacheResponseObject]) {
+                    self.result = dataRequest.responseObject;
+
                     [self completeOperation];
                 }
                 else {
-                    self.result = nil;
+                    self.result = dataRequest.responseObject;
                     [self completeOperation];
                 }
             }];

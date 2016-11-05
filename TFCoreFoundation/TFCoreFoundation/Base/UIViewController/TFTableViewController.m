@@ -45,6 +45,7 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
     self.tableViewType = TFTableViewTypeASTableNode;
     self.tableViewStyle = UITableViewStylePlain;
     self.usePullReload = YES;
+    self.batchShouldLoadInFirstPage = YES;
     _requestParams = [NSMutableDictionary dictionary];
 }
 
@@ -116,13 +117,7 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
 
 - (void)reloadDataSourceWith:(NSInteger)listType params:(NSDictionary *)params {
     _requestParams = [NSMutableDictionary dictionaryWithDictionary:params];
-    Class dataSourceClass = [[TFTableViewDataSourceConfig sharedInstance] dataSourceByListType:self.listType];
-    if (_tableNode) {
-        _dataSource = [[dataSourceClass alloc] initWithTableNode:_tableNode listType:listType params:self.requestParams delegate:self];
-    }
-    else {
-        _dataSource = [[dataSourceClass alloc] initWithTableView:_tableView listType:listType params:self.requestParams delegate:self];
-    }
+    _dataSource = nil;
     //重新加载数据
     [self startLoadData];
 }
@@ -156,10 +151,14 @@ NSString * const kTFTableViewUsePullReloadKey = @"TableViewUsePullReloadKey";
             case TFTableViewTypeUITableView:
             {
                 _dataSource = [[dataSourceClass alloc] initWithTableView:self.tableView listType:self.listType params:self.requestParams delegate:self];
+                _dataSource.batchRequestArr = self.batchRequestArr;
+                _dataSource.batchShouldLoadInFirstPage = self.batchShouldLoadInFirstPage;
             }
                 break;
             case TFTableViewTypeASTableNode: {
                 _dataSource = [[dataSourceClass alloc] initWithTableNode:self.tableNode listType:self.listType params:self.requestParams delegate:self];
+                _dataSource.batchRequestArr = self.batchRequestArr;
+                _dataSource.batchShouldLoadInFirstPage = self.batchShouldLoadInFirstPage;
             }
                 break;
             default:

@@ -24,4 +24,6 @@ pod 'PINRemoteImage', '3.0.0-beta.3'
 pod 'TFTableViewManager', :git => 'https://github.com/TimeFaceCoder/TFTableViewManager.git'
 pod 'TFTableViewDataSource', :git => 'https://github.com/TimeFaceCoder/TFTableViewDataSource.git'
 
+
+
 end
