@@ -50,6 +50,7 @@
 #import <TFCoreFoundation/UIViewController+TFCore.h>
 #import <TFCoreFoundation/UINavigationController+TFCore.h>
 #import <TFCoreFoundation/TFCGUtilities.h>
+#import <TFCoreFoundation/UIScrollView+ParallaxHeaderView.h>
 
 ///--------------------------------
 /// @name AsyncDisplayKit Category
@@ -79,6 +80,8 @@
 #import <TFCoreFoundation/TFEmptyDataSetView.h>
 #import <TFCoreFoundation/TFSegmentView.h>
 #import <TFCoreFoundation/TFViewControllerPageNode.h>
+#import <TFCoreFoundation/TFInsetsLabel.h>
+#import <TFCoreFoundation/TFUnReadCountLabel.h>
 
 ///--------------------------------
 /// @name Utility
@@ -144,6 +147,7 @@
 #import "UIViewController+TFCore.h"
 #import "UINavigationController+TFCore.h"
 #import "TFCGUtilities.h"
+#import "UIScrollView+ParallaxHeaderView.h"
 
 ///--------------------------------
 /// @name AsyncDisplayKit Category
@@ -172,7 +176,8 @@
 #import "TFEmptyDataSetView.h"
 #import "TFSegmentView.h"
 #import "TFViewControllerPageNode.h"
-
+#import "TFInsetsLabel.h"
+#import "TFUnReadCountLabel.h"
 
 ///--------------------------------
 /// @name Utility
