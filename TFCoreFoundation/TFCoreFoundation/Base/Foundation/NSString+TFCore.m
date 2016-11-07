@@ -393,16 +393,22 @@ TFSYNTH_DUMMY_CLASS(NSString_TFCore)
 
 + (NSString *)tf_prettyJsonStringWithObject:(id)object {
     #ifdef DEBUG
-    NSString *jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
-    NSMutableString *responseString = [NSMutableString stringWithString:jsonString];
-    NSString *character = nil;
-    for (int i = 0; i < responseString.length; i ++) {
-        character = [responseString substringWithRange:NSMakeRange(i, 1)];
-        if ([character isEqualToString:@"\\"]) {
-            [responseString deleteCharactersInRange:NSMakeRange(i, 1)];
+    if (object) {
+        NSString *jsonString = [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:nil] encoding:NSUTF8StringEncoding];
+        NSMutableString *responseString = [NSMutableString stringWithString:jsonString];
+        NSString *character = nil;
+        for (int i = 0; i < responseString.length; i ++) {
+            character = [responseString substringWithRange:NSMakeRange(i, 1)];
+            if ([character isEqualToString:@"\\"]) {
+                [responseString deleteCharactersInRange:NSMakeRange(i, 1)];
+            }
         }
+        return responseString;
     }
-    return responseString;
+    else {
+        TFLog(@"jsonObject is nil");
+    }
+
     #endif
     return @"";
 }
