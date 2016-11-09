@@ -3,6 +3,7 @@ platform :ios, '8.0'
 inhibit_all_warnings!
 
 target 'TFCoreFoundation' do
+
 pod 'YYImage'
 pod 'YYText'
 pod 'TFPhotoBrowser', :git => 'https://github.com/TimeFaceCoder/TFPhotoBrowser.git'
@@ -23,7 +24,5 @@ pod 'SAMKeychain'
 pod 'PINRemoteImage', '3.0.0-beta.3'
 pod 'TFTableViewManager', :git => 'https://github.com/TimeFaceCoder/TFTableViewManager.git'
 pod 'TFTableViewDataSource', :git => 'https://github.com/TimeFaceCoder/TFTableViewDataSource.git'
-
-
 
 end
