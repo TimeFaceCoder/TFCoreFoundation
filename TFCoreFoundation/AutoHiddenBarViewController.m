@@ -20,7 +20,7 @@
     [super viewDidLoad];
     
     self.tf_hiddenNavigationBarWhenScrollViewDidScroll = YES;
-    self.tf_hiddenTabBarWhenScrollViewDidScroll = NO;
+    self.tf_hiddenTabBarWhenScrollViewDidScroll = YES;
     // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = NO;
     [self.view addSubview:self.scrollView];

@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param class viewController对应的class.
  @param animated 是否动画
  */
-- (void)popToViewControllerWithClass:(Class)class animated:(BOOL)animated;
+- (void)popToViewControllerWithClass:(Class)popClass animated:(BOOL)animated;
 
 @end
 NS_ASSUME_NONNULL_END
