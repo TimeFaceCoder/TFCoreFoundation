@@ -109,11 +109,11 @@ TFSYNTH_DUMMY_CLASS(UINavigationController_TFCore)
     return [self tf_popToRootViewControllerAnimated:animated];
 }
 
-- (void)popToViewControllerWithClass:(Class)class animated:(BOOL)animated{
+- (void)popToViewControllerWithClass:(Class)popClass animated:(BOOL)animated{
     NSArray *viewControllers = self.viewControllers;
     for (NSInteger i=0; i < viewControllers.count-1; i++) {
         UIViewController *viewController = viewControllers[i];
-        if ([viewController isKindOfClass:class]) {
+        if ([viewController isKindOfClass:popClass]) {
             [self popToViewController:viewController animated:animated];
             return;
         }
