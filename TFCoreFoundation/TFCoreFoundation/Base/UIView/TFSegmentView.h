@@ -48,10 +48,10 @@ typedef void(^SegmentViewChangeBlock)(NSInteger currentIndex,NSString *currentIt
 /**
  *  更新底部线的位置
  *
- *  @param contentOffset
- *  @param contentWidth
- *  @param viewWidth
- *  @warning 使用该方法时，需将updateLinePosBySelf熟悉设置为NO
+ *  @param index
+ *  @param percent
  */
-- (void)segmentViewUpdateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWith;
+- (void)segmentViewUpdateToIndex:(NSInteger)index byPercent:(CGFloat)percent;
+
+- (void)didScrollToIndex:(NSInteger)index;
 @end

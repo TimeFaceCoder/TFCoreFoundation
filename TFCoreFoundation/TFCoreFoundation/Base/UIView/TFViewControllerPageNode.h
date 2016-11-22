@@ -8,6 +8,15 @@
 
 #import <AsyncDisplayKit/AsyncDisplayKit.h>
 
+typedef enum ScrollDirection {
+    ScrollDirectionNone,
+    ScrollDirectionRight,
+    ScrollDirectionLeft,
+    ScrollDirectionUp,
+    ScrollDirectionDown,
+    ScrollDirectionCrazy,
+} ScrollDirection;
+
 @class TFViewControllerPageNode;
 @protocol TFViewControllerPageNodeDelegate <NSObject>
 
@@ -32,6 +41,9 @@
 - (void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didEndDisplayingViewControllerAtIndex:(NSUInteger)index;
 
 -(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didScrollContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth isDragging:(BOOL)isDragging;
+
+- (void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode scrollTo:(NSInteger)index byPercent:(CGFloat)percent;
+
 @end
 
 

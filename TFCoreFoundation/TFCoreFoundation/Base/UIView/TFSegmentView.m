@@ -125,7 +125,9 @@
         if (_changeBlock) {
             _changeBlock (_currentItemIndex,_itemArr[_currentItemIndex]);
         }
-        [self moveLineWithCenterX:CGRectGetMidX(cell.frame) currentCell:cell];
+        [UIView animateWithDuration:.3f animations:^{
+            [self segmentViewUpdateToIndex:_currentItemIndex byPercent:1.0f];
+        }];
     }
 }
 
@@ -151,41 +153,62 @@
     } completion:nil];
 }
 
+- (CGRect)frameForLineUnderCell:(TFSegmentViewTitleCell*)cell {
+    UIEdgeInsets lineInsets = _configModel.lineInsets;
+    if (CGRectGetWidth(cell.frame) > _configModel.itemMinWidth) {
+        CGFloat itemInsets = _configModel.itemSpace/2.0;
+        lineInsets.left += itemInsets;
+        lineInsets.right += itemInsets;
+    }
+    return UIEdgeInsetsInsetRect(cell.frame, lineInsets);
+}
+
 
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     TFSegmentViewTitleCell *cell = (TFSegmentViewTitleCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.titleLabel.textColor = _configModel.textColor;
 }
 
-
--(void)segmentViewUpdateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWith;
-{
-    CGFloat targetCenterX = 0.0f;
-    if (_currentItemIndex != (int)(contentOffset / viewWith)) {
+- (void)segmentViewUpdateToIndex:(NSInteger)index byPercent:(CGFloat)percent {
+    if (index < 0 || index >= [self collectionView:self.collectionView numberOfItemsInSection:0]) {
+        TFSegmentViewTitleCell *currentCell = (TFSegmentViewTitleCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+        CGRect currentCellFrame = [self frameForLineUnderCell:currentCell];
+        _lineView.frame = currentCellFrame;
+        CGPoint lineCenter = _lineView.center;
         
-        [self collectionView:self.collectionView didDeselectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
-        _currentItemIndex = contentOffset / viewWith;
-        [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-        [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+        lineCenter.x = lineCenter.x + percent * ((index < 0) ? -CGRectGetWidth(currentCellFrame) : CGRectGetWidth(currentCellFrame));
+        _lineView.center = lineCenter;
+        return ;
     }
-    TFSegmentViewTitleCell *cell = (TFSegmentViewTitleCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
-    targetCenterX = CGRectGetMidX(cell.frame);
-    
-    CGFloat sectionInset = 0.0;
-    CGFloat viewWidth = CGRectGetWidth(self.frame);
-    if ([self currentWidth]<viewWidth) {
-        sectionInset = (viewWidth - [self currentWidth])/2.0;
-    }
-    CGFloat firstCellWidth = [self.itemWidthArr[0] floatValue];
-    CGFloat leading = sectionInset + firstCellWidth/2.0f + [self currentWidth] * (contentOffset / contentWidth);
-    CGPoint lineCenter = _lineView.center;
-    lineCenter.x = leading;
-    _lineView.center = lineCenter;
-    
-    if (fabs(targetCenterX - leading) < 10) {
-        [self moveLineWithCenterX:targetCenterX currentCell:cell];
+    else {
+        TFSegmentViewTitleCell *currentCell = (TFSegmentViewTitleCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+        
+        TFSegmentViewTitleCell* targetCell = (TFSegmentViewTitleCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+        
+        CGFloat distance = targetCell.center.x - currentCell.center.x;
+        CGFloat offset = distance * percent;
+        
+        CGRect currentCellFrame = [self frameForLineUnderCell:currentCell];
+        CGRect targetCellFrame = [self frameForLineUnderCell:targetCell];
+        CGFloat widthOffset = (CGRectGetWidth(targetCellFrame) - CGRectGetWidth(currentCellFrame)) * percent;
+        
+        
+        currentCellFrame = UIEdgeInsetsInsetRect(currentCellFrame, UIEdgeInsetsMake(0, -widthOffset/2.0f, 0, -widthOffset/2.0f));;
+        _lineView.frame = currentCellFrame;
+        
+        CGPoint lineCenter = _lineView.center;
+        lineCenter.x = lineCenter.x + offset;
+        _lineView.center = lineCenter;
     }
 }
+
+- (void)didScrollToIndex:(NSInteger)index {
+    [self collectionView:self.collectionView didDeselectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+    _currentItemIndex = index;
+    [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+    [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+}
+
 
 #pragma mark - lazy load.
 

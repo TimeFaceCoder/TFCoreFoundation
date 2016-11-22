@@ -22,14 +22,9 @@ typedef void(^SegmentViewChangeBlock)(NSInteger currentIndex,NSString *currentIt
 @property (nonatomic, copy)SegmentViewChangeBlock changeBlock;
 @optional
 
-/**
- *  update segment view current selected index by contentoffset (of pageNode) in contentWidth and viewWith.
- *
- *  @param contentOffset contentOffset in pageNode. x of contentOffset
- *  @param contentWidth  contentWidth in pageNode. width of contentSize
- *  @param viewWith      viewWidth in pageNode. width of frame.size
- */
-- (void)segmentViewUpdateCurrentSelectedIndexByContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWith;
+- (void)segmentViewUpdateToIndex:(NSInteger)index byPercent:(CGFloat)percent;
+
+- (void)didScrollToIndex:(NSInteger)index;
 @end
 
 /**

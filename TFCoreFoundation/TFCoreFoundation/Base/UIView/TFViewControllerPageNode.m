@@ -18,6 +18,8 @@
 @property (nonatomic, strong) ASDisplayNode* finishedNode;
 @property (nonatomic, strong) NSIndexPath* finishedIndexPath;
 @property (nonatomic, strong) UIView* finishedSuperView;
+@property (nonatomic, assign) CGFloat lastContentOffset;
+@property (nonatomic, assign)NSInteger operatingPageIndex;
 @end
 
 
@@ -42,6 +44,7 @@
 -(instancetype)init
 {
     if (self = [super init]) {
+        
         [self addSubnode:self.pagerNode];
     }
     return self;
@@ -111,15 +114,42 @@
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    CGSize contentSize = scrollView.contentSize;
+    
     CGSize viewSize = scrollView.frame.size;
     
     CGFloat contentCurrentOffset = scrollView.contentOffset.x;
-    
-    if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:didScrollContentOffset:inContentWidth:viewWidth:isDragging:)]) {
-        [self.delegate viewControllerPageNode:self didScrollContentOffset:contentCurrentOffset inContentWidth:contentSize.width viewWidth:viewSize.width isDragging:scrollView.dragging];
+
+    if (scrollView.dragging || scrollView.decelerating) {
+        
+        CGFloat contentOffsetForCurrentIndex = self.operatingPageIndex * viewSize.width;
+        NSInteger scrollToIndex = self.operatingPageIndex;
+        CGFloat percent = 0.0f;
+        if (contentCurrentOffset < contentOffsetForCurrentIndex) {
+            //向左滚
+            scrollToIndex--;
+            percent = (contentOffsetForCurrentIndex - contentCurrentOffset) / viewSize.width;
+        }
+        else if(contentCurrentOffset > contentOffsetForCurrentIndex){
+            //向右滚
+            percent = (contentCurrentOffset - contentOffsetForCurrentIndex) / viewSize.width;
+            scrollToIndex++;
+        }
+        else {
+            
+        }
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(viewControllerPageNode:scrollTo:byPercent:)]) {
+            [self.delegate viewControllerPageNode:self scrollTo:scrollToIndex byPercent:percent];
+        }
+
     }
+
     
+}
+
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    self.operatingPageIndex = self.currentPageIndex;
 }
 
 - (void)collectionView:(ASCollectionView *)collectionView willDisplayNodeForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -135,7 +165,7 @@
 
 -(void)collectionView:(ASCollectionView *)collectionView didEndDisplayingNode:(ASCellNode *)node forItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:willDisplayViewControllerAtIndex:)]) {
+    if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:didEndDisplayingViewControllerAtIndex:)]) {
         [self.delegate viewControllerPageNode:self didEndDisplayingViewControllerAtIndex:indexPath.item];
     }
     self.finishedNode = node;

@@ -90,6 +90,7 @@
 -(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didSelectViewControllerAtIndex:(NSUInteger)index
 {
 //    self.segmentView.currentItemIndex = index;
+    [self. headerSegmentView didScrollToIndex:index];
     [self didSelectViewController:[self.pageNode viewControllerForPageAtIndex:index] AtIndex:index];
 }
 
@@ -113,11 +114,9 @@
     
 }
 
--(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didScrollContentOffset:(CGFloat)contentOffset inContentWidth:(CGFloat)contentWidth viewWidth:(CGFloat)viewWidth isDragging:(BOOL)isDragging{
-    if (isDragging) {
-        if (self.headerSegmentView && [self.headerSegmentView respondsToSelector:@selector(segmentViewUpdateCurrentSelectedIndexByContentOffset:inContentWidth:viewWidth:)]) {
-            [self.headerSegmentView segmentViewUpdateCurrentSelectedIndexByContentOffset:contentOffset inContentWidth:contentWidth viewWidth:viewWidth];
-        }
+- (void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode scrollTo:(NSInteger)index byPercent:(CGFloat)percent {
+    if (self.headerSegmentView && [self.headerSegmentView respondsToSelector:@selector(segmentViewUpdateToIndex:byPercent:)]) {
+        [self.headerSegmentView segmentViewUpdateToIndex:index byPercent:percent];
     }
 }
 
