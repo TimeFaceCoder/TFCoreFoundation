@@ -24,7 +24,7 @@
 }
 
 - (NSArray*)titlesForViewControllers {
-    return @[@"VCA",@"VCBCCCCBBBB",@"VCC",];
+    return @[@"VCA",@"VCBCCCCBBBB",@"VCC",@"VCBCCCCBBBB",@"VCC",@"VCBCCCCBBBB",@"VCC",@"VCBCCCCBBBB",@"VCC"];
 }
 
 - (UIViewController *)viewControllerAtIndex:(NSUInteger)index {
@@ -33,7 +33,7 @@
         vc.view.backgroundColor = [UIColor redColor];
     }
     else {
-        vc.view.backgroundColor = [UIColor cyanColor];
+        vc.view.backgroundColor = [UIColor colorWithRed:arc4random() % 255/255.0f green:arc4random() % 255/255.0f blue:arc4random() % 255/255.0f alpha:1];
     }
     return vc;
 }

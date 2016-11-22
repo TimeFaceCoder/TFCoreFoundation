@@ -20,6 +20,7 @@
 @property (nonatomic, strong) UIView* finishedSuperView;
 @property (nonatomic, assign) CGFloat lastContentOffset;
 @property (nonatomic, assign)NSInteger operatingPageIndex;
+@property (nonatomic, assign)NSInteger targetPageIndex;
 @end
 
 
@@ -33,10 +34,21 @@
         _pagerNode = [[ASPagerNode alloc]init];
         _pagerNode.delegate = self;
         _pagerNode.dataSource = self;
+//        ASRangeTuningParameters fullRenderParams = { .leadingBufferScreenfuls = 0.0, .trailingBufferScreenfuls = 0.0 };
+//        ASRangeTuningParameters fullPreloadParams = { .leadingBufferScreenfuls = 0.0, .trailingBufferScreenfuls = 0.0 };
+//        [_pagerNode setTuningParameters:fullRenderParams forRangeType:ASLayoutRangeTypeDisplay];
+//        [_pagerNode setTuningParameters:fullPreloadParams forRangeType:ASLayoutRangeTypePreload];
+//        
+        
+        ASRangeTuningParameters minimumRenderParams = { .leadingBufferScreenfuls = 0.0, .trailingBufferScreenfuls = 0.0 };
+        ASRangeTuningParameters minimumPreloadParams = { .leadingBufferScreenfuls = 0.0, .trailingBufferScreenfuls = 0.0 };
+        [_pagerNode setTuningParameters:minimumRenderParams forRangeMode:ASLayoutRangeModeMinimum rangeType:ASLayoutRangeTypeDisplay];
+        [_pagerNode setTuningParameters:minimumPreloadParams forRangeMode:ASLayoutRangeModeMinimum rangeType:ASLayoutRangeTypePreload];
+        
         ASRangeTuningParameters fullRenderParams = { .leadingBufferScreenfuls = 0.0, .trailingBufferScreenfuls = 0.0 };
         ASRangeTuningParameters fullPreloadParams = { .leadingBufferScreenfuls = 0.0, .trailingBufferScreenfuls = 0.0 };
-        [_pagerNode setTuningParameters:fullRenderParams forRangeType:ASLayoutRangeTypeDisplay];
-        [_pagerNode setTuningParameters:fullPreloadParams forRangeType:ASLayoutRangeTypePreload];
+        [_pagerNode setTuningParameters:fullRenderParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypeDisplay];
+        [_pagerNode setTuningParameters:fullPreloadParams forRangeMode:ASLayoutRangeModeFull rangeType:ASLayoutRangeTypePreload];
     }
     return _pagerNode;
 }
@@ -126,30 +138,48 @@
         CGFloat percent = 0.0f;
         if (contentCurrentOffset < contentOffsetForCurrentIndex) {
             //向左滚
-            scrollToIndex--;
+            if (scrollView.dragging) {
+                scrollToIndex = scrollToIndex - 1;
+            }
+            if (scrollView.decelerating) {
+                scrollToIndex = self.targetPageIndex;
+            }
             percent = (contentOffsetForCurrentIndex - contentCurrentOffset) / viewSize.width;
         }
         else if(contentCurrentOffset > contentOffsetForCurrentIndex){
             //向右滚
             percent = (contentCurrentOffset - contentOffsetForCurrentIndex) / viewSize.width;
-            scrollToIndex++;
+            if (scrollView.dragging) {
+                scrollToIndex = scrollToIndex + 1;
+            }
+            if (scrollView.decelerating) {
+                scrollToIndex = self.targetPageIndex;
+            }
         }
         else {
             
         }
+        if (scrollToIndex != self.operatingPageIndex) {
+            percent = percent / fabs(scrollToIndex - self.operatingPageIndex);
+        }
         
         if (self.delegate && [self.delegate respondsToSelector:@selector(viewControllerPageNode:scrollTo:byPercent:)]) {
+            NSLog(@"targetIndex:%zd, percent:%f", scrollToIndex, percent);
             [self.delegate viewControllerPageNode:self scrollTo:scrollToIndex byPercent:percent];
         }
-
     }
+}
 
-    
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    NSLog(@"targetContentOffset:%@", NSStringFromCGPoint(*targetContentOffset));
+    self.targetPageIndex = (*targetContentOffset).x / scrollView.frame.size.width;
+    NSLog(@"self.targetPageIndex:%d", self.targetPageIndex);
 }
 
 
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    self.operatingPageIndex = self.currentPageIndex;
+    self.operatingPageIndex = self.pagerNode.currentPageIndex;
 }
 
 - (void)collectionView:(ASCollectionView *)collectionView willDisplayNodeForItemAtIndexPath:(NSIndexPath *)indexPath {
