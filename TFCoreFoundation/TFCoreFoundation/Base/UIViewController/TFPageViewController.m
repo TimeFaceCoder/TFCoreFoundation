@@ -53,13 +53,13 @@
 
 - (void)viewDidLayoutSubviews
 {
-    self.headerSegmentView.frame = CGRectMake(0, 0, self.view.tf_width, [self heightForSegment]);
+//    self.headerSegmentView.frame = CGRectMake(0, 0, self.view.tf_width, [self heightForSegment]);
     self.pageNode.frame = CGRectMake(0, self.headerSegmentView.tf_bottom, self.view.tf_width, [self heightForViewControllers]);
 }
 
 -(CGFloat)heightForViewControllers
 {
-    return self.view.tf_height - self.headerSegmentView.tf_height;
+    return self.view.tf_height - self.headerSegmentView.tf_bottom;
 }
 
 - (CGFloat)heightForSegment {
@@ -90,7 +90,7 @@
 -(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didSelectViewControllerAtIndex:(NSUInteger)index
 {
 //    self.segmentView.currentItemIndex = index;
-    [self. headerSegmentView didScrollToIndex:index];
+    [self.headerSegmentView didScrollToIndex:index];
     [self didSelectViewController:[self.pageNode viewControllerForPageAtIndex:index] AtIndex:index];
 }
 

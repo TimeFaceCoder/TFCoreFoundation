@@ -163,7 +163,15 @@
     return UIEdgeInsetsInsetRect(cell.frame, lineInsets);
 }
 
-
+- (CGRect)frameForLineUnderCellFrame:(CGRect)cellFrame {
+    UIEdgeInsets lineInsets = _configModel.lineInsets;
+    if (CGRectGetWidth(cellFrame) > _configModel.itemMinWidth) {
+        CGFloat itemInsets = _configModel.itemSpace/2.0;
+        lineInsets.left += itemInsets;
+        lineInsets.right += itemInsets;
+    }
+    return UIEdgeInsetsInsetRect(cellFrame, lineInsets);
+}
 - (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
     TFSegmentViewTitleCell *cell = (TFSegmentViewTitleCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.titleLabel.textColor = _configModel.textColor;
@@ -171,25 +179,28 @@
 
 - (void)segmentViewUpdateToIndex:(NSInteger)index byPercent:(CGFloat)percent {
     if (index < 0 || index >= [self collectionView:self.collectionView numberOfItemsInSection:0]) {
-        TFSegmentViewTitleCell *currentCell = (TFSegmentViewTitleCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
-        CGRect currentCellFrame = [self frameForLineUnderCell:currentCell];
+
+        UICollectionViewLayoutAttributes *currentAttributes = [self.collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+        CGRect currentCellFrame = [self frameForLineUnderCellFrame:currentAttributes.frame];
         _lineView.frame = currentCellFrame;
         CGPoint lineCenter = _lineView.center;
         
         lineCenter.x = lineCenter.x + percent * ((index < 0) ? -CGRectGetWidth(currentCellFrame) : CGRectGetWidth(currentCellFrame));
         _lineView.center = lineCenter;
+        NSLog(@"------lineView frame:%@, index:%zd, percent:%f", NSStringFromCGRect(_lineView.frame), index, percent);
         return ;
     }
     else {
-        TFSegmentViewTitleCell *currentCell = (TFSegmentViewTitleCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
-        
-        TFSegmentViewTitleCell* targetCell = (TFSegmentViewTitleCell *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
-        
-        CGFloat distance = targetCell.center.x - currentCell.center.x;
+
+        UICollectionViewLayoutAttributes *currentAttributes = [self.collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+        UICollectionViewLayoutAttributes *attributes = [self.collectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForItem:index inSection:0]];
+
+        NSLog(@"targetCell:%@, frame:%@",attributes, NSStringFromCGRect(attributes.frame));
+        CGFloat distance = attributes.center.x - currentAttributes.center.x;
         CGFloat offset = distance * percent;
         
-        CGRect currentCellFrame = [self frameForLineUnderCell:currentCell];
-        CGRect targetCellFrame = [self frameForLineUnderCell:targetCell];
+        CGRect currentCellFrame = [self frameForLineUnderCellFrame:currentAttributes.frame];
+        CGRect targetCellFrame = [self frameForLineUnderCellFrame:attributes.frame];
         CGFloat widthOffset = (CGRectGetWidth(targetCellFrame) - CGRectGetWidth(currentCellFrame)) * percent;
         
         
@@ -207,6 +218,10 @@
     _currentItemIndex = index;
     [self.collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
     [self collectionView:self.collectionView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:_currentItemIndex inSection:0]];
+    
+    [UIView animateWithDuration:.3f animations:^{
+        [self segmentViewUpdateToIndex:_currentItemIndex byPercent:1.0f];
+    }];
 }
 
 

@@ -117,13 +117,13 @@
     };
 }
 
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    self.currentPageIndex = self.pagerNode.currentPageIndex;
-    if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:didSelectViewControllerAtIndex:)]) {
-        [self.delegate viewControllerPageNode:self didSelectViewControllerAtIndex:self.currentPageIndex];
-    }
-}
+//-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//{
+//    self.currentPageIndex = self.pagerNode.currentPageIndex;
+//    if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:didSelectViewControllerAtIndex:)]) {
+//        [self.delegate viewControllerPageNode:self didSelectViewControllerAtIndex:self.currentPageIndex];
+//    }
+//}
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -171,9 +171,13 @@
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    NSLog(@"targetContentOffset:%@", NSStringFromCGPoint(*targetContentOffset));
+    
     self.targetPageIndex = (*targetContentOffset).x / scrollView.frame.size.width;
-    NSLog(@"self.targetPageIndex:%d", self.targetPageIndex);
+    
+    self.currentPageIndex = self.targetPageIndex;
+    if (self.delegate!=nil&&[self.delegate respondsToSelector:@selector(viewControllerPageNode:didSelectViewControllerAtIndex:)]) {
+        [self.delegate viewControllerPageNode:self didSelectViewControllerAtIndex:self.targetPageIndex];
+    }
 }
 
 

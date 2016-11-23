@@ -24,7 +24,7 @@
 }
 
 - (NSArray*)titlesForViewControllers {
-    return @[@"VCA",@"VCBCCCCBBBB",@"VCC",@"VCBCCCCBBBB",@"VCC",@"VCBCCCCBBBB",@"VCC",@"VCBCCCCBBBB",@"VCC"];
+    return @[@"VCA",@"VCBCCCCBBBB",@"VCC",@"VCBCCCCBBBB",@"VCC",@"VCBCCCCBBBB",@"VCC",@"VCBCCCCBBBB",@"VCC",@"VCA",@"VCBCCCCBBBB",@"VCC",@"VCBCCCCBBBB",@"VCC",@"VCBCCCCBBBB",@"VCC",@"VCBCCCCBBBB",@"VCC"];
 }
 
 - (UIViewController *)viewControllerAtIndex:(NSUInteger)index {
