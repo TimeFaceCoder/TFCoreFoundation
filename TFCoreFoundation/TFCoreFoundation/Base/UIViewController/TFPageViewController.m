@@ -84,7 +84,9 @@
 }
 
 - (UIViewController *)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode viewControllerAtIndex:(NSUInteger)index{
-    return [self viewControllerAtIndex:index];
+    UIViewController* vc = [self viewControllerAtIndex:index];
+    [self addChildViewController:vc];
+    return vc;
 }
 
 -(void)viewControllerPageNode:(TFViewControllerPageNode *)viewControllerPageNode didSelectViewControllerAtIndex:(NSUInteger)index
