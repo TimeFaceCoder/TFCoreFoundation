@@ -74,25 +74,27 @@
     
     //读取闪屏广告数据
     if (![TFValidateUtility isBlankOrNull:self.splashModel.imageURL]) {
-        BOOL adImageExists = [[SDWebImageManager sharedManager] cachedImageExistsForURL:[NSURL URLWithString:self.splashModel.imageURL]];
-        if (!adImageExists) {
-            return;
-        }
-        NSString *cacheKey = [[SDWebImageManager sharedManager] cacheKeyForURL:[NSURL URLWithString:self.splashModel.imageURL]];
-        UIImage *image = [[[SDWebImageManager sharedManager] imageCache] imageFromDiskCacheForKey:cacheKey];
-        //custom splash image
-        CATransition *animation = [CATransition animation];
-        animation.duration = .35;
-        animation.timingFunction = UIViewAnimationCurveEaseInOut;
-        animation.type = kCATransitionFade;
-        self.adImageView.image = image;
-        [[self.adImageView layer] addAnimation:animation forKey:@"animation"];
+        [[SDWebImageManager sharedManager] cachedImageExistsForURL:[NSURL URLWithString:self.splashModel.imageURL] completion:^(BOOL isInCache) {
+            if (!isInCache) {
+                return;
+            }
+            NSString *cacheKey = [[SDWebImageManager sharedManager] cacheKeyForURL:[NSURL URLWithString:self.splashModel.imageURL]];
+            UIImage *image = [[[SDWebImageManager sharedManager] imageCache] imageFromDiskCacheForKey:cacheKey];
+            //custom splash image
+            CATransition *animation = [CATransition animation];
+            animation.duration = .35;
+            animation.timingFunction = UIViewAnimationCurveEaseInOut;
+            animation.type = kCATransitionFade;
+            self.adImageView.image = image;
+            [[self.adImageView layer] addAnimation:animation forKey:@"animation"];
+            
+            
+            self.adImageView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *imageViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                           action:@selector(viewTapAction:)];
+            [self.adImageView addGestureRecognizer:imageViewTap];
+        }];
         
-        
-        self.adImageView.userInteractionEnabled = YES;
-        UITapGestureRecognizer *imageViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                       action:@selector(viewTapAction:)];
-        [self.adImageView addGestureRecognizer:imageViewTap];
     }
 }
 
