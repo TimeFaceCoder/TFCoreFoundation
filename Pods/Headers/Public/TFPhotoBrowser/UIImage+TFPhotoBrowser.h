@@ -1,1 +1,0 @@
-../../../TFPhotoBrowser/TFPhotoBrowser/TFPhotoBrowser/UIImage+TFPhotoBrowser.h

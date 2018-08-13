@@ -1,1 +1,0 @@
-../../../TFCamera/TFCamera/TFCamera/ViewController/TFCameraNavigationController.h

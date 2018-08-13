@@ -1,1 +1,0 @@
-../../../TFUploadAssistant/TFUploadAssistant/TFUploadAssistant/TFConfiguration.h

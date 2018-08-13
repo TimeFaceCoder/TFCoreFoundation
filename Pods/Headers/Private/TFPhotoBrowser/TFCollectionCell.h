@@ -1,1 +1,0 @@
-../../../TFPhotoBrowser/TFPhotoBrowser/TFPhotoBrowser/TFLibrary/TFCollectionCell.h

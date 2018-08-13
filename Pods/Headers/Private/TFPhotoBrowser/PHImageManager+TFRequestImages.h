@@ -1,1 +1,0 @@
-../../../TFPhotoBrowser/TFPhotoBrowser/TFPhotoBrowser/TFLibrary/PHImageManager+TFRequestImages.h

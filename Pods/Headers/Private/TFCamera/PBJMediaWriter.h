@@ -1,1 +1,0 @@
-../../../TFCamera/TFCamera/TFCamera/Model/VisionSource/PBJMediaWriter.h
