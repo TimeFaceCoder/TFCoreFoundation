@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
   s.license      = "Copyright (C) 2016 TimeFace, Inc.  All rights reserved."
   s.author             = { "Melvin" => "yangmin@timeface.cn" }
   s.social_media_url   = "http://www.timeface.cn"
-  s.ios.deployment_target = "7.1"
+  s.ios.deployment_target = "9.0"
   s.source       = { :git => "https://git.coding.net/Timeface_xzx/TFCoreFoundation.git"}
   s.source_files  = "TFCoreFoundation/**/*.{h,m,c}"
   s.requires_arc = true
