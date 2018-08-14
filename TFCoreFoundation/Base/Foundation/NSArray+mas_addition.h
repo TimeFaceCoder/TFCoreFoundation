@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Masonry.h>
+#import <Masonry/Masonry.h>
+
 typedef enum : NSUInteger {
     MASAlignChildrenSpaceAround,    // 两边有间隔、是中间间隔一半
     MASAlignChildrenSpaceBetween,   // 两边无间隔

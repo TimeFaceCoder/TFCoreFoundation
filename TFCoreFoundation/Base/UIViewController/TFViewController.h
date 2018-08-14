@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <UIWindow+TFNavigator.h>
+#import <TFNavigator/UIWindow+TFNavigator.h>
+
 
 @interface TFViewController : UIViewController
 

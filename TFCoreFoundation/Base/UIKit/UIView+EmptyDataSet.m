@@ -2,7 +2,7 @@
 
 #import "UIView+EmptyDataSet.h"
 #import <objc/runtime.h>
-#import <FLAnimatedImage.h>
+#import <FLAnimatedImage/FLAnimatedImage.h>
 #import "UIView+TFCore.h"
 
 @interface TFWeakObjectContainer : NSObject

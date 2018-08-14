@@ -7,7 +7,10 @@
 //
 
 #import "TFViewController.h"
-#import <TFTableViewDataSource/TFTableViewDataSource.h>
+#import <TFTableViewDataSource/TFTableViewDataSourceKit.h>
+
+
+
 
 extern NSString * const kTFTableViewTypeKey;
 extern NSString * const kTFTableViewStyleKey;

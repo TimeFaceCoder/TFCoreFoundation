@@ -109,7 +109,9 @@
             
         }];
         //3. 设置page的大小，如果设置为pagerNode大小，那么每页一个VC，如果设置为一半大小，那么每页两个
-        page.preferredFrameSize = weakSelf.savedFrame.size;
+//        page.preferredFrameSize = weakSelf.savedFrame.size;
+        
+        
         return page;
     };
 }
