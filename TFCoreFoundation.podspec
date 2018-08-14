@@ -19,8 +19,8 @@ Pod::Spec.new do |s|
   s.dependency 'WebViewJavascriptBridge'
   s.dependency 'SAMKeychain'
   s.dependency 'pop'
+  s.dependency 'Texture'
   s.dependency 'YYImage'
   s.dependency 'FLAnimatedImage'
-  s.dependency 'PINRemoteImage'
   s.dependency 'SDWebImage'
 end
