@@ -23,4 +23,5 @@ Pod::Spec.new do |s|
   s.dependency 'YYImage'
   s.dependency 'FLAnimatedImage'
   s.dependency 'SDWebImage'
+  s.dependency 'Masonry'
 end
