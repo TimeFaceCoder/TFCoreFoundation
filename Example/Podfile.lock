@@ -1,0 +1,166 @@
+PODS:
+  - AFNetworking (3.2.1):
+    - AFNetworking/NSURLSession (= 3.2.1)
+    - AFNetworking/Reachability (= 3.2.1)
+    - AFNetworking/Security (= 3.2.1)
+    - AFNetworking/Serialization (= 3.2.1)
+    - AFNetworking/UIKit (= 3.2.1)
+  - AFNetworking/NSURLSession (3.2.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.2.1)
+  - AFNetworking/Security (3.2.1)
+  - AFNetworking/Serialization (3.2.1)
+  - AFNetworking/UIKit (3.2.1):
+    - AFNetworking/NSURLSession
+  - FLAnimatedImage (1.0.12)
+  - GHODictionary (1.1.0)
+  - JDStatusBarNotification (1.5.6)
+  - JSONModel (1.7.0)
+  - Masonry (1.1.0)
+  - MPMessagePack (1.4.5):
+    - GHODictionary
+  - NJKWebViewProgress (0.2.3):
+    - NJKWebViewProgress/Core (= 0.2.3)
+    - NJKWebViewProgress/ProgressView (= 0.2.3)
+  - NJKWebViewProgress/Core (0.2.3)
+  - NJKWebViewProgress/ProgressView (0.2.3)
+  - PINCache (3.0.1-beta.6):
+    - PINCache/Arc-exception-safe (= 3.0.1-beta.6)
+    - PINCache/Core (= 3.0.1-beta.6)
+  - PINCache/Arc-exception-safe (3.0.1-beta.6):
+    - PINCache/Core
+  - PINCache/Core (3.0.1-beta.6):
+    - PINOperation (~> 1.1.0)
+  - PINOperation (1.1.1)
+  - PINRemoteImage/Core (3.0.0-beta.13):
+    - PINOperation
+  - PINRemoteImage/iOS (3.0.0-beta.13):
+    - PINRemoteImage/Core
+  - PINRemoteImage/PINCache (3.0.0-beta.13):
+    - PINCache (= 3.0.1-beta.6)
+    - PINRemoteImage/Core
+  - pop (1.0.10)
+  - SAMKeychain (1.5.3)
+  - SDWebImage (4.4.2):
+    - SDWebImage/Core (= 4.4.2)
+  - SDWebImage/Core (4.4.2)
+  - Texture (2.7):
+    - Texture/PINRemoteImage (= 2.7)
+  - Texture/Core (2.7)
+  - Texture/PINRemoteImage (2.7):
+    - PINRemoteImage/iOS (= 3.0.0-beta.13)
+    - PINRemoteImage/PINCache
+    - Texture/Core
+  - TFCoreFoundation (1.0.0):
+    - FLAnimatedImage
+    - JDStatusBarNotification
+    - JSONModel
+    - Masonry
+    - NJKWebViewProgress
+    - pop
+    - SAMKeychain
+    - SDWebImage
+    - Texture
+    - TFNavigator
+    - TFTableViewDataSource
+    - WebViewJavascriptBridge
+    - YYImage
+  - TFNavigator (0.0.1)
+  - TFNetwork (1.1.0):
+    - AFNetworking
+    - MPMessagePack
+  - TFTableViewDataSource (1.0.0):
+    - TFNetwork
+    - TFTableViewManager
+  - TFTableViewManager (1.1.0):
+    - Texture
+    - TFTableViewManager/Core (= 1.1.0)
+  - TFTableViewManager/Core (1.1.0):
+    - Texture
+  - WebViewJavascriptBridge (6.0.3)
+  - YYImage (1.0.4):
+    - YYImage/Core (= 1.0.4)
+  - YYImage/Core (1.0.4)
+
+DEPENDENCIES:
+  - TFCoreFoundation (from `../`)
+  - TFNavigator (from `https://git.coding.net/TimeFace/TFNavigator.git`)
+  - TFNetwork (from `https://github.com/TimeFaceCoder/TFNetwork.git`)
+  - TFTableViewDataSource (from `https://github.com/TimeFaceCoder/TFTableViewDataSource.git`)
+  - TFTableViewManager (from `https://github.com/TimeFaceCoder/TFTableViewManager.git`)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AFNetworking
+    - FLAnimatedImage
+    - GHODictionary
+    - JDStatusBarNotification
+    - JSONModel
+    - Masonry
+    - MPMessagePack
+    - NJKWebViewProgress
+    - PINCache
+    - PINOperation
+    - PINRemoteImage
+    - pop
+    - SAMKeychain
+    - SDWebImage
+    - Texture
+    - WebViewJavascriptBridge
+    - YYImage
+
+EXTERNAL SOURCES:
+  TFCoreFoundation:
+    :path: "../"
+  TFNavigator:
+    :git: https://git.coding.net/TimeFace/TFNavigator.git
+  TFNetwork:
+    :git: https://github.com/TimeFaceCoder/TFNetwork.git
+  TFTableViewDataSource:
+    :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
+  TFTableViewManager:
+    :git: https://github.com/TimeFaceCoder/TFTableViewManager.git
+
+CHECKOUT OPTIONS:
+  TFNavigator:
+    :commit: cab30d1d34aeff3db9cfe64bfa4f7c9a8ee0983e
+    :git: https://git.coding.net/TimeFace/TFNavigator.git
+  TFNetwork:
+    :commit: 878b561c324ed04c783e417a1c44a7ea9c830d09
+    :git: https://github.com/TimeFaceCoder/TFNetwork.git
+  TFTableViewDataSource:
+    :commit: 4df0d465f6c7175b71b7b41699f19433f99f2720
+    :git: https://github.com/TimeFaceCoder/TFTableViewDataSource.git
+  TFTableViewManager:
+    :commit: 7a0e21432bfd52c31158ea4a80189196ba22ea2a
+    :git: https://github.com/TimeFaceCoder/TFTableViewManager.git
+
+SPEC CHECKSUMS:
+  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
+  GHODictionary: 225e042596a4b3d5b66b2b24250086b2f95514af
+  JDStatusBarNotification: d5829a8f2f291b23b8a54b87fac8bf2549945a2f
+  JSONModel: 840bc0fcffb24b8454d2c026bf26fea454b8e98d
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MPMessagePack: 5251dcd15e0c626cc50c192bdfcb5af6004cedb4
+  NJKWebViewProgress: f481fd424cb5ecc27eacae11b5397db92fba9a4d
+  PINCache: d195fdba255283f7e9900a55e3cced377f431f9b
+  PINOperation: a6219e6fc9db9c269eb7a7b871ac193bcf400aac
+  PINRemoteImage: d6d51c5d2adda55f1ce30c96e850b6c4ebd2856a
+  pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
+  SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
+  SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
+  Texture: 9d7e38965cf22ccd7cd9c249dd78b3f14e70ab6c
+  TFCoreFoundation: a4ef7e4639126b3196f5f85246758c36c9ce63ee
+  TFNavigator: 2d742568c1c2e12d87a8b4ecd5a5771b0d760740
+  TFNetwork: b31e4005aa7c153735d04c731c235168ea94c2c9
+  TFTableViewDataSource: 95f8f503ac44ea9e9309e9a8396e13cffb52a86a
+  TFTableViewManager: 5f58a2b8698fa782725804ecc3cda3dd6cd8fda5
+  WebViewJavascriptBridge: 7f5bc4d3581e672e8f32bd0f812d54bc69bb8e29
+  YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
+
+PODFILE CHECKSUM: 4ba00b102fc038f62f57020418e12c5139ec2589
+
+COCOAPODS: 1.5.3

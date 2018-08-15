@@ -1,0 +1,6 @@
+framework module TFCoreFoundation {
+  umbrella header "TFCoreFoundation-umbrella.h"
+
+  export *
+  module * { export * }
+}

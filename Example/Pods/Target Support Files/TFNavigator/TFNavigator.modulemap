@@ -1,0 +1,6 @@
+framework module TFNavigator {
+  umbrella header "TFNavigator-umbrella.h"
+
+  export *
+  module * { export * }
+}

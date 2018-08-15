@@ -1,0 +1,22 @@
+{
+  "name": "TFNavigator",
+  "version": "0.0.1",
+  "summary": "时光流影iOS Navigator框架",
+  "homepage": "https://git.coding.net/Timeface_xzx/TFNavigator.git",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "Melvin": "yangmin@timeface.cn"
+  },
+  "social_media_url": "http://www.timeface.cn",
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source": {
+    "git": "https://git.coding.net/Timeface_xzx/TFNavigator.git"
+  },
+  "source_files": "TFNavigator/**/*.{h,m,c}",
+  "requires_arc": true
+}

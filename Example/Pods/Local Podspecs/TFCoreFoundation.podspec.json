@@ -1,0 +1,81 @@
+{
+  "name": "TFCoreFoundation",
+  "version": "1.0.0",
+  "summary": "时光流影iOS基础框架",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/TimeFaceCoder/TFCoreFoundation",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "melvin7": "yangmin@timeface.cn"
+  },
+  "source": {
+    "git": "https://github.com/TimeFaceCoder/TFCoreFoundation.git",
+    "tag": "1.0.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "source_files": "TFCoreFoundation/Classes/**/*",
+  "resource_bundles": {
+    "TFCoreFoundation": [
+      "TFCoreFoundation/Assets/*.png"
+    ]
+  },
+  "frameworks": [
+    "UIKit",
+    "CoreFoundation",
+    "CoreText",
+    "CoreGraphics",
+    "CoreImage",
+    "QuartzCore",
+    "ImageIO",
+    "AssetsLibrary",
+    "Accelerate",
+    "MobileCoreServices",
+    "SystemConfiguration"
+  ],
+  "dependencies": {
+    "JDStatusBarNotification": [
+
+    ],
+    "NJKWebViewProgress": [
+
+    ],
+    "JSONModel": [
+
+    ],
+    "WebViewJavascriptBridge": [
+
+    ],
+    "SAMKeychain": [
+
+    ],
+    "pop": [
+
+    ],
+    "YYImage": [
+
+    ],
+    "FLAnimatedImage": [
+
+    ],
+    "SDWebImage": [
+
+    ],
+    "Masonry": [
+
+    ],
+    "Texture": [
+
+    ],
+    "TFNavigator": [
+
+    ],
+    "TFTableViewDataSource": [
+
+    ]
+  }
+}

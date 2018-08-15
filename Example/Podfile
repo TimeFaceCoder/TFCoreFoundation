@@ -1,0 +1,16 @@
+use_frameworks!
+inhibit_all_warnings!
+
+target 'TFCoreFoundation_Example' do
+  pod 'TFCoreFoundation', :path => '../'
+  pod 'TFNetwork', :git => 'https://github.com/TimeFaceCoder/TFNetwork.git'
+  pod 'TFNavigator', :git => 'https://git.coding.net/TimeFace/TFNavigator.git'
+  pod 'TFTableViewManager', :git => 'https://github.com/TimeFaceCoder/TFTableViewManager.git'
+  pod 'TFTableViewDataSource', :git => 'https://github.com/TimeFaceCoder/TFTableViewDataSource.git'
+  
+  target 'TFCoreFoundation_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
