@@ -15,6 +15,7 @@
 @interface TFPageViewController ()<TFViewControllerPageNodeDelegate>
 @property (nonatomic, strong)TFViewControllerPageNode* pageNode;
 @property (nonatomic, strong)TFSegmentView* headerView;
+@property (nonatomic, strong) TFSegmentConfigModel *configModel;
 @end
 
 @implementation TFPageViewController
@@ -23,7 +24,7 @@
 
 - (UIView<SegmentViewDelegate> *)headerSegmentView {
     if (!_headerView) {
-        _headerView = [[TFSegmentView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, [self heightForSegment]) configModel:nil itemArray:[self titlesForViewControllers]];
+        _headerView = [[TFSegmentView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, [self heightForSegment]) configModel:[self configModelForHeaderView] itemArray:[self titlesForViewControllers]];
         __weak TFPageViewController* wself = self;
         _headerView.changeBlock = ^(NSInteger currentIndex,NSString *currentItem) {
             [wself.pageNode scrollToViewControllerAtIndex:currentIndex animated:NO];
@@ -75,6 +76,10 @@
 - (UIViewController *)viewControllerAtIndex:(NSUInteger)index
 {
     NSAssert(NO, @"子类需要重载此函数");
+    return nil;
+}
+
+- (TFSegmentConfigModel *)configModelForHeaderView {
     return nil;
 }
 
